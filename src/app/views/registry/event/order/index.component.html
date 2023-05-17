@@ -1,0 +1,138 @@
+<main>
+	<div class="view__registry__header">
+		<h1>{{ languageSource['EVENT_ORDER_VIEW_TITLE'] }}</h1>
+		<button (click)="onCreationInit()">
+			<mat-icon>add</mat-icon>
+			<span>{{ languageSource['EVENT_ORDER_NEW_TITLE'] }}</span>
+		</button>
+	</div>
+	<div class="view__registry__content">
+		<div class="view__registry__content__editor" [attr.data-is-visible]="isEditorOpen">
+			<div *ngIf="isEditorOpen && editorType === 'creation'" [@fade]>
+				<h3>{{ languageSource['REGISTRY_EDITOR_CREATION_TITLE'] }}</h3>
+				<form [formGroup]="creationFormGroup">
+					<mat-form-field appearance="outline">
+						<mat-label>{{ languageSource['REGISTRY_EVENT_ORDER_EVENT_INPUT'] }}</mat-label>
+						<input matInput
+							[matAutocomplete]="autoEvent"
+							formControlName="event"
+						>
+						<mat-autocomplete #autoEvent="matAutocomplete" [displayWith]="displayEventAutocomplete">
+							<mat-option
+								*ngFor="let event of availableEvents"
+								[value]="event"
+							>
+							<span>{{ event.name }}</span>
+						  </mat-option>
+						</mat-autocomplete>
+					</mat-form-field>
+					<mat-form-field appearance="outline">
+						<mat-label>{{ languageSource['REGISTRY_EVENT_ORDER_STATUS_INPUT'] }}</mat-label>
+						<input matInput
+							[matAutocomplete]="autoStatus"
+							formControlName="status"
+						>
+						<mat-autocomplete #autoStatus="matAutocomplete">
+							<mat-option
+								*ngFor="let status of availableOrderStatus"
+								[value]="status"
+							>
+							<span>{{ status }}</span>
+						  </mat-option>
+						</mat-autocomplete>
+					</mat-form-field>
+					<mat-form-field appearance="outline">
+						<mat-label>{{ languageSource['REGISTRY_EVENT_ORDER_OPERATOR_INPUT'] }}</mat-label>
+						<input matInput
+							[matAutocomplete]="autoOperator"
+							formControlName="operator"
+						>
+						<mat-autocomplete #autoOperator="matAutocomplete" [displayWith]="displayOperatorAutocomplete">
+							<mat-option
+								*ngFor="let operator of availableOperators"
+								[value]="operator"
+							>
+							<span>{{ operator.displayName }}</span>
+						  </mat-option>
+						</mat-autocomplete>
+					</mat-form-field>
+					<mat-form-field appearance="outline">
+						<mat-label>{{ languageSource['REGISTRY_EVENT_ORDER_CLIENT_INPUT'] }}</mat-label>
+						<input matInput formControlName="client" required>
+					</mat-form-field>
+					<mat-form-field appearance="outline">
+						<mat-label>{{ languageSource['REGISTRY_EVENT_ORDER_PRODUCT_INPUT'] }}</mat-label>
+						<input matInput
+							[matAutocomplete]="autoProduct"
+							formControlName="product"
+						>
+						<mat-autocomplete #autoProduct="matAutocomplete" [displayWith]="displayProductAutocomplete">
+							<mat-option
+								*ngFor="let product of availableProducts"
+								[value]="product"
+							>
+							<span>{{ product.name }}</span>
+						  </mat-option>
+						</mat-autocomplete>
+					</mat-form-field>
+					<mat-form-field appearance="outline">
+						<mat-label>{{ languageSource['REGISTRY_EVENT_ORDER_PRODUCT_VARIANT_INPUT'] }}</mat-label>
+						<input matInput
+							[matAutocomplete]="autoProductVariant"
+							formControlName="productVariant"
+							[disabled]="getProductVariants().length === 0"
+						>
+						<mat-autocomplete #autoProductVariant="matAutocomplete" [displayWith]="displayProductVariantAutocomplete">
+							<mat-option
+								*ngFor="let productVariant of getProductVariants()"
+								[value]="productVariant"
+							>
+							<span>{{ productVariant.name }}</span>
+						  </mat-option>
+						</mat-autocomplete>
+					</mat-form-field>
+				</form>
+			</div>
+			<div *ngIf="isEditorOpen && editorType === 'edition'" [@fade]>
+				<h3>{{ languageSource['REGISTRY_EDITOR_EDITION_TITLE'] }}</h3>
+				<form [formGroup]="editionFormGroup">
+					<mat-form-field appearance="outline">
+						<mat-label>{{ languageSource['REGISTRY_EVENT_ORDER_STATUS_INPUT'] }}</mat-label>
+						<input matInput
+							[matAutocomplete]="autoStatus"
+							formControlName="status"
+							required
+						>
+						<mat-autocomplete #autoStatus="matAutocomplete">
+							<mat-option
+								*ngFor="let status of availableOrderStatus"
+								[value]="status"
+							>
+							<span>{{ status }}</span>
+						  </mat-option>
+						</mat-autocomplete>
+					</mat-form-field>
+				</form>
+			</div>
+			<ul>
+				<li class="--confirm">
+					<button
+						(click)="editorType === 'creation' ? onCreation() : onEdition()"
+						[disabled]="editorType === 'creation' ? creationFormGroup.invalid : editionFormGroup.invalid"
+					>
+						{{ editorType === 'creation' ? languageSource['REGISTRY_EDITOR_CREATION_ACTION'] : languageSource['REGISTRY_EDITOR_EDITION_ACTION'] }}
+					</button>
+				</li>
+				<li class="--cancel">
+					<button (click)="onCancel()">{{ languageSource['REGISTRY_EDITOR_CANCEL_ACTION'] }}</button>
+				</li>
+			</ul>
+		</div>
+		<app-table
+			[data]="dataList"
+			[onEdit]="onEditionInit.bind(this)"
+			[onDelete]="onDeleteInit.bind(this)"
+		>
+		</app-table>
+	</div>
+</main>

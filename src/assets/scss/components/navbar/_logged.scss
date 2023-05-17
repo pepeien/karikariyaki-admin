@@ -1,0 +1,186 @@
+app-navbar {
+	.navbar {
+		&__content {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			height: 100%;
+			width: 85%;
+			margin: 4vh auto 0 auto;
+			gap: 4vh 0;
+			overflow: hidden;
+		}
+
+		&__logged {
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			overflow: hidden;
+
+			
+			app-logo {
+				width: 14vh;
+				height: 8vh;
+	
+				& path, & ellipse  {
+					fill: $foreground-bright;
+				}
+			}
+
+			&__profile {
+				display: flex;
+				flex-direction: column;
+				width: 100%;
+				background-color: $foreground-bright;
+				border-radius: 10px;
+
+				-webkit-box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1); 
+    			-moz-box-shadow:    0px 10px 15px -3px rgba(0,0,0,0.1); 
+    			-o-box-shadow:   	0px 10px 15px -3px rgba(0,0,0,0.1);
+				box-shadow:         0px 10px 15px -3px rgba(0,0,0,0.1);
+
+				&-button {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					justify-content: flex-start;
+					background-color: transparent;
+					height: 7vh;
+					width: 100%;
+					gap: 0 2.5vh;
+
+					-webkit-box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1); 
+    				-moz-box-shadow:    0px 10px 15px -3px rgba(0,0,0,0.1); 
+    				-o-box-shadow:   	0px 10px 15px -3px rgba(0,0,0,0.1);
+					box-shadow:         0px 10px 15px -3px rgba(0,0,0,0.1);
+
+					&:hover {
+						cursor: pointer;
+
+						svg {
+							path {
+								stroke: $accent-bright;
+							}
+						}
+					}
+
+					app-avatar {
+						width: clamp($avatar-min-size, 3vh + 1rem, $avatar-max-size);
+						height: clamp($avatar-min-size, 3vh + 1rem, $avatar-max-size);
+						margin-left: 1.5vh;
+					}
+	
+					span {
+						font-family: 'Nunito';
+						font-weight: bold;
+						font-size: 0.75rem;
+						color: $foreground-brighter;
+					}
+	
+					svg {
+						width: 2vh;
+						height: 2vh;
+						margin-left: auto;
+						margin-right: 1.5vh;
+
+						path {
+							stroke: $accent-dark;
+							transition: stroke ease-in-out 300ms;
+						}
+					}
+				}
+
+				&-settings {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					overflow: hidden;
+					width: 100%;
+
+					li {
+						width: 100%;
+						min-height: 6vh;
+					
+						button {
+							display: flex;
+							align-items: center;
+							justify-content: flex-start;
+							padding: 2vh;
+							gap: 0 2vh;
+							width: 100%;
+							height: 100%;
+							background-color: transparent;
+
+
+							&:disabled {
+								pointer-events: none;
+		
+								&:hover {
+									cursor: default;
+								}
+
+								span, mat-icon {
+									color: $foreground-disabled;
+								}
+							}
+		
+							&:not([disabled]) {
+								&:hover {
+									cursor: pointer;
+								}
+					
+								&:hover, &:focus {
+									cursor: pointer;
+	
+									span, mat-icon {
+										color: $accent-bright;
+									}
+								}
+							}
+	
+							mat-icon {
+								width: 3vh;
+								height: 3vh;
+								color: $foreground-brighter;
+								transition: color ease-in-out 300ms;
+							}
+	
+							span {
+								font-family: 'Nunito';
+								font-size: 0.75rem;
+								color: $foreground-brighter;
+								transition: color ease-in-out 300ms;
+							}
+						}
+
+						ul {
+							padding-left: 2vh;
+							overflow: hidden;
+						}
+					}
+
+					&__arrow {
+						margin-left: auto;
+					}
+
+					&__indicator {
+						height: 100%;
+						height: 2vh;
+						width: 0.5vh;
+						border-radius: 15px;
+						background-color: $yellow-dark;
+						margin-left: auto;
+					}
+				}
+			}
+
+			app-menu {
+				width: 100%;
+				margin-bottom: 4vh;
+				overflow-y: auto;
+			}
+		}
+	}
+}

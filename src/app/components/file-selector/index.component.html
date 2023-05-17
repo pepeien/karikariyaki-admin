@@ -1,0 +1,19 @@
+<span *ngIf="label">{{ label }}</span>
+<div class="dropzone">
+	<mat-icon>upload_file</mat-icon>
+	<input
+		id="dropzone-bucket"
+		type="file"
+		[accept]="fileTypesToSpacedString()"
+		(change)="onChange($event)"
+		[multiple]="canUploadMultiple"
+	>
+	<label for="dropzone-bucket">{{ languageSource['FILE_INPUT_TITLE'] }}</label>
+</div>
+<ul class="chest" *ngIf="willDisplayFileList">
+	<li *ngFor="let uploadedFile of uploadedFiles">
+		<mat-icon>file_present</mat-icon>
+		<span>{{ uploadedFile.name }}</span>
+	</li>
+</ul>
+<ng-content *ngIf="willDisplayFileList === false"></ng-content>

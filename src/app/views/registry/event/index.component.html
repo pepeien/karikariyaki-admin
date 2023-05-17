@@ -1,0 +1,50 @@
+<main>
+	<div class="view__registry__header">
+		<h1>{{ languageSource['EVENT_VIEW_TITLE'] }}</h1>
+		<button (click)="onCreationInit()">
+			<mat-icon>add</mat-icon>
+			<span>{{ languageSource['EVENT_NEW_TITLE'] }}</span>
+		</button>
+	</div>
+	<div class="view__registry__content">
+		<div class="view__registry__content__editor" [attr.data-is-visible]="isEditorOpen">
+			<div *ngIf="isEditorOpen && editorType === 'creation'" [@fade]>
+				<h3>{{ languageSource['REGISTRY_EDITOR_CREATION_TITLE'] }}</h3>
+				<form [formGroup]="creationFormGroup">
+					<mat-form-field appearance="outline">
+						<mat-label>{{ languageSource['REGISTRY_EVENT_NAME_INPUT'] }}</mat-label>
+						<input matInput formControlName="name" required>
+					</mat-form-field>
+				</form>
+			</div>
+			<div *ngIf="isEditorOpen && editorType === 'edition'" [@fade]>
+				<h3>{{ languageSource['REGISTRY_EDITOR_EDITION_TITLE'] }}</h3>
+				<form [formGroup]="editionFormGroup">
+					<mat-form-field appearance="outline">
+						<mat-label>{{ languageSource['REGISTRY_EVENT_NAME_INPUT'] }}</mat-label>
+						<input matInput formControlName="name" required>
+					</mat-form-field>
+				</form>
+			</div>
+			<ul>
+				<li class="--confirm">
+					<button
+						(click)="editorType === 'creation' ? onCreation() : onEdition()"
+						[disabled]="editorType === 'creation' ? creationFormGroup.invalid : editionFormGroup.invalid"
+					>
+						{{ editorType === 'creation' ? languageSource['REGISTRY_EDITOR_CREATION_ACTION'] : languageSource['REGISTRY_EDITOR_EDITION_ACTION'] }}
+					</button>
+				</li>
+				<li class="--cancel">
+					<button (click)="onCancel()">{{ languageSource['REGISTRY_EDITOR_CANCEL_ACTION'] }}</button>
+				</li>
+			</ul>
+		</div>
+		<app-table
+			[data]="dataList"
+			[onEdit]="onEditionInit.bind(this)"
+			[onDelete]="onDeleteInit.bind(this)"
+		>
+		</app-table>
+	</div>
+</main>

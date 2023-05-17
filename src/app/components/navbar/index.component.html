@@ -1,0 +1,122 @@
+<div
+	class="navbar__wrapper"
+	[@loginSwipe]="loginNavbarSwipeAnimationState"
+	(@loginSwipe.done)="onLoginNavbarSwipeAnimationDone($event)"
+	[@loggedSwipe]="wasLoginNavbarDispatched ? loggedNavbarSwipeAnimationState : 'invalid'"
+	(@loggedSwipe.done)="onLoggedNavbarSwipeAnimationDone($event)"
+>
+	<div class="navbar__login" *ngIf="!wasLoginNavbarDispatched">
+		<app-avatar
+			[base64Image]="operator?.photo"
+			[@breathe]="loginAvatarBreatheAnimationState"
+			(@breathe.done)="onLoginAvatarBreatheAnimationDone()"
+			[@bezierShrink]="loginAvatarShrinkAnimationState"
+		></app-avatar>
+		<form [formGroup]="loginForm">
+			<mat-form-field
+				appearance="outline"
+				[@bezierHeightShrink]="loginInputShrinkAnimationState"
+				[attr.data-is-disabled]="loginForm.disabled"
+			>
+				<mat-label>{{ languageSource['LOGIN_USERNAME_INPUT_TITLE'] }}</mat-label>
+				<input
+					matInput
+					formControlName="userName"
+					[minlength]="NAVBAR_INPUT_USER_NAME_MIN_LENGTH"
+					[maxLength]="NAVBAR_INPUT_USER_NAME_MAX_LENGTH"
+					(focus)="onFocus()"
+					required
+				>
+			</mat-form-field>
+			<button
+				type="button"
+				(click)="onLogin()"
+				[@bezierHeightShrink]="loginInputShrinkAnimationState"
+				[disabled]="loginForm.disabled || loginForm.get('userName')?.invalid"
+			>
+				{{ languageSource['LOGIN_BUTTON_TITLE'] }}
+			</button>
+			<div
+				class="navbar__login__error"
+				[@bezierHeightShrink]="loginInputErrorShrinkAnimationState"
+			>
+				{{ languageSource[errorMessage] ? languageSource[errorMessage] : errorMessage }}
+			</div>
+		</form>
+		<app-logo [@bezierShrink]="loginInputShrinkAnimationState"></app-logo>
+	</div>
+	<div class="navbar__logged" *ngIf="wasLoginNavbarDispatched && operator">
+		<div class="navbar__content">
+			<app-logo></app-logo>
+			<div class="navbar__logged__profile">
+				<button class="navbar__logged__profile-button" (click)="onProfileClick()">
+					<app-avatar [base64Image]="operator.photo"></app-avatar>
+					<span>{{ operator.displayName }}</span>
+					<svg
+						viewBox="0 0 21 12"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+						[@rotateCounterClock180]="loggedNavbarProfileShrinkAnimationState === 'max' ? 'end' : 'start'"
+					>
+						<path
+							d="M2.00607 1.14285L9.21465 8.99864C9.99606 9.85021 11.3345 9.86412 12.1334 9.02899L19.6778 1.14285"
+							stroke-width="3"
+						/>
+					</svg>
+				</button>
+				<ul
+					class="navbar__logged__profile-settings"
+					[@verticalShrink]="loggedNavbarProfileShrinkAnimationState"
+				>
+					<li>
+						<button disabled>
+							<mat-icon>edit</mat-icon>
+							<span>{{ languageSource['MENU_EDIT_TITLE'] }}</span>
+						</button>
+					</li>
+					<li>
+						<button (click)="onProfileLanguageSettingsClick()">
+							<mat-icon>translate</mat-icon>
+							<span>{{ languageSource['MENU_TRANSLATE_TITLE'] }}</span>
+							<mat-icon
+								class="navbar__logged__profile-settings__arrow"
+								[@rotateCounterClock180]="loggedNavbarProfileLanguageShrinkAnimationState === 'max' ? 'end' : 'start'"
+							>
+								expand_more
+							</mat-icon>
+						</button>
+						<ul [@verticalShrink]="loggedNavbarProfileLanguageShrinkAnimationState">
+							<button *ngFor="let lang of langList | keyvalue" (click)="onLanguageUpdate(lang.key)">
+								<span>{{ lang.value['LANGUAGE_DISPLAY_NAME'] }}</span>
+								<div
+									class="navbar__logged__profile-settings__indicator"
+									[@fade]="isLanguageActive(lang.value['LANGUAGE_DISPLAY_NAME']) ? 'max' : 'min'"
+								>
+								</div>
+							</button>
+						</ul>
+					</li>
+					<li>
+						<button (click)="onLogout()">
+							<mat-icon>logout</mat-icon>
+							<span>{{ languageSource['MENU_LOG_OUT_TITLE'] }}</span>
+						</button>
+					</li>
+				</ul>
+			</div>
+			<app-menu [data]="menu"></app-menu>
+		</div>
+	</div>
+</div>
+<button
+	class="navbar__hamburguer"
+	(click)="onHamburgerClick()"
+	[disabled]="!wasLoginNavbarDispatched && !operator"
+>
+	<svg
+		viewBox="0 0 24 24"
+		xmlns="http://www.w3.org/2000/svg"
+	>
+		<path d="M2,4A1,1,0,0,1,3,3H21a1,1,0,0,1,0,2H3A1,1,0,0,1,2,4Zm1,9H21a1,1,0,0,0,0-2H3a1,1,0,0,0,0,2Zm0,8H21a1,1,0,0,0,0-2H3a1,1,0,0,0,0,2Z"/>
+	</svg>
+</button>

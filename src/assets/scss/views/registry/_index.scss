@@ -1,0 +1,244 @@
+main {
+	padding: 8vh 4vh;
+
+	.view {
+		&__registry {
+			&__header {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				gap: 0 3vh;
+				margin-bottom: 2vh;
+		
+				h1 {
+					font-family: 'Nunito';
+					font-weight: bold;
+					font-size: clamp(2vh, 3vh + 1rem, 4vh);
+					color: $foreground;
+				}
+			
+				button {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					justify-content: center;
+					gap: 0 2vh;
+					padding: 1vh 2vh;
+					background-color: $foreground;
+					color: $accent-dark;
+					font-family: 'Nunito';
+					font-weight: bold;
+					font-size: 1.5vh;
+					margin-left: auto;
+					border-radius: 5px;
+		
+					-webkit-transition: color ease-in-out .3s;
+					-moz-transition: 	color ease-in-out .3s;
+					-ms-transition: 	color ease-in-out .3s;
+					-o-transition: 		color ease-in-out .3s;
+					transition: 		color ease-in-out .3s;
+				}
+			}
+
+			&__content {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				justify-content: flex-start;
+				width: 100%;
+
+				&__editor {
+					display: flex;
+					flex-direction: column;
+					width: 100%;
+					height: 0px;
+					overflow: hidden;
+			
+					-webkit-transition: height ease-in-out .3s;
+					-moz-transition: 	height ease-in-out .3s;
+					-ms-transition: 	height ease-in-out .3s;
+					-o-transition: 		height ease-in-out .3s;
+					transition: 		height ease-in-out .3s;
+				
+					&[data-is-visible="true"] {
+						width: 100%;
+						height: 70dvh;
+						border: 1px solid #0000001f;
+						border-radius: 15px;
+					}
+
+					> div {
+						display: flex;
+						flex-direction: column;
+						flex: 1;
+						padding: 2vh;
+						overflow: hidden;
+						overflow-y: auto;
+
+						h3 {
+							font-family: 'Nunito';
+							font-size: clamp(1vh, 2vh + 1rem, 3vh);
+							margin-bottom: 2vh;
+						}
+
+						form {
+							display: flex;
+							flex-direction: column;
+							width: 100%;
+						}
+					}
+
+					> ul {
+						display: flex;
+						flex-direction: row;
+						width: 100%;
+						margin-top: auto;
+
+						li {
+							flex: 1;
+
+							button {
+								font-family: 'Nunito';
+								width: 100%;
+								height: 6vh;
+							}
+						}
+
+						.--confirm {
+							button {
+								background-color: #233142;
+								color: $accent-bright;
+
+								-webkit-transition: background-color ease-in-out .3s;
+								-moz-transition: 	background-color ease-in-out .3s;
+								-ms-transition: 	background-color ease-in-out .3s;
+								-o-transition: 		background-color ease-in-out .3s;
+								transition: 		background-color ease-in-out .3s;
+
+								&:disabled {
+									cursor: default;
+									pointer-events: none;
+									background-color: $foreground-disabled;
+								}
+							}
+						}
+
+						.--cancel {
+							button {
+								background-color: transparent;
+								border-top: 1px solid #0000001f;
+								color: $foreground;
+
+								-webkit-transition: color ease-in-out .3s;
+								-moz-transition: 	color ease-in-out .3s;
+								-ms-transition: 	color ease-in-out .3s;
+								-o-transition: 		color ease-in-out .3s;
+								transition: 		color ease-in-out .3s;
+							}
+						}
+					}
+
+					app-file-selector {
+						display: flex;
+						flex-direction: column;
+						gap: 1.5vh 0;
+
+						span {
+							font-family: 'Nunito';
+							font-size: clamp(1vh, 1vh + 1rem, 2vh);
+						}
+
+						.dropzone {
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							justify-content: center;
+							padding: 1vh;
+							border: 1px solid #00000061;
+							border-radius: 4px;	
+							gap: 1vh 0;
+							color: $foreground;
+							font-family: 'Nunito';
+							font-size: clamp(1vh, 1vh + 1rem, 2vh);
+						}
+						
+						img {
+							height: 20vh;
+							width: 20vh;
+							border-radius: 5px;
+							margin: 1.5vh auto 0 auto;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+@media (min-width: 801px) {
+	main {
+		.view {
+			&__registry {
+				&__header {
+					button {			
+						&:hover {
+							cursor: pointer;
+							color: $accent-bright;
+						}
+					}
+				}
+
+				&__content {
+					flex-direction: row;
+
+					&__editor {
+						width: 0px;
+						height: 76vh;
+				
+						-webkit-transition: width ease-in-out .3s;
+						-moz-transition: 	width ease-in-out .3s;
+						-ms-transition: 	width ease-in-out .3s;
+						-o-transition: 		width ease-in-out .3s;
+						transition: 		width ease-in-out .3s;
+					
+						&[data-is-visible="true"] {
+							width: 50vw;
+							height: 76vh;
+						}
+
+						> ul {
+							li {
+								button {
+									&:hover {
+										cursor: pointer;
+									}
+								}
+							}
+
+							.--confirm {
+								button {
+									&:hover {
+										background-color: $foreground-bright;
+									}
+								}
+							}
+	
+							.--cancel {
+								button {
+									&:hover {
+										color: red;
+									}
+								}
+							}
+						}
+					}
+
+					app-table {
+						height: 76vh;
+						overflow-y: auto;
+					}
+				}
+			}
+		}
+	}
+}

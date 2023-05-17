@@ -1,0 +1,122 @@
+<main>
+	<div class="view__registry__header">
+		<h1>{{ languageSource['MENU_VIEW_TITLE'] }}</h1>
+		<button (click)="onCreationInit()">
+			<mat-icon>add</mat-icon>
+			<span>{{ languageSource['MENU_NEW_TITLE'] }}</span>
+		</button>
+	</div>
+	<div class="view__registry__content">
+		<div class="view__registry__content__editor" [attr.data-is-visible]="isEditorOpen">
+			<div *ngIf="isEditorOpen && editorType === 'creation'" [@fade]>
+				<h3>{{ languageSource['REGISTRY_EDITOR_CREATION_TITLE'] }}</h3>
+				<form [formGroup]="creationFormGroup">
+					<mat-form-field appearance="outline">
+						<mat-label>{{ languageSource['REGISTRY_MENU_REALM_INPUT'] }}</mat-label>
+						<input
+							matInput
+							formControlName="realm"
+							[matAutocomplete]="autoRealm"
+							required
+						>
+						<mat-autocomplete #autoRealm="matAutocomplete">
+							<mat-option
+								*ngFor="let realm of availableRealms"
+								[value]="realm"
+							>
+							<span>{{ realm }}</span>
+						  </mat-option>
+						</mat-autocomplete>
+					</mat-form-field>
+					<mat-form-field appearance="outline">
+						<mat-label>{{ languageSource['REGISTRY_MENU_TITLE_INPUT'] }}</mat-label>
+						<input matInput formControlName="title" required>
+					</mat-form-field>
+					<mat-form-field appearance="outline">
+						<mat-label>{{ languageSource['REGISTRY_MENU_ROUTE_INPUT'] }}</mat-label>
+						<input matInput formControlName="route">
+					</mat-form-field>
+					<mat-form-field appearance="outline">
+						<mat-label>{{ languageSource['REGISTRY_MENU_PARENT_INPUT'] }}</mat-label>
+						<input
+							matInput
+							formControlName="parent"
+							[matAutocomplete]="autoMenu"
+						>
+						<mat-autocomplete #autoMenu="matAutocomplete" [displayWith]="displayMenuAutocomplete">
+							<mat-option
+								*ngFor="let menu of availableMenus"
+								[value]="menu"
+							>
+							<span>{{ menu.title }}</span>
+						  </mat-option>
+						</mat-autocomplete>
+					</mat-form-field>
+				</form>
+				<app-file-selector
+					[label]="languageSource['REGISTRY_MENU_ICON_INPUT']"
+					[onFileUpload]="onFileUpload.bind(this)"
+					[willDisplayFileList]="false"
+				>
+					<img *ngIf="this.selectedPhotoBase64" [src]="this.selectedPhotoBase64" />
+				</app-file-selector>
+			</div>
+			<div *ngIf="isEditorOpen && editorType === 'edition'" [@fade]>
+				<h3>{{ languageSource['REGISTRY_EDITOR_EDITION_TITLE'] }}</h3>
+				<form [formGroup]="editionFormGroup">
+					<mat-form-field appearance="outline">
+						<mat-label>{{ languageSource['REGISTRY_MENU_REALM_INPUT'] }}</mat-label>
+						<input
+							matInput
+							formControlName="realm"
+							[matAutocomplete]="autoRealm"
+							required
+						>
+						<mat-autocomplete #autoRealm="matAutocomplete">
+							<mat-option
+								*ngFor="let realm of availableRealms"
+								[value]="realm"
+							>
+							<span>{{ realm }}</span>
+						  </mat-option>
+						</mat-autocomplete>
+					</mat-form-field>
+					<mat-form-field appearance="outline">
+						<mat-label>{{ languageSource['REGISTRY_MENU_TITLE_INPUT'] }}</mat-label>
+						<input matInput formControlName="title" required>
+					</mat-form-field>
+					<mat-form-field appearance="outline">
+						<mat-label>{{ languageSource['REGISTRY_MENU_ROUTE_INPUT'] }}</mat-label>
+						<input matInput formControlName="route">
+					</mat-form-field>
+				</form>
+				<app-file-selector
+					[label]="languageSource['REGISTRY_MENU_ICON_INPUT']"
+					[onFileUpload]="onFileUpload.bind(this)"
+					[willDisplayFileList]="false"
+				>
+					<img *ngIf="this.selectedPhotoBase64" [src]="this.selectedPhotoBase64" />
+				</app-file-selector>
+			</div>
+			<ul>
+				<li class="--confirm">
+					<button
+						(click)="editorType === 'creation' ? onCreation() : onEdition()"
+						[disabled]="editorType === 'creation' ? creationFormGroup.invalid : editionFormGroup.invalid"
+					>
+						{{ editorType === 'creation' ? languageSource['REGISTRY_EDITOR_CREATION_ACTION'] : languageSource['REGISTRY_EDITOR_EDITION_ACTION'] }}
+					</button>
+				</li>
+				<li class="--cancel">
+					<button (click)="onCancel()">{{ languageSource['REGISTRY_EDITOR_CANCEL_ACTION'] }}</button>
+				</li>
+			</ul>
+		</div>
+		<app-table
+			[data]="dataList"
+			[onEdit]="onEditionInit.bind(this)"
+			[onDelete]="onDeleteInit.bind(this)"
+		>
+		</app-table>
+	</div>
+</main>

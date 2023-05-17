@@ -1,0 +1,37 @@
+<mat-table
+	class="table"
+	[dataSource]="dataList" 
+	#tableSortRef="matSort"
+	matSort
+>
+	<ng-container *ngFor="let header of headerList" matColumnDef="{{header}}">
+		<ng-container *ngIf="header === SETTINGS_HEADER">
+			<mat-header-cell *matHeaderCellDef></mat-header-cell>
+			<mat-cell *matCellDef="let row">
+				<button class="table__row__settings" [matMenuTriggerFor]="menu">
+					<mat-icon>more_vert</mat-icon>
+				</button>
+				<mat-menu #menu="matMenu">
+					<button (click)="onEdit ? onEdit(row) : undefined" mat-menu-item>
+					  <mat-icon>edit</mat-icon>
+					  <span>{{ languageSource['TABLE_ENTRY_EDIT_TITLE'] }}</span>
+					</button>
+					<button (click)="onDelete ? onDelete(row) : undefined" mat-menu-item>
+						<mat-icon style="color: #f44336">delete</mat-icon>
+						<span style="color: #f44336">{{ languageSource['TABLE_ENTRY_DELETE_TITLE'] }}</span>
+					  </button>
+				</mat-menu>
+			</mat-cell>
+		</ng-container>
+		<ng-container *ngIf="header !== SETTINGS_HEADER">
+			<mat-header-cell *matHeaderCellDef mat-sort-header>{{header}}</mat-header-cell>
+			<mat-cell *matCellDef="let row">
+				<span *ngIf="isObject(row[header]) === false">'{{row[header]}}'</span>
+				<span *ngIf="isObject(row[header])">{{ generateObjectString(row[header]) }}</span>
+				<span *ngIf="!row[header]">null</span>
+			</mat-cell>
+		</ng-container>
+	</ng-container>
+	<mat-header-row *matHeaderRowDef="headerList; sticky: true"></mat-header-row>
+	<mat-row *matRowDef="let row; columns: headerList" class="table__row"></mat-row>
+</mat-table>

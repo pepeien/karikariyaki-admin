@@ -1,0 +1,170 @@
+$app-input-border-raidus: 1.5vh;
+
+app-navbar {
+	.navbar {
+		&__login {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			position: absolute;
+			height: 100%;
+
+			app-avatar {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				position: relative;
+				width: clamp($avatar-min-size, 20vh + 1rem, $avatar-max-size);
+				height: clamp($avatar-min-size, 20vh + 1rem, $avatar-max-size);
+				z-index: 102;
+			}
+	
+			form {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				position: relative;
+				width: 80vw;
+				gap: 2vh 0;
+				margin-top: 4vh;
+				z-index: 102;
+		
+				mat-form-field {
+					font-family: 'Nunito' !important;
+					font-weight: 600 !important;
+					color: $foreground-brighter !important;
+					width: 100% !important;
+		
+					&[data-is-disabled="true"] {
+						color: $foreground-bright !important;
+			
+						.mat-mdc-text-field-wrapper {
+							background-color: $foreground-disabled !important;
+						}
+					}
+	
+					input, mat-label {
+						color: $foreground-brighter !important;
+					}
+		
+					.mat-mdc-text-field-wrapper {
+						background-color: $foreground-bright !important;
+						border-radius: $app-input-border-raidus !important;
+
+						-webkit-box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1) !important; 
+    					-moz-box-shadow:    0px 10px 15px -3px rgba(0,0,0,0.1) !important; 
+    					-o-box-shadow:   	0px 10px 15px -3px rgba(0,0,0,0.1) !important;
+						box-shadow:         0px 10px 15px -3px rgba(0,0,0,0.1) !important;
+					}
+
+					.mdc-notched-outline__leading, .mdc-notched-outline__notch, .mdc-notched-outline__trailing {
+						border-color: $foreground-brighter !important;
+					}
+		
+					.mdc-notched-outline__leading {
+						border-top-left-radius: $app-input-border-raidus !important;
+						border-bottom-left-radius: $app-input-border-raidus !important;
+					}
+		
+					.mdc-notched-outline__trailing {
+						border-top-right-radius: $app-input-border-raidus !important;
+						border-bottom-right-radius: $app-input-border-raidus !important;
+					}
+		
+					.mdc-notched-outline--notched {
+						color: $accent-dark !important;
+					}
+				}
+		
+				button {
+					width: 70%;
+					height: clamp(3rem, 5vh + 1rem, 6rem);
+					background-color: transparent;
+					border: solid 2px transparent;
+					border-radius: $app-input-border-raidus;
+					border-color: $foreground-bright;
+					outline: transparent;
+					font-family: 'Nunito';
+					font-size: 1.2rem;
+					color: $foreground-brighter;
+
+					-webkit-box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1); 
+    				-moz-box-shadow:    0px 10px 15px -3px rgba(0,0,0,0.1); 
+    				-o-box-shadow:   	0px 10px 15px -3px rgba(0,0,0,0.1);
+					box-shadow:         0px 10px 15px -3px rgba(0,0,0,0.1);
+		
+					transition: color ease-in-out 300ms, border-color ease-in-out 300ms, background-color ease-in-out 300ms;
+		
+					&:disabled {
+						color: $foreground-bright;
+						border-color: $foreground-disabled;
+						background-color: $foreground-disabled;
+						pointer-events: none;
+
+						&:hover {
+							cursor: default;
+						}
+					}
+
+					&:not([disabled]) {
+						&:hover {
+							cursor: pointer;
+						}
+			
+						&:hover, &:focus {
+							color: $accent-dark;
+							border-color: transparent;
+							background-color: $foreground-bright;
+						}
+					}
+				}
+			}
+
+			&__error {
+				font-family: 'Nunito';
+				font-weight: 800;
+				font-size: 0.8rem;
+				color: #ff9966;
+				text-align: center;
+				max-width: 100%;
+				padding: 2vh;
+				margin-top: 4dvh;
+				word-wrap: break-word;
+				background-color: $foreground-bright;
+				border-radius: $app-input-border-raidus;
+			}
+
+			app-logo {
+				position: absolute;
+				width: 24vh;
+				height: 12vh;
+				bottom: 6dvh;
+				z-index: 101;
+
+				& path, & ellipse  {
+					fill: $foreground-bright;
+				}
+			}
+		}
+	}
+}
+
+@media (min-width: 811px) {
+	app-navbar {
+		.navbar {	
+			&__login {
+				form {
+					width: 20vw;
+		
+					mat-form-field {
+						button {
+							font-size: 1rem;
+						}
+					}
+				}
+			}
+		}
+	}
+}

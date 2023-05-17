@@ -1,0 +1,14 @@
+app-dialog {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+
+	.dialog {
+		&__actions {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-end;
+		}
+	}
+}

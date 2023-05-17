@@ -1,0 +1,54 @@
+<ul class="menu__tree">
+	<ng-container *ngTemplateOutlet="recursiveMenu; context:{ menus: data }"></ng-container>
+</ul>
+
+<ng-template #recursiveMenu let-menus="menus">
+	<li *ngFor="let node of menus" class="menu__node">
+		<button
+			[attr.data-contains-children]="isExpandable(node)"
+			[attr.data-is-active]="isActive(node)"
+			(click)="onClick(node)"
+			[disabled]="isDisabled(node)"
+		>
+			<img
+				*ngIf="node.icon"
+				class="menu__node__icon"
+				[src]="node.icon"
+			/>
+			<svg
+				*ngIf="!node.icon"
+				class="menu__node__icon"
+				viewBox="0 0 24 24"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<circle cx="12" cy="12" r="4"/>
+			</svg>
+			<span>{{ languageSource[node.title] ? languageSource[node.title] :  node.title }}</span>
+			<svg
+				*ngIf="isExpandable(node)"
+				class="node__arrow"
+				viewBox="0 0 21 12"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				[@rotateCounterClock180]="isActive(node) ? 'end' : 'start'"
+			>
+				<path d="M2.00607 1.14285L9.21465 8.99864C9.99606 9.85021 11.3345 9.86412 12.1334 9.02899L19.6778 1.14285" stroke-width="3"/>
+			</svg>
+			<div
+				*ngIf="isExpandable(node) === false"
+				class="menu__node__indicator"
+				[@fade]="isActive(node) ? 'max' : 'min'"
+			>
+			</div>
+		</button>
+		<ul
+			*ngIf="isExpandable(node)" 
+			[id]="node._id"
+			class="menu__stem"
+			[@verticalShrink]="isActive(node) ? 'max' : 'min'"
+		>               
+			<ng-container *ngTemplateOutlet="recursiveMenu; context:{ menus: node.children }"></ng-container>
+		</ul>
+	</li>
+</ng-template>
