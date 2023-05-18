@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AnimationEvent } from '@angular/animations';
-import { Menu, Operator, StringService } from 'karikarihelper';
+import { Langs, LangKey, Menu, Operator, StringService } from 'karikarihelper';
 
 // Animations
 import { BasicAnimations, LoggedNavbarAnimation, LoginNavbarAnimation } from '@animations';
@@ -14,9 +14,6 @@ import {
 	OperatorService,
 	SettingsService,
 } from '@services';
-
-// Langs
-import { Langs, LangKey } from '@langs';
 
 @Component({
 	selector: 'app-navbar',

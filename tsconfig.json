@@ -29,7 +29,6 @@
 			"@enums": ["src/app/enums/index.ts"],
 			"@imports": ["src/app/imports/index.ts"],
 			"@interfaces": ["src/app/interfaces/index.ts"],
-			"@langs": ["src/langs/index.ts"],
 			"@services": ["src/app/services/index.ts"],
 			"@types": ["src/app/types/index.ts"],
 			"@views": ["src/app/views/index.ts"]

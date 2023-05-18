@@ -1,5 +1,5 @@
 // Langs
-import { LangKey } from '@langs';
+import { LangKey } from 'karikarihelper';
 
 export interface InHouseSettings {
 	language?: LangKey;

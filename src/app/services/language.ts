@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
-
-// Interface
-import { InHouseLang } from '@interfaces';
-
-// Languages
-import { LangKey, Langs } from '@langs';
+import { InHouseLang, LangKey, Langs } from 'karikarihelper';
 
 // Services
 import { SettingsService } from '@services';
