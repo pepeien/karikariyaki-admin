@@ -59,7 +59,8 @@ app-navbar {
 					&:hover {
 						cursor: pointer;
 
-						svg {
+
+						.arrow {
 							path {
 								stroke: $accent-bright;
 							}
@@ -70,16 +71,24 @@ app-navbar {
 						width: clamp($avatar-min-size, 3vh + 1rem, $avatar-max-size);
 						height: clamp($avatar-min-size, 3vh + 1rem, $avatar-max-size);
 						margin-left: 1.5vh;
+
+						svg {
+							width: clamp($avatar-min-size, 3vh + 1rem, $avatar-max-size) !important;
+							height: clamp($avatar-min-size, 3vh + 1rem, $avatar-max-size) !important;
+							margin-top: 1vh !important;
+							margin-left: 0 !important;
+							margin-right: 0 !important;
+						}
 					}
 	
-					span {
+					> span {
 						font-family: 'Nunito';
 						font-weight: bold;
 						font-size: 0.75rem;
 						color: $foreground-brighter;
 					}
 	
-					svg {
+					> svg {
 						width: 2vh;
 						height: 2vh;
 						margin-left: auto;
@@ -110,7 +119,6 @@ app-navbar {
 							padding: 2vh;
 							gap: 0 2vh;
 							width: 100%;
-							height: 100%;
 							background-color: transparent;
 
 

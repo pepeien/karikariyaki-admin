@@ -48,7 +48,7 @@
 				<li class="--confirm">
 					<button
 						(click)="editorType === 'creation' ? onCreation() : onEdition()"
-						[disabled]="editorType === 'creation' ? creationFormGroup.invalid || !selectedPhotoBase64 : editionFormGroup.invalid || isEditionTargetTheSame()"
+						[disabled]="editorType === 'creation' ? (creationFormGroup.invalid) : (editionFormGroup.invalid || isEditionTargetTheSame())"
 					>
 						{{ editorType === 'creation' ? languageSource['REGISTRY_EDITOR_CREATION_ACTION'] : languageSource['REGISTRY_EDITOR_EDITION_ACTION'] }}
 					</button>

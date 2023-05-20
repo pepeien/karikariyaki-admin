@@ -27,6 +27,11 @@ export class FileSelectorComponent implements OnInit {
 	public onFileUpload: ((files: File[]) => void) | undefined;
 
 	/**
+	 * Consts
+	 */
+	public readonly MAX_FILE_SIZE_TRESHOLD_IN_BYTES = 5000;
+
+	/**
 	 * File
 	 */
 	public uploadedFiles: File[] = [];
@@ -57,15 +62,17 @@ export class FileSelectorComponent implements OnInit {
 		let filesArray = Array.from(files);
 
 		if (this.fileTypes.length > 0) {
-			filesArray = filesArray.filter((file) =>
-				Object.values(FileTypes).find((fileType) => fileType.toString() === file.type),
+			filesArray = filesArray.filter(
+				(file) =>
+					file.size > this.MAX_FILE_SIZE_TRESHOLD_IN_BYTES ||
+					Object.values(FileTypes).find((fileType) => fileType.toString() === file.type),
 			);
 		}
 
 		if (this.canUploadMultiple) {
 			this.uploadedFiles = this.uploadedFiles.concat(filesArray);
 		} else {
-			this.uploadedFiles = filesArray;
+			this.uploadedFiles = [filesArray[0]];
 		}
 
 		if (this.onFileUpload) {

@@ -12,8 +12,14 @@ export class AvatarComponent implements OnChanges {
 	@Input()
 	public base64Image?: string;
 
+	/**
+	 * Primitives
+	 */
 	public hasChangedImage = true;
 
+	/**
+	 * Animations
+	 */
 	public animationDurationInMs = BasicAnimations.ZOOM_ANIMATION_DURATION_IN_MS;
 	public animationDelayInMs = BasicAnimations.ZOOM_ANIMATION_DURATION_IN_MS * 1.5;
 

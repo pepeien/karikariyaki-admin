@@ -40,6 +40,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 	 * Editor
 	 */
 	public isEditorOpen = false;
+	public didUploadPhoto = false;
 	public editorType: 'creation' | 'edition' = 'edition';
 	public deletionTarget: Operator | undefined;
 	public editionTarget: Operator | undefined;
@@ -85,7 +86,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 		return (
 			this.editionFormGroup.controls.displayName.value?.trim() ===
 				this.editionTarget.displayName.trim() &&
-			this.selectedPhotoBase64 === this.editionTarget.photo
+			this.editionTarget.photo === this.selectedPhotoBase64
 		);
 	}
 
@@ -97,7 +98,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 	}
 
 	public onCreation() {
-		if (this.creationFormGroup.invalid || !this.selectedPhotoBase64) {
+		if (this.creationFormGroup.invalid) {
 			return;
 		}
 
@@ -105,7 +106,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 			.save({
 				userName: this.creationFormGroup.controls.userName.value as string,
 				displayName: this.creationFormGroup.controls.displayName.value as string,
-				photo: this.selectedPhotoBase64,
+				photo: this.selectedPhotoBase64 ?? undefined,
 			})
 			.subscribe({
 				next: () => {
@@ -140,10 +141,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 					this.editionTarget.displayName !== nextDisplayName
 						? nextDisplayName
 						: undefined,
-				photo:
-					this.editionTarget.photo !== this.selectedPhotoBase64
-						? this.selectedPhotoBase64
-						: undefined,
+				photo: this.didUploadPhoto ? this.selectedPhotoBase64 : undefined,
 			})
 			.subscribe({
 				next: () => {
@@ -157,6 +155,8 @@ export class RegistryOperatorViewComponent implements OnInit {
 		this.editorType = 'creation';
 
 		this.editionTarget = undefined;
+
+		this.didUploadPhoto = false;
 		this.selectedPhotoBase64 = undefined;
 
 		this.creationFormGroup.reset();
@@ -211,6 +211,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 				return;
 			}
 
+			this.didUploadPhoto = true;
 			this.selectedPhotoBase64 = base64;
 		});
 	}
