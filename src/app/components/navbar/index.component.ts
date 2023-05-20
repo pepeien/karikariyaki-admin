@@ -36,6 +36,8 @@ export class NavbarComponent implements OnInit {
 	public readonly NAVBAR_INPUT_USER_NAME_MIN_LENGTH = 1;
 	public readonly NAVBAR_INPUT_USER_NAME_MAX_LENGTH = 25;
 
+	public readonly NAVBAR_LOGGED_NAVBAR_TRESHOLD = 50;
+
 	/**
 	 * API switches
 	 */
@@ -85,6 +87,8 @@ export class NavbarComponent implements OnInit {
 	public langList = Langs;
 	public languageSource = LanguageService.DEFAULT_LANGUAGE;
 
+	private _touchOrigin: Touch | null = null;
+
 	constructor(
 		private _apiService: ApiService,
 		private _languageService: LanguageService,
@@ -94,6 +98,94 @@ export class NavbarComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
+		window.addEventListener('touchstart', (event) => {
+			if (this.wasLoginNavbarDispatched === false || this.isLoggedNavbarExtended === false) {
+				return;
+			}
+
+			this._touchOrigin = event.touches[0];
+		});
+
+		window.addEventListener('touchend', (event) => {
+			if (this.wasLoginNavbarDispatched === false || this.isLoggedNavbarExtended === false) {
+				return;
+			}
+
+			const location = event.changedTouches[0];
+
+			if (!location) {
+				return;
+			}
+
+			const targetComponent = window.document.elementFromPoint(
+				location.clientX,
+				location.clientY,
+			) as HTMLElement;
+
+			if (!targetComponent) {
+				return;
+			}
+
+			if (this._doesHeritageContainClassname(['menu', 'navbar'], targetComponent) === false) {
+				this.loggedNavbarSwipeAnimationState = 'left';
+			}
+		});
+
+		window.addEventListener('mouseup', (event) => {
+			if (
+				this.wasLoginNavbarDispatched === false ||
+				this.isLoggedNavbarExtended === false ||
+				event.button !== 0
+			) {
+				return;
+			}
+
+			if (!event) {
+				return;
+			}
+
+			const targetComponent = window.document.elementFromPoint(
+				event.clientX,
+				event.clientY,
+			) as HTMLElement;
+
+			if (!targetComponent) {
+				return;
+			}
+
+			if (this._doesHeritageContainClassname(['menu', 'navbar'], targetComponent) === false) {
+				this.loggedNavbarSwipeAnimationState = 'left';
+			}
+		});
+
+		window.addEventListener('touchmove', (event) => {
+			if (
+				!this._touchOrigin ||
+				this.wasLoginNavbarDispatched === false ||
+				this.isLoggedNavbarExtended === false
+			) {
+				return;
+			}
+
+			const latestTouch = event.touches[0];
+
+			const xUp = latestTouch.clientX;
+			const yUp = latestTouch.clientY;
+
+			const xDiff = this._touchOrigin.clientX - xUp;
+			const yDiff = this._touchOrigin.clientY - yUp;
+
+			if (Math.abs(xDiff) < Math.abs(yDiff)) {
+				return;
+			}
+
+			if (xDiff > this.NAVBAR_LOGGED_NAVBAR_TRESHOLD) {
+				this.loggedNavbarSwipeAnimationState = 'left';
+
+				this._touchOrigin = null;
+			}
+		});
+
 		this._languageService.language.subscribe({
 			next: (nextLanguage) => {
 				this.languageSource = nextLanguage;
@@ -349,7 +441,7 @@ export class NavbarComponent implements OnInit {
 			return;
 		}
 
-		this.isLoggedNavbarExtended = rasterizedEventToState === 'left';
+		this.isLoggedNavbarExtended = rasterizedEventToState === 'right';
 	}
 
 	public onLoginNavbarSwipeAnimationDone(event: AnimationEvent) {
@@ -397,5 +489,27 @@ export class NavbarComponent implements OnInit {
 		this.errorMessage = nextErrorMessage;
 
 		this.loginInputErrorShrinkAnimationState = 'max';
+	}
+
+	private _doesHeritageContainClassname(classList: string[], element: HTMLElement): boolean {
+		let didFindOnElement = false;
+
+		classList.forEach((className) => {
+			if (element.className?.includes(className)) {
+				didFindOnElement = true;
+
+				return;
+			}
+		});
+
+		if (didFindOnElement) {
+			return true;
+		}
+
+		if (!element.parentElement) {
+			return false;
+		}
+
+		return this._doesHeritageContainClassname(classList, element.parentElement);
 	}
 }
