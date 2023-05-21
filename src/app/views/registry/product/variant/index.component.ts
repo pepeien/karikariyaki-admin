@@ -218,17 +218,7 @@ export class RegistryProductVariantViewComponent implements OnInit {
 	private _updateAvailableProducts() {
 		this._apiService.V1.productRegistry.search().subscribe({
 			next: (response) => {
-				this.creationFormGroup.controls.product.enable();
-				this.editionFormGroup.controls.product.enable();
-
-				if (
-					response.wasSuccessful === false ||
-					!response.result ||
-					response.result.length === 0
-				) {
-					this.creationFormGroup.controls.product.disable();
-					this.editionFormGroup.controls.product.disable();
-
+				if (response.wasSuccessful === false || !response.result) {
 					this.availableProducts = [];
 
 					return;

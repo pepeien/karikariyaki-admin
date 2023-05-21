@@ -285,17 +285,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 	private _updateAvailableEvents() {
 		this._apiService.V1.eventRegistry.search().subscribe({
 			next: (response) => {
-				this.creationFormGroup.controls.event.enable();
-
-				if (
-					response.wasSuccessful === false ||
-					!response.result ||
-					response.result.length === 0
-				) {
-					this.creationFormGroup.controls.event.disable();
-
-					this.availableEvents = [];
-
+				if (response.wasSuccessful === false || !response.result) {
 					return;
 				}
 
@@ -307,17 +297,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 	private _updateAvailableOperators() {
 		this._apiService.V1.operatorRegistry.search().subscribe({
 			next: (response) => {
-				this.creationFormGroup.controls.operator.enable();
-
-				if (
-					response.wasSuccessful === false ||
-					!response.result ||
-					response.result.length === 0
-				) {
-					this.creationFormGroup.controls.operator.disable();
-
-					this.availableOperators = [];
-
+				if (response.wasSuccessful === false || !response.result) {
 					return;
 				}
 
@@ -329,17 +309,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 	private _updateAvailableProducts() {
 		this._apiService.V1.productRegistry.search().subscribe({
 			next: (response) => {
-				this.creationFormGroup.controls.product.enable();
-
-				if (
-					response.wasSuccessful === false ||
-					!response.result ||
-					response.result.length === 0
-				) {
-					this.creationFormGroup.controls.product.disable();
-
-					this.availableProducts = [];
-
+				if (response.wasSuccessful === false || !response.result) {
 					return;
 				}
 

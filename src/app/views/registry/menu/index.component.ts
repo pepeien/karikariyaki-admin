@@ -263,19 +263,7 @@ export class RegistryMenuViewComponent implements OnInit {
 	private _updateAvailableRealms() {
 		this._apiService.V1.menuRegistry.realms().subscribe({
 			next: (response) => {
-				this.creationFormGroup.controls.realm.enable();
-				this.editionFormGroup.controls.realm.enable();
-
-				if (
-					response.wasSuccessful === false ||
-					!response.result ||
-					response.result.length === 0
-				) {
-					this.creationFormGroup.controls.realm.disable();
-					this.editionFormGroup.controls.realm.disable();
-
-					this.availableRealms = [];
-
+				if (response.wasSuccessful === false || !response.result) {
 					return;
 				}
 
@@ -287,17 +275,7 @@ export class RegistryMenuViewComponent implements OnInit {
 	private _updateAvailableMenus() {
 		this._apiService.V1.menuRegistry.search().subscribe({
 			next: (response) => {
-				this.creationFormGroup.controls.parent.enable();
-
-				if (
-					response.wasSuccessful === false ||
-					!response.result ||
-					response.result.length === 0
-				) {
-					this.creationFormGroup.controls.parent.disable();
-
-					this.availableMenus = [];
-
+				if (response.wasSuccessful === false || !response.result) {
 					return;
 				}
 

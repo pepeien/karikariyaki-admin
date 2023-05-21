@@ -1,11 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
 	selector: 'app-auto-complete',
 	templateUrl: './index.component.html',
 })
-export class AutocompleteComponent<T> {
+export class AutocompleteComponent<T> implements OnChanges {
 	@Input()
 	public label!: string;
 	@Input()
@@ -21,6 +21,18 @@ export class AutocompleteComponent<T> {
 	 * Data
 	 */
 	public filteredData: T[] = [];
+
+	ngOnChanges(changes: SimpleChanges): void {
+		const dataChanges = changes['data'];
+
+		if (dataChanges && dataChanges.previousValue !== dataChanges.currentValue) {
+			if (dataChanges.currentValue.length > 0) {
+				this.formGroup.controls[this.controlName].enable();
+			} else {
+				this.formGroup.controls[this.controlName].disable();
+			}
+		}
+	}
 
 	public filterDataList() {
 		const formControl = this.formGroup.controls[this.controlName] as FormControl<
