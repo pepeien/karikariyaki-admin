@@ -1,0 +1,23 @@
+<form [formGroup]="formGroup">
+	<mat-form-field appearance="outline">
+		<mat-label>{{ label }}</mat-label>
+		<input
+			matInput
+			[matAutocomplete]="autoComplete"
+			[formControlName]="controlName"
+			(focus)="filterDataList()"
+			(input)="filterDataList()"
+		>
+		<mat-autocomplete
+			#autoComplete="matAutocomplete"
+			[displayWith]="execOptionGetter.bind(this)"
+		>
+			<mat-option
+				*ngFor="let value of filteredData"
+				[value]="value"
+			>
+				<span>{{ execOptionGetter(value) }}</span>
+			</mat-option>
+		</mat-autocomplete>
+	</mat-form-field>
+</form>
