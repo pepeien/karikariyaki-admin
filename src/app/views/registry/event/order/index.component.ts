@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Event, EventOrder, Operator, Product } from 'karikarihelper';
+import { Event, EventOrder, Operator, Product, ProductVariant } from 'karikarihelper';
 
 // Animations
 import { BasicAnimations } from '@animations';
@@ -53,15 +53,15 @@ export class RegistryEventOrderViewComponent implements OnInit {
 	 * Forms
 	 */
 	public creationFormGroup = new FormGroup({
-		event: new FormControl('', [Validators.required]),
-		status: new FormControl('', [Validators.required]),
-		operator: new FormControl('', [Validators.required]),
+		event: new FormControl({ value: '', disabled: true }, [Validators.required]),
+		status: new FormControl({ value: '', disabled: true }, [Validators.required]),
+		operator: new FormControl({ value: '', disabled: true }, [Validators.required]),
 		client: new FormControl('', [Validators.required]),
-		product: new FormControl('', [Validators.required]),
-		productVariant: new FormControl(''),
+		product: new FormControl({ value: '', disabled: true }, [Validators.required]),
+		productVariant: new FormControl({ value: '', disabled: true }),
 	});
 	public editionFormGroup = new FormGroup({
-		status: new FormControl('', [Validators.required]),
+		status: new FormControl({ value: '', disabled: true }, [Validators.required]),
 	});
 
 	/**
@@ -86,6 +86,19 @@ export class RegistryEventOrderViewComponent implements OnInit {
 				this.languageSource = nextLanguage;
 			},
 		});
+	}
+
+	public isCreationInvalid() {
+		return (
+			this.creationFormGroup.invalid ||
+			this.creationFormGroup.controls.status.disabled ||
+			this.creationFormGroup.controls.event.disabled ||
+			this.creationFormGroup.controls.product.disabled
+		);
+	}
+
+	public isEditionInvalid() {
+		return this.editionFormGroup.invalid || this.editionFormGroup.controls.status.disabled;
 	}
 
 	public onCreationInit() {
@@ -167,9 +180,13 @@ export class RegistryEventOrderViewComponent implements OnInit {
 	}
 
 	public getProductVariants() {
+		this.creationFormGroup.controls.productVariant.enable();
+
 		const product = this.creationFormGroup.controls.product.value as unknown as Product;
 
-		if (!product || !product.variants) {
+		if (!product || !product.variants || product.variants.length === 0) {
+			this.creationFormGroup.controls.productVariant.disable();
+
 			return [];
 		}
 
@@ -177,6 +194,8 @@ export class RegistryEventOrderViewComponent implements OnInit {
 	}
 
 	public onEditionInit(item: EventOrder) {
+		this._updateAvailableStatus();
+
 		this.isEditorOpen = true;
 		this.editorType = 'edition';
 
@@ -266,7 +285,17 @@ export class RegistryEventOrderViewComponent implements OnInit {
 	private _updateAvailableEvents() {
 		this._apiService.V1.eventRegistry.search().subscribe({
 			next: (response) => {
-				if (response.wasSuccessful === false || !response.result) {
+				this.creationFormGroup.controls.event.enable();
+
+				if (
+					response.wasSuccessful === false ||
+					!response.result ||
+					response.result.length === 0
+				) {
+					this.creationFormGroup.controls.event.disable();
+
+					this.availableEvents = [];
+
 					return;
 				}
 
@@ -278,7 +307,17 @@ export class RegistryEventOrderViewComponent implements OnInit {
 	private _updateAvailableOperators() {
 		this._apiService.V1.operatorRegistry.search().subscribe({
 			next: (response) => {
-				if (response.wasSuccessful === false || !response.result) {
+				this.creationFormGroup.controls.operator.enable();
+
+				if (
+					response.wasSuccessful === false ||
+					!response.result ||
+					response.result.length === 0
+				) {
+					this.creationFormGroup.controls.operator.disable();
+
+					this.availableOperators = [];
+
 					return;
 				}
 
@@ -290,7 +329,17 @@ export class RegistryEventOrderViewComponent implements OnInit {
 	private _updateAvailableProducts() {
 		this._apiService.V1.productRegistry.search().subscribe({
 			next: (response) => {
-				if (response.wasSuccessful === false || !response.result) {
+				this.creationFormGroup.controls.product.enable();
+
+				if (
+					response.wasSuccessful === false ||
+					!response.result ||
+					response.result.length === 0
+				) {
+					this.creationFormGroup.controls.product.disable();
+
+					this.availableProducts = [];
+
 					return;
 				}
 

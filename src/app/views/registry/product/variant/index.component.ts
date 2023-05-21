@@ -54,11 +54,11 @@ export class RegistryProductVariantViewComponent implements OnInit {
 	 */
 	public creationFormGroup = new FormGroup({
 		name: new FormControl('', [Validators.required]),
-		product: new FormControl('', [Validators.required]),
+		product: new FormControl({ value: '', disabled: true }, [Validators.required]),
 	});
 	public editionFormGroup = new FormGroup({
 		name: new FormControl('', [Validators.required]),
-		product: new FormControl('', [Validators.required]),
+		product: new FormControl({ value: '', disabled: true }, [Validators.required]),
 	});
 
 	public availableProducts: Product[] = [];
@@ -116,8 +116,18 @@ export class RegistryProductVariantViewComponent implements OnInit {
 		return product.name;
 	}
 
+	public isCreationInvalid() {
+		return this.creationFormGroup.invalid || this.creationFormGroup.controls.product.disabled;
+	}
+
+	public isEditionInvalid() {
+		return this.editionFormGroup.invalid || this.editionFormGroup.controls.product.disabled;
+	}
+
 	public onEditionInit(item: ProductVariant) {
 		this.onCancel();
+
+		this._updateAvailableProducts();
 
 		this.isEditorOpen = true;
 		this.editorType = 'edition';
@@ -208,7 +218,19 @@ export class RegistryProductVariantViewComponent implements OnInit {
 	private _updateAvailableProducts() {
 		this._apiService.V1.productRegistry.search().subscribe({
 			next: (response) => {
-				if (response.wasSuccessful === false || !response.result) {
+				this.creationFormGroup.controls.product.enable();
+				this.editionFormGroup.controls.product.enable();
+
+				if (
+					response.wasSuccessful === false ||
+					!response.result ||
+					response.result.length === 0
+				) {
+					this.creationFormGroup.controls.product.disable();
+					this.editionFormGroup.controls.product.disable();
+
+					this.availableProducts = [];
+
 					return;
 				}
 

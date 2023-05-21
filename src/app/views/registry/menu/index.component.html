@@ -11,23 +11,13 @@
 			<div *ngIf="isEditorOpen && editorType === 'creation'" [@fade]>
 				<h3>{{ languageSource['REGISTRY_EDITOR_CREATION_TITLE'] }}</h3>
 				<form [formGroup]="creationFormGroup">
-					<mat-form-field appearance="outline">
-						<mat-label>{{ languageSource['REGISTRY_MENU_REALM_INPUT'] }}</mat-label>
-						<input
-							matInput
-							formControlName="realm"
-							[matAutocomplete]="autoRealm"
-							required
-						>
-						<mat-autocomplete #autoRealm="matAutocomplete">
-							<mat-option
-								*ngFor="let realm of availableRealms"
-								[value]="realm"
-							>
-							<span>{{ realm }}</span>
-						  </mat-option>
-						</mat-autocomplete>
-					</mat-form-field>
+					<app-auto-complete
+						[label]="languageSource['REGISTRY_MENU_REALM_INPUT']"
+						[data]="availableRealms"
+						[formGroup]="creationFormGroup"
+						[controlName]="'realm'"
+					>
+					</app-auto-complete>
 					<mat-form-field appearance="outline">
 						<mat-label>{{ languageSource['REGISTRY_MENU_TITLE_INPUT'] }}</mat-label>
 						<input matInput formControlName="title" required>
@@ -36,22 +26,14 @@
 						<mat-label>{{ languageSource['REGISTRY_MENU_ROUTE_INPUT'] }}</mat-label>
 						<input matInput formControlName="route">
 					</mat-form-field>
-					<mat-form-field appearance="outline">
-						<mat-label>{{ languageSource['REGISTRY_MENU_PARENT_INPUT'] }}</mat-label>
-						<input
-							matInput
-							formControlName="parent"
-							[matAutocomplete]="autoMenu"
-						>
-						<mat-autocomplete #autoMenu="matAutocomplete" [displayWith]="displayMenuAutocomplete">
-							<mat-option
-								*ngFor="let menu of availableMenus"
-								[value]="menu"
-							>
-							<span>{{ menu.title }}</span>
-						  </mat-option>
-						</mat-autocomplete>
-					</mat-form-field>
+					<app-auto-complete
+						[label]="languageSource['REGISTRY_MENU_PARENT_INPUT']"
+						[data]="availableMenus"
+						[formGroup]="creationFormGroup"
+						[controlName]="'parent'"
+						[optionGetter]="displayMenuAutocomplete"
+					>
+					</app-auto-complete>
 				</form>
 				<app-file-selector
 					[label]="languageSource['REGISTRY_MENU_ICON_INPUT']"
@@ -64,23 +46,13 @@
 			<div *ngIf="isEditorOpen && editorType === 'edition'" [@fade]>
 				<h3>{{ languageSource['REGISTRY_EDITOR_EDITION_TITLE'] }}</h3>
 				<form [formGroup]="editionFormGroup">
-					<mat-form-field appearance="outline">
-						<mat-label>{{ languageSource['REGISTRY_MENU_REALM_INPUT'] }}</mat-label>
-						<input
-							matInput
-							formControlName="realm"
-							[matAutocomplete]="autoRealm"
-							required
-						>
-						<mat-autocomplete #autoRealm="matAutocomplete">
-							<mat-option
-								*ngFor="let realm of availableRealms"
-								[value]="realm"
-							>
-							<span>{{ realm }}</span>
-						  </mat-option>
-						</mat-autocomplete>
-					</mat-form-field>
+					<app-auto-complete
+						[label]="languageSource['REGISTRY_MENU_REALM_INPUT']"
+						[data]="availableRealms"
+						[formGroup]="editionFormGroup"
+						[controlName]="'realm'"
+					>
+					</app-auto-complete>
 					<mat-form-field appearance="outline">
 						<mat-label>{{ languageSource['REGISTRY_MENU_TITLE_INPUT'] }}</mat-label>
 						<input matInput formControlName="title" required>
@@ -102,7 +74,7 @@
 				<li class="--confirm">
 					<button
 						(click)="editorType === 'creation' ? onCreation() : onEdition()"
-						[disabled]="editorType === 'creation' ? creationFormGroup.invalid : editionFormGroup.invalid"
+						[disabled]="editorType === 'creation' ? isCreationInvalid() : isEditionInvalid()"
 					>
 						{{ editorType === 'creation' ? languageSource['REGISTRY_EDITOR_CREATION_ACTION'] : languageSource['REGISTRY_EDITOR_EDITION_ACTION'] }}
 					</button>

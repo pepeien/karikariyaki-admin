@@ -5,14 +5,21 @@ import { CommonModule } from '@angular/common';
 import { RegistryMenuViewComponent } from './index.component';
 
 // Modules
-import { FileSelectorModule, TableModule } from '@components';
+import { AutocompleteModule, FileSelectorModule, TableModule } from '@components';
 
 // Bundles
 import { FormsBundle, MaterialBundle } from '@imports';
 
 @NgModule({
 	declarations: [RegistryMenuViewComponent],
-	imports: [CommonModule, FileSelectorModule, FormsBundle, MaterialBundle, TableModule],
+	imports: [
+		AutocompleteModule,
+		CommonModule,
+		FileSelectorModule,
+		FormsBundle,
+		MaterialBundle,
+		TableModule,
+	],
 	exports: [RegistryMenuViewComponent],
 })
 export class RegistryMenuViewModule {}

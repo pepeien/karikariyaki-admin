@@ -54,13 +54,13 @@ export class RegistryMenuViewComponent implements OnInit {
 	 * Forms
 	 */
 	public creationFormGroup = new FormGroup({
-		realm: new FormControl('', [Validators.required]),
+		realm: new FormControl({ value: '', disabled: true }, [Validators.required]),
 		title: new FormControl('', [Validators.required]),
 		route: new FormControl(''),
-		parent: new FormControl(''),
+		parent: new FormControl({ value: '', disabled: true }),
 	});
 	public editionFormGroup = new FormGroup({
-		realm: new FormControl('', [Validators.required]),
+		realm: new FormControl({ value: '', disabled: true }, [Validators.required]),
 		title: new FormControl('', [Validators.required]),
 		route: new FormControl(''),
 	});
@@ -93,6 +93,14 @@ export class RegistryMenuViewComponent implements OnInit {
 		}
 
 		return menu.title;
+	}
+
+	public isCreationInvalid() {
+		return this.creationFormGroup.invalid || this.creationFormGroup.controls.realm.disabled;
+	}
+
+	public isEditionInvalid() {
+		return this.editionFormGroup.invalid || this.editionFormGroup.controls.realm.disabled;
 	}
 
 	public onCreationInit() {
@@ -255,7 +263,19 @@ export class RegistryMenuViewComponent implements OnInit {
 	private _updateAvailableRealms() {
 		this._apiService.V1.menuRegistry.realms().subscribe({
 			next: (response) => {
-				if (response.wasSuccessful === false || !response.result) {
+				this.creationFormGroup.controls.realm.enable();
+				this.editionFormGroup.controls.realm.enable();
+
+				if (
+					response.wasSuccessful === false ||
+					!response.result ||
+					response.result.length === 0
+				) {
+					this.creationFormGroup.controls.realm.disable();
+					this.editionFormGroup.controls.realm.disable();
+
+					this.availableRealms = [];
+
 					return;
 				}
 
@@ -267,7 +287,17 @@ export class RegistryMenuViewComponent implements OnInit {
 	private _updateAvailableMenus() {
 		this._apiService.V1.menuRegistry.search().subscribe({
 			next: (response) => {
-				if (response.wasSuccessful === false || !response.result) {
+				this.creationFormGroup.controls.parent.enable();
+
+				if (
+					response.wasSuccessful === false ||
+					!response.result ||
+					response.result.length === 0
+				) {
+					this.creationFormGroup.controls.parent.disable();
+
+					this.availableMenus = [];
+
 					return;
 				}
 

@@ -37,6 +37,16 @@ main {
 					-ms-transition: 	color ease-in-out .3s;
 					-o-transition: 		color ease-in-out .3s;
 					transition: 		color ease-in-out .3s;
+
+					mat-icon {
+						flex: 0.5;
+						width: 100%;
+						height: 100%;
+					}
+
+					span {
+						flex: 1.5;
+					}
 				}
 			}
 
@@ -101,6 +111,7 @@ main {
 								font-family: 'Nunito';
 								width: 100%;
 								height: 6vh;
+								min-height: 64px;
 							}
 						}
 
