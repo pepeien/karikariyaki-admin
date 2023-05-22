@@ -51,7 +51,13 @@
 			<div class="navbar__logged__profile">
 				<button class="navbar__logged__profile-button" (click)="onProfileClick()">
 					<app-avatar [base64Image]="operator.photo"></app-avatar>
-					<span>{{ operator.displayName }}</span>
+					<div class="face__data">
+						<span>{{ operator.displayName }}</span>
+						<div>
+							<app-realm-logo></app-realm-logo>
+							<div>{{ operator.realm.name }}</div>
+						</div>
+					</div>
 					<svg
 						class="arrow"
 						viewBox="0 0 21 12"

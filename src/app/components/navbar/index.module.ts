@@ -6,13 +6,22 @@ import { NavbarComponent } from './index.component';
 
 // Modules
 import { AvatarModule, LogoModule, MenuModule } from '@components';
+import { RealmLogoModule } from '../realm-logo';
 
 // Imports
 import { FormsBundle, MaterialBundle } from '@imports';
 
 @NgModule({
 	declarations: [NavbarComponent],
-	imports: [AvatarModule, CommonModule, FormsBundle, LogoModule, MaterialBundle, MenuModule],
+	imports: [
+		AvatarModule,
+		CommonModule,
+		FormsBundle,
+		LogoModule,
+		MaterialBundle,
+		MenuModule,
+		RealmLogoModule,
+	],
 	exports: [NavbarComponent],
 })
 export class NavbarModule {}

@@ -6,3 +6,4 @@ export { LogoComponent, LogoModule } from './logo';
 export { MenuComponent, MenuModule } from './menu';
 export { NavbarComponent, NavbarModule } from './navbar';
 export { TableComponent, TableModule } from './table';
+export { RealmLogoComponent, RealmLogoModule } from './realm-logo';
