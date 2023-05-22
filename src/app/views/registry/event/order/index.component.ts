@@ -138,7 +138,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 				operatorId: operator._id,
 				clientName: clientName,
 				itemId: product._id,
-				variantId: productVariant._id ?? undefined,
+				variantId: productVariant?._id ?? undefined,
 			})
 			.subscribe({
 				next: () => {

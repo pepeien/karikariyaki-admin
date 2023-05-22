@@ -20,10 +20,6 @@ export class MenuRegistryApiV1 extends BaseApi {
 			endpoint.searchParams.append('id', params.id.trim());
 		}
 
-		if (params?.realm) {
-			endpoint.searchParams.append('realm', params.realm.trim());
-		}
-
 		if (params?.title) {
 			endpoint.searchParams.append('title', params.title.trim());
 		}
@@ -41,29 +37,12 @@ export class MenuRegistryApiV1 extends BaseApi {
 		});
 	}
 
-	public realms(): Observable<ApiResponseWrapper<string[]>> {
-		const endpoint = new URL(this._endpoint + '/realms');
-
-		return this.client.get<ApiResponseWrapper<string[]>>(endpoint.href, {
-			withCredentials: true,
-		});
-	}
-
-	public searchSelf(): Observable<ApiResponseWrapper<Menu[]>> {
-		const endpoint = new URL(this._endpoint + '/self');
-
-		return this.client.get<ApiResponseWrapper<Menu[]>>(endpoint.href, {
-			withCredentials: true,
-		});
-	}
-
 	public save(params: MenuCreatableParams): Observable<ApiResponseWrapper<Menu>> {
 		const endpoint = new URL(this._endpoint);
 
 		return this.client.post<ApiResponseWrapper<Menu>>(
 			endpoint.href,
 			{
-				realm: params.realm,
 				title: params.title,
 				icon: params.icon,
 				route: params.route,
@@ -81,7 +60,6 @@ export class MenuRegistryApiV1 extends BaseApi {
 		return this.client.patch<ApiResponseWrapper<Menu>>(
 			endpoint.href,
 			{
-				realm: params.realm,
 				title: params.title,
 				icon: params.icon,
 				route: params.route,

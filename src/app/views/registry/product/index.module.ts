@@ -5,14 +5,14 @@ import { CommonModule } from '@angular/common';
 import { RegistryProductViewComponent } from './index.component';
 
 // Modules
-import { TableModule } from '@components';
+import { AutocompleteModule, TableModule } from '@components';
 
 // Bundles
 import { FormsBundle, MaterialBundle } from '@imports';
 
 @NgModule({
 	declarations: [RegistryProductViewComponent],
-	imports: [CommonModule, FormsBundle, MaterialBundle, TableModule],
+	imports: [AutocompleteModule, CommonModule, FormsBundle, MaterialBundle, TableModule],
 	exports: [RegistryProductViewComponent],
 })
 export class RegistryProductViewModule {}

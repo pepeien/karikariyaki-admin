@@ -24,6 +24,10 @@ export class ProductRegistryApiV1 extends BaseApi {
 			endpoint.searchParams.append('name', params.name.trim());
 		}
 
+		if (params?.realmId) {
+			endpoint.searchParams.append('realmId', params.realmId.trim());
+		}
+
 		return this.client.get<ApiResponseWrapper<Product[]>>(endpoint.href, {
 			withCredentials: true,
 		});
@@ -36,6 +40,7 @@ export class ProductRegistryApiV1 extends BaseApi {
 			endpoint.href,
 			{
 				name: params.name,
+				realmId: params.realmId,
 			},
 			{
 				withCredentials: true,

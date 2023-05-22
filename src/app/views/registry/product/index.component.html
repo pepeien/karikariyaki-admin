@@ -15,6 +15,14 @@
 						<mat-label>{{ languageSource['REGISTRY_PRODUCT_NAME_INPUT'] }}</mat-label>
 						<input matInput formControlName="name" required>
 					</mat-form-field>
+					<app-auto-complete
+						[label]="languageSource['REGISTRY_PRODUCT_REALM_INPUT']"
+						[data]="availableRealms"
+						[formGroup]="creationFormGroup"
+						[controlName]="'realm'"
+						[optionGetter]="displayRealmAutocomplete"
+					>
+					</app-auto-complete>
 				</form>
 			</div>
 			<div *ngIf="isEditorOpen && editorType === 'edition'" [@fade]>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Product } from 'karikarihelper';
+import { Product, Realm } from 'karikarihelper';
 
 // Animations
 import { BasicAnimations } from '@animations';
@@ -43,6 +43,7 @@ export class RegistryProductViewComponent implements OnInit {
 	public editorType: 'creation' | 'edition' = 'edition';
 	public deletionTarget: Product | undefined;
 	public editionTarget: Product | undefined;
+	public availableRealms: Realm[] = [];
 
 	/**
 	 * Language
@@ -54,6 +55,7 @@ export class RegistryProductViewComponent implements OnInit {
 	 */
 	public creationFormGroup = new FormGroup({
 		name: new FormControl('', [Validators.required]),
+		realm: new FormControl({ value: '', disabled: true }, [Validators.required]),
 	});
 	public editionFormGroup = new FormGroup({
 		name: new FormControl('', [Validators.required]),
@@ -75,8 +77,18 @@ export class RegistryProductViewComponent implements OnInit {
 		});
 	}
 
+	public displayRealmAutocomplete(realm: Realm) {
+		if (!realm) {
+			return '';
+		}
+
+		return realm.name;
+	}
+
 	public onCreationInit() {
 		this.onCancel();
+
+		this._updateAvailableRealms();
 
 		this.isEditorOpen = true;
 		this.editorType = 'creation';
@@ -87,9 +99,12 @@ export class RegistryProductViewComponent implements OnInit {
 			return;
 		}
 
+		const realm = this.creationFormGroup.controls.realm.value as unknown as Realm;
+
 		this._apiService.V1.productRegistry
 			.save({
 				name: this.creationFormGroup.controls.name.value as string,
+				realmId: realm._id,
 			})
 			.subscribe({
 				next: () => {
@@ -183,6 +198,20 @@ export class RegistryProductViewComponent implements OnInit {
 				}
 
 				this.dataList = response.result;
+			},
+		});
+	}
+
+	private _updateAvailableRealms() {
+		this._apiService.V1.realmRegistry.search().subscribe({
+			next: (response) => {
+				if (response.wasSuccessful === false || !response.result) {
+					this.availableRealms = [];
+
+					return;
+				}
+
+				this.availableRealms = response.result;
 			},
 		});
 	}

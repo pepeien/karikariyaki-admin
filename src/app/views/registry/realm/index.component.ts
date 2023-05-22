@@ -154,7 +154,7 @@ export class RegistryRealmViewComponent implements OnInit {
 
 		const dialogRef = this._dialog.open(DialogComponent, {
 			data: {
-				message: this.languageSource['OPERATOR_REGISTRY_DELETE_MESSAGE'],
+				message: this.languageSource['REALM_REGISTRY_DELETE_MESSAGE'],
 			},
 		});
 

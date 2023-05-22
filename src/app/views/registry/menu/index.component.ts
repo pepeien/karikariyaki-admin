@@ -54,13 +54,11 @@ export class RegistryMenuViewComponent implements OnInit {
 	 * Forms
 	 */
 	public creationFormGroup = new FormGroup({
-		realm: new FormControl({ value: '', disabled: true }, [Validators.required]),
 		title: new FormControl('', [Validators.required]),
 		route: new FormControl(''),
 		parent: new FormControl({ value: '', disabled: true }),
 	});
 	public editionFormGroup = new FormGroup({
-		realm: new FormControl({ value: '', disabled: true }, [Validators.required]),
 		title: new FormControl('', [Validators.required]),
 		route: new FormControl(''),
 	});
@@ -96,17 +94,16 @@ export class RegistryMenuViewComponent implements OnInit {
 	}
 
 	public isCreationInvalid() {
-		return this.creationFormGroup.invalid || this.creationFormGroup.controls.realm.disabled;
+		return this.creationFormGroup.invalid;
 	}
 
 	public isEditionInvalid() {
-		return this.editionFormGroup.invalid || this.editionFormGroup.controls.realm.disabled;
+		return this.editionFormGroup.invalid;
 	}
 
 	public onCreationInit() {
 		this.onCancel();
 
-		this._updateAvailableRealms();
 		this._updateAvailableMenus();
 
 		this.isEditorOpen = true;
@@ -120,14 +117,12 @@ export class RegistryMenuViewComponent implements OnInit {
 			return;
 		}
 
-		const realm = this.creationFormGroup.controls.realm.value as string;
 		const title = this.creationFormGroup.controls.title.value as string;
 		const route = this.creationFormGroup.controls.route.value as string;
 		const parent = this.creationFormGroup.controls.parent.value as unknown as Menu;
 
 		this._apiService.V1.menuRegistry
 			.save({
-				realm: realm ?? undefined,
 				title: title ?? undefined,
 				icon: this.selectedPhotoBase64 ?? undefined,
 				route: route ?? undefined,
@@ -143,12 +138,9 @@ export class RegistryMenuViewComponent implements OnInit {
 	public onEditionInit(item: Menu) {
 		this.onCancel();
 
-		this._updateAvailableRealms();
-
 		this.isEditorOpen = true;
 		this.editorType = 'edition';
 
-		this.editionFormGroup.controls.realm.setValue(item.realm);
 		this.editionFormGroup.controls.title.setValue(item.title);
 		this.editionFormGroup.controls.route.setValue(item.route);
 
@@ -161,13 +153,11 @@ export class RegistryMenuViewComponent implements OnInit {
 			return;
 		}
 
-		const realm = this.editionFormGroup.controls.realm.value ?? undefined;
 		const title = this.editionFormGroup.controls.title.value ?? undefined;
 		const route = this.editionFormGroup.controls.route.value ?? undefined;
 
 		this._apiService.V1.menuRegistry
 			.edit(this.editionTarget._id, {
-				realm: this.editionTarget.realm !== realm ? realm : undefined,
 				title: this.editionTarget.title !== title ? title : undefined,
 				icon: this.selectedPhotoBase64,
 				route: this.editionTarget.route !== route ? route : undefined,
@@ -256,18 +246,6 @@ export class RegistryMenuViewComponent implements OnInit {
 				}
 
 				this.dataList = response.result;
-			},
-		});
-	}
-
-	private _updateAvailableRealms() {
-		this._apiService.V1.menuRegistry.realms().subscribe({
-			next: (response) => {
-				if (response.wasSuccessful === false || !response.result) {
-					return;
-				}
-
-				this.availableRealms = response.result;
 			},
 		});
 	}

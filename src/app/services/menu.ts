@@ -34,24 +34,22 @@ export class MenuService {
 		if (this._isFetching === false) {
 			this._isFetching = true;
 
-			this._apiService.V1.menuRegistry
-				.search({ realm: 'INSIDE', isRootOnly: true })
-				.subscribe({
-					next: (response) => {
-						this._menu = response.result ?? [];
+			this._apiService.V1.menuRegistry.search({ isRootOnly: true }).subscribe({
+				next: (response) => {
+					this._menu = response.result ?? [];
 
-						this._isFetching = false;
+					this._isFetching = false;
 
-						this._menuSubject.next(this._menu);
-					},
-					error: () => {
-						this._menu = [];
+					this._menuSubject.next(this._menu);
+				},
+				error: () => {
+					this._menu = [];
 
-						this._isFetching = false;
+					this._isFetching = false;
 
-						this._menuSubject.next(this._menu);
-					},
-				});
+					this._menuSubject.next(this._menu);
+				},
+			});
 		}
 	}
 }

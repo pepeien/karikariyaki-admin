@@ -153,7 +153,10 @@ export class NavbarComponent implements OnInit {
 				return;
 			}
 
-			if (this._doesHeritageContainClassname(['menu', 'navbar'], targetComponent) === false) {
+			if (
+				this._doesHeritageContainClassname(['menu__', 'navbar__'], targetComponent) ===
+				false
+			) {
 				this.loggedNavbarSwipeAnimationState = 'left';
 			}
 		});
@@ -495,7 +498,7 @@ export class NavbarComponent implements OnInit {
 		let didFindOnElement = false;
 
 		classList.forEach((className) => {
-			if (element.className?.includes(className)) {
+			if (element.className?.includes && element.className?.includes(className)) {
 				didFindOnElement = true;
 
 				return;
