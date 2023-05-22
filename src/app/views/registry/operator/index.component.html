@@ -19,6 +19,14 @@
 						<mat-label>{{ languageSource['REGISTRY_OPERATOR_USER_NAME_INPUT'] }}</mat-label>
 						<input matInput formControlName="userName" required>
 					</mat-form-field>
+					<app-auto-complete
+						[label]="languageSource['REGISTRY_OPERATOR_REALM_INPUT']"
+						[data]="availableRealms"
+						[formGroup]="creationFormGroup"
+						[controlName]="'realm'"
+						[optionGetter]="displayRealmAutocomplete"
+					>
+					</app-auto-complete>
 				</form>
 				<app-file-selector
 					[label]="languageSource['REGISTRY_OPERATOR_PHOTO_INPUT']"

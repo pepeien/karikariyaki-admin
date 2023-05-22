@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { FileService, Operator } from 'karikarihelper';
+import { FileService, Operator, Realm } from 'karikarihelper';
 
 // Animations
 import { BasicAnimations } from '@animations';
@@ -44,6 +44,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 	public editorType: 'creation' | 'edition' = 'edition';
 	public deletionTarget: Operator | undefined;
 	public editionTarget: Operator | undefined;
+	public availableRealms: Realm[] = [];
 	public selectedPhotoBase64: string | undefined;
 
 	/**
@@ -57,6 +58,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 	public creationFormGroup = new FormGroup({
 		displayName: new FormControl('', [Validators.required]),
 		userName: new FormControl('', [Validators.required]),
+		realm: new FormControl({ value: '', disabled: true }, [Validators.required]),
 	});
 	public editionFormGroup = new FormGroup({
 		displayName: new FormControl('', [Validators.required]),
@@ -78,6 +80,14 @@ export class RegistryOperatorViewComponent implements OnInit {
 		});
 	}
 
+	public displayRealmAutocomplete(realm: Realm) {
+		if (!realm) {
+			return '';
+		}
+
+		return realm.name;
+	}
+
 	public isEditionTargetTheSame() {
 		if (!this.editionTarget || !this.editionTarget._id) {
 			return false;
@@ -93,19 +103,26 @@ export class RegistryOperatorViewComponent implements OnInit {
 	public onCreationInit() {
 		this.onCancel();
 
+		this._updateAvailableRealms();
+
 		this.isEditorOpen = true;
 		this.editorType = 'creation';
 	}
 
 	public onCreation() {
-		if (this.creationFormGroup.invalid) {
+		const userName = this.creationFormGroup.controls.userName.value as string;
+		const displayName = this.creationFormGroup.controls.displayName.value as string;
+		const realm = this.creationFormGroup.controls.realm.value as unknown as Realm;
+
+		if (this.creationFormGroup.invalid || !userName || !displayName || !realm) {
 			return;
 		}
 
 		this._apiService.V1.operatorRegistry
 			.save({
-				userName: this.creationFormGroup.controls.userName.value as string,
-				displayName: this.creationFormGroup.controls.displayName.value as string,
+				userName: userName,
+				displayName: displayName,
+				realmId: realm._id,
 				photo: this.selectedPhotoBase64 ?? undefined,
 			})
 			.subscribe({
@@ -230,6 +247,20 @@ export class RegistryOperatorViewComponent implements OnInit {
 				}
 
 				this.dataList = response.result;
+			},
+		});
+	}
+
+	private _updateAvailableRealms() {
+		this._apiService.V1.realmRegistry.search().subscribe({
+			next: (response) => {
+				if (response.wasSuccessful === false || !response.result) {
+					this.availableRealms = [];
+
+					return;
+				}
+
+				this.availableRealms = response.result;
 			},
 		});
 	}

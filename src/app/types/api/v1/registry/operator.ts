@@ -24,6 +24,10 @@ export class OperatorRegistryApiV1 extends BaseApi {
 			endpoint.searchParams.append('displayName', params?.displayName.trim());
 		}
 
+		if (params?.realmId) {
+			endpoint.searchParams.append('realmId', params.realmId.trim());
+		}
+
 		return this.client.get<ApiResponseWrapper<Operator[]>>(endpoint.href, {
 			withCredentials: true,
 		});
@@ -45,6 +49,7 @@ export class OperatorRegistryApiV1 extends BaseApi {
 			{
 				displayName: params.displayName,
 				userName: params.userName,
+				realmId: params.realmId,
 				photo: params.photo,
 			},
 			{
