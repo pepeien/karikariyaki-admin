@@ -16,8 +16,8 @@ export class MenuRegistryApiV1 extends BaseApi {
 	public search(params?: MenuQueryableParams): Observable<ApiResponseWrapper<Menu[]>> {
 		const endpoint = new URL(this._endpoint);
 
-		if (params?._id) {
-			endpoint.searchParams.append('id', params._id.trim());
+		if (params?.id) {
+			endpoint.searchParams.append('id', params.id.trim());
 		}
 
 		if (params?.realm) {
