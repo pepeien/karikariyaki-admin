@@ -47,6 +47,7 @@ app-navbar {
 	
 					input, mat-label {
 						color: $foreground-brighter !important;
+						caret-color: $foreground-brighter !important;
 					}
 		
 					.mat-mdc-text-field-wrapper {
