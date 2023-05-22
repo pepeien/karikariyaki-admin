@@ -54,6 +54,7 @@ export class RegistryEventViewComponent implements OnInit {
 	 */
 	public creationFormGroup = new FormGroup({
 		name: new FormControl('', [Validators.required]),
+		date: new FormControl(new Date(), [Validators.required]),
 	});
 	public editionFormGroup = new FormGroup({
 		name: new FormControl('', [Validators.required]),
@@ -75,6 +76,18 @@ export class RegistryEventViewComponent implements OnInit {
 		});
 	}
 
+	public isCreationInvalid() {
+		return this.creationFormGroup.invalid;
+	}
+
+	public isEditionInvalid() {
+		return (
+			this.editionFormGroup.invalid ||
+			!this.editionTarget ||
+			this.editionTarget.name === this.editionFormGroup.controls.name.value
+		);
+	}
+
 	public onCreationInit() {
 		this.isEditorOpen = true;
 		this.editorType = 'creation';
@@ -88,6 +101,7 @@ export class RegistryEventViewComponent implements OnInit {
 		this._apiService.V1.eventRegistry
 			.save({
 				name: this.creationFormGroup.controls.name.value as string,
+				date: this.creationFormGroup.controls.date.value ?? undefined,
 			})
 			.subscribe({
 				next: () => {

@@ -204,7 +204,7 @@ main {
 
 					&__editor {
 						width: 0px;
-						height: 76vh;
+						height: 75vh;
 				
 						-webkit-transition: width ease-in-out .3s;
 						-moz-transition: 	width ease-in-out .3s;
@@ -214,7 +214,7 @@ main {
 					
 						&[data-is-visible="true"] {
 							width: 50vw;
-							height: 76vh;
+							height: 75vh;
 						}
 
 						> ul {
@@ -245,7 +245,7 @@ main {
 					}
 
 					app-table {
-						height: 76vh;
+						height: 75vh;
 						overflow-y: auto;
 					}
 				}

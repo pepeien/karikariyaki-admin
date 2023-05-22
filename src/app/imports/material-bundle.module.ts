@@ -17,6 +17,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
 	declarations: [],
@@ -25,6 +26,8 @@ import { MatMenuModule } from '@angular/material/menu';
 		MatAutocompleteModule,
 		MatButtonModule,
 		MatDialogModule,
+		MatDatepickerModule,
+		MatNativeDateModule,
 		MatFormFieldModule,
 		MatProgressBarModule,
 		MatIconModule,
@@ -40,5 +43,6 @@ import { MatMenuModule } from '@angular/material/menu';
 		MatPaginatorModule,
 		MatMenuModule,
 	],
+	providers: [MatDatepickerModule],
 })
 export class MaterialBundle {}

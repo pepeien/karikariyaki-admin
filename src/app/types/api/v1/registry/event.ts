@@ -16,8 +16,8 @@ export class EventRegistryApiV1 extends BaseApi {
 	public search(params?: EventQueryableParams): Observable<ApiResponseWrapper<Event[]>> {
 		const endpoint = new URL(this._endpoint);
 
-		if (params?._id) {
-			endpoint.searchParams.append('id', params._id.trim());
+		if (params?.id) {
+			endpoint.searchParams.append('id', params.id.trim());
 		}
 
 		if (params?.name) {
@@ -40,6 +40,7 @@ export class EventRegistryApiV1 extends BaseApi {
 			endpoint.href,
 			{
 				name: params.name,
+				date: params.date,
 			},
 			{
 				withCredentials: true,
