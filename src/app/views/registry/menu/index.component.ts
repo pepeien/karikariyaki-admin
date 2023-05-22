@@ -66,7 +66,6 @@ export class RegistryMenuViewComponent implements OnInit {
 	/**
 	 * In House
 	 */
-	public availableRealms: string[] = [];
 	public availableMenus: Menu[] = [];
 
 	constructor(

@@ -39,13 +39,6 @@
 			<div *ngIf="isEditorOpen && editorType === 'edition'" [@fade]>
 				<h3>{{ languageSource['REGISTRY_EDITOR_EDITION_TITLE'] }}</h3>
 				<form [formGroup]="editionFormGroup">
-					<app-auto-complete
-						[label]="languageSource['REGISTRY_MENU_REALM_INPUT']"
-						[data]="availableRealms"
-						[formGroup]="editionFormGroup"
-						[controlName]="'realm'"
-					>
-					</app-auto-complete>
 					<mat-form-field appearance="outline">
 						<mat-label>{{ languageSource['REGISTRY_MENU_TITLE_INPUT'] }}</mat-label>
 						<input matInput formControlName="title" required>
