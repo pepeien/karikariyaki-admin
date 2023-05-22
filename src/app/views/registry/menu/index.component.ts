@@ -123,7 +123,7 @@ export class RegistryMenuViewComponent implements OnInit {
 		const realm = this.creationFormGroup.controls.realm.value as string;
 		const title = this.creationFormGroup.controls.title.value as string;
 		const route = this.creationFormGroup.controls.route.value as string;
-		const parentId = this.creationFormGroup.controls.parent.value as string;
+		const parent = this.creationFormGroup.controls.parent.value as unknown as Menu;
 
 		this._apiService.V1.menuRegistry
 			.save({
@@ -131,7 +131,7 @@ export class RegistryMenuViewComponent implements OnInit {
 				title: title ?? undefined,
 				icon: this.selectedPhotoBase64 ?? undefined,
 				route: route ?? undefined,
-				parentId: parentId ?? undefined,
+				parentId: parent._id ?? undefined,
 			})
 			.subscribe({
 				next: () => {
