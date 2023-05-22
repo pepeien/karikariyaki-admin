@@ -13,3 +13,4 @@ export {
 	RegistryProductViewModule,
 	RegistryProductVariantViewModule,
 } from './registry/product';
+export { RegistryRealmViewComponent, RegistryRealmViewModule } from './registry/realm';

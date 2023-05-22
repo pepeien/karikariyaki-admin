@@ -9,6 +9,7 @@ import {
 	OperatorRegistryApiV1,
 	ProductRegistryApiV1,
 	ProductVariantRegistryApiV1,
+	RealmRegistryApiV1,
 } from '@types';
 
 export class ApiV1 {
@@ -44,5 +45,9 @@ export class ApiV1 {
 
 	public get productVariantRegistry() {
 		return new ProductVariantRegistryApiV1(this._client);
+	}
+
+	public get realmRegistry() {
+		return new RealmRegistryApiV1(this._client);
 	}
 }

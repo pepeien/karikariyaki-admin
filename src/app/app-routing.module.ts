@@ -10,6 +10,7 @@ import {
 	RegistryProductVariantViewComponent,
 	RegistryEventViewComponent,
 	RegistryEventOrderViewComponent,
+	RegistryRealmViewComponent,
 } from '@views';
 
 const routes: Routes = [
@@ -60,6 +61,11 @@ const routes: Routes = [
 						component: RegistryProductVariantViewComponent,
 					},
 				],
+			},
+			{
+				path: 'realm',
+				pathMatch: 'full',
+				component: RegistryRealmViewComponent,
 			},
 		],
 	},
