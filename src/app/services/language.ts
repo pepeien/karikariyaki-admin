@@ -9,7 +9,7 @@ import { SettingsService } from '@services';
 
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
-	public static DEFAULT_LANGUAGE_ID: LangKey = 'enUs';
+	public static DEFAULT_LANGUAGE_ID: LangKey = 'ptBr';
 	public static DEFAULT_LANGUAGE = Langs[LanguageService.DEFAULT_LANGUAGE_ID];
 
 	private _languageSubject: ReplaySubject<InHouseLang>;
