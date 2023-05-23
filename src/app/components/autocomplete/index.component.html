@@ -10,19 +10,23 @@
 			#autoComplete="matAutocomplete"
 			[displayWith]="canChooseMultiple ? execMultipleOptionGetter.bind(this) : execOptionGetter.bind(this)"
 		>
-			<mat-option
+			<div
 				*ngFor="let value of filteredData | async"
-				[value]="value"
-				(click)="canChooseMultiple ? onCheckboxClick(value) : undefined"
+				[class]="canChooseMultiple ? 'auto-complete__option' : undefined"
+				(click)="canChooseMultiple ? onCheckboxClick($event, value) : undefined"
 			>
 				<mat-checkbox
 					*ngIf="canChooseMultiple"
+					[color]="'primary'"
+					[disableRipple]="true"
 					[checked]="isCheckboxSelected(value)"
-					(click)="onCheckboxClick(value); $event.stopPropagation()"
+					(click)="onCheckboxClick($event, value)"
 				>
 				</mat-checkbox>
-				<span>{{ execOptionGetter(value) }}</span>
-			</mat-option>
+				<mat-option [value]="value">
+					<span>{{ execOptionGetter(value) }}</span>
+				</mat-option>
+			</div>
 		</mat-autocomplete>
 	</mat-form-field>
 </form>

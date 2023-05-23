@@ -62,15 +62,19 @@ export class AutocompleteComponent<T> implements OnInit, OnChanges {
 		}
 	}
 
-	public onCheckboxClick(value: T) {
-		const foundItemIndex = this._selectedItems.findIndex(
-			(item) => this.execOptionGetter(item) === this.execOptionGetter(value),
-		);
+	public onCheckboxClick(event: Event, value: T) {
+		event.stopPropagation();
 
-		if (foundItemIndex === -1) {
+		if (
+			!this._selectedItems.find(
+				(item) => this.execOptionGetter(item) === this.execOptionGetter(value),
+			)
+		) {
 			this._selectedItems.push(value);
 		} else {
-			this._selectedItems.splice(foundItemIndex, 1);
+			this._selectedItems = this._selectedItems.filter(
+				(item) => this.execOptionGetter(item) !== this.execOptionGetter(value),
+			);
 		}
 
 		this.formGroup.controls[this.controlName].setValue(this._selectedItems);
