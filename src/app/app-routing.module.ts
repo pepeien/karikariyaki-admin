@@ -7,7 +7,6 @@ import {
 	RegistryMenuViewComponent,
 	RegistryOperatorViewComponent,
 	RegistryProductViewComponent,
-	RegistryProductVariantViewComponent,
 	RegistryEventViewComponent,
 	RegistryEventOrderViewComponent,
 	RegistryRealmViewComponent,
@@ -49,18 +48,8 @@ const routes: Routes = [
 			},
 			{
 				path: 'product',
-				children: [
-					{
-						path: '',
-						pathMatch: 'full',
-						component: RegistryProductViewComponent,
-					},
-					{
-						path: 'variant',
-						pathMatch: 'full',
-						component: RegistryProductVariantViewComponent,
-					},
-				],
+				pathMatch: 'full',
+				component: RegistryProductViewComponent,
 			},
 			{
 				path: 'realm',

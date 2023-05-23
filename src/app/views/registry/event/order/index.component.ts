@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Event, EventOrder, Operator, Product, ProductVariant } from 'karikarihelper';
+import { Event, EventOrder, Operator, Product } from 'karikarihelper';
 
 // Animations
 import { BasicAnimations } from '@animations';
@@ -58,7 +58,6 @@ export class RegistryEventOrderViewComponent implements OnInit {
 		operator: new FormControl({ value: '', disabled: true }, [Validators.required]),
 		client: new FormControl('', [Validators.required]),
 		product: new FormControl({ value: '', disabled: true }, [Validators.required]),
-		productVariant: new FormControl({ value: '', disabled: true }),
 	});
 	public editionFormGroup = new FormGroup({
 		status: new FormControl({ value: '', disabled: true }, [Validators.required]),

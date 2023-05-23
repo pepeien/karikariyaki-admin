@@ -7,10 +7,5 @@ export {
 } from './registry/event';
 export { RegistryMenuViewComponent, RegistryMenuViewModule } from './registry/menu';
 export { RegistryOperatorViewComponent, RegistryOperatorViewModule } from './registry/operator';
-export {
-	RegistryProductViewComponent,
-	RegistryProductVariantViewComponent,
-	RegistryProductViewModule,
-	RegistryProductVariantViewModule,
-} from './registry/product';
+export { RegistryProductViewComponent, RegistryProductViewModule } from './registry/product';
 export { RegistryRealmViewComponent, RegistryRealmViewModule } from './registry/realm';

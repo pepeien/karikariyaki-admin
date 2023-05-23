@@ -8,7 +8,6 @@ import {
 	OperatorAdminApiV1,
 	OperatorRegistryApiV1,
 	ProductRegistryApiV1,
-	ProductVariantRegistryApiV1,
 	RealmRegistryApiV1,
 } from '@types';
 
@@ -41,10 +40,6 @@ export class ApiV1 {
 
 	public get productRegistry() {
 		return new ProductRegistryApiV1(this._client);
-	}
-
-	public get productVariantRegistry() {
-		return new ProductVariantRegistryApiV1(this._client);
 	}
 
 	public get realmRegistry() {
