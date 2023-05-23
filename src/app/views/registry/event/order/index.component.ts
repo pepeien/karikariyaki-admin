@@ -12,6 +12,7 @@ import { ApiService, LanguageService } from '@services';
 
 // Components
 import { DialogComponent } from '@components';
+import { find } from 'rxjs';
 
 @Component({
 	selector: 'app-registry-event-order-view',
@@ -57,7 +58,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 		status: new FormControl({ value: '', disabled: true }, [Validators.required]),
 		operator: new FormControl({ value: '', disabled: true }, [Validators.required]),
 		client: new FormControl('', [Validators.required]),
-		product: new FormControl({ value: '', disabled: true }, [Validators.required]),
+		items: new FormControl({ value: '', disabled: true }, [Validators.required]),
 	});
 	public editionFormGroup = new FormGroup({
 		status: new FormControl({ value: '', disabled: true }, [Validators.required]),
@@ -92,7 +93,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 			this.creationFormGroup.invalid ||
 			this.creationFormGroup.controls.status.disabled ||
 			this.creationFormGroup.controls.event.disabled ||
-			this.creationFormGroup.controls.product.disabled
+			this.creationFormGroup.controls.items.disabled
 		);
 	}
 
@@ -115,7 +116,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 		const status = this.creationFormGroup.controls.status.value;
 		const operator = this.creationFormGroup.controls.operator.value as unknown as Operator;
 		const clientName = this.creationFormGroup.controls.client.value;
-		const products = this.creationFormGroup.controls.product.value as unknown as Product[];
+		const items = this.creationFormGroup.controls.items.value as unknown as Product[];
 
 		if (
 			this.creationFormGroup.invalid ||
@@ -123,7 +124,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 			!status ||
 			!operator ||
 			!clientName ||
-			!products
+			!items
 		) {
 			return;
 		}
@@ -134,7 +135,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 				status: status,
 				operatorId: operator._id,
 				clientName: clientName,
-				itemsId: this._extractObjectIdsFromProducts(products),
+				itemsId: this._extractObjectIdsFromProducts(items),
 			})
 			.subscribe({
 				next: () => {
@@ -165,6 +166,14 @@ export class RegistryEventOrderViewComponent implements OnInit {
 		}
 
 		return product.name;
+	}
+
+	public getItemsList(): Product[] {
+		return (this.creationFormGroup.controls.items.value as unknown as Product[]) ?? [];
+	}
+
+	public getProductCount(product: Product): number {
+		return this.getItemsList().filter((item) => item._id === product._id).length;
 	}
 
 	public onEditionInit(item: EventOrder) {

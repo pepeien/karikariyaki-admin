@@ -39,11 +39,11 @@
 						<input matInput formControlName="client" required>
 					</mat-form-field>
 					<app-auto-complete
-						[label]="languageSource['REGISTRY_EVENT_ORDER_PRODUCT_INPUT']"
+						[label]="languageSource['REGISTRY_EVENT_ORDER_ITEMS_INPUT']"
 						[data]="availableProducts"
 						[canChooseMultiple]="true"
 						[formGroup]="creationFormGroup"
-						[controlName]="'product'"
+						[controlName]="'items'"
 						[optionGetter]="displayProductAutocomplete"
 					>
 					</app-auto-complete>
