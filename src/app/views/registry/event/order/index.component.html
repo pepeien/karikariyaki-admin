@@ -41,27 +41,12 @@
 					<app-auto-complete
 						[label]="languageSource['REGISTRY_EVENT_ORDER_PRODUCT_INPUT']"
 						[data]="availableProducts"
+						[canChooseMultiple]="true"
 						[formGroup]="creationFormGroup"
 						[controlName]="'product'"
 						[optionGetter]="displayProductAutocomplete"
 					>
 					</app-auto-complete>
-					<mat-form-field appearance="outline">
-						<mat-label>{{ languageSource['REGISTRY_EVENT_ORDER_PRODUCT_VARIANT_INPUT'] }}</mat-label>
-						<input
-							matInput
-							[matAutocomplete]="autoProductVariant"
-							formControlName="productVariant"
-						>
-						<mat-autocomplete #autoProductVariant="matAutocomplete" [displayWith]="displayProductVariantAutocomplete">
-							<mat-option
-								*ngFor="let productVariant of getProductVariants()"
-								[value]="productVariant"
-							>
-							<span>{{ productVariant.name }}</span>
-						  </mat-option>
-						</mat-autocomplete>
-					</mat-form-field>
 				</form>
 			</div>
 			<div *ngIf="isEditorOpen && editorType === 'edition'" [@fade]>

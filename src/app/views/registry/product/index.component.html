@@ -23,6 +23,14 @@
 						[optionGetter]="displayRealmAutocomplete"
 					>
 					</app-auto-complete>
+					<app-auto-complete
+						[label]="languageSource['REGISTRY_PRODUCT_REALM_INPUT']"
+						[data]="availableProducts"
+						[formGroup]="creationFormGroup"
+						[controlName]="'parent'"
+						[optionGetter]="displayProductAutocomplete"
+					>
+					</app-auto-complete>
 				</form>
 			</div>
 			<div *ngIf="isEditorOpen && editorType === 'edition'" [@fade]>

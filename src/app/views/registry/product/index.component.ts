@@ -44,6 +44,7 @@ export class RegistryProductViewComponent implements OnInit {
 	public deletionTarget: Product | undefined;
 	public editionTarget: Product | undefined;
 	public availableRealms: Realm[] = [];
+	public availableProducts: Product[] = [];
 
 	/**
 	 * Language
@@ -56,6 +57,7 @@ export class RegistryProductViewComponent implements OnInit {
 	public creationFormGroup = new FormGroup({
 		name: new FormControl('', [Validators.required]),
 		realm: new FormControl({ value: '', disabled: true }, [Validators.required]),
+		parent: new FormControl({ value: '', disabled: true }),
 	});
 	public editionFormGroup = new FormGroup({
 		name: new FormControl('', [Validators.required]),
@@ -85,10 +87,19 @@ export class RegistryProductViewComponent implements OnInit {
 		return realm.name;
 	}
 
+	public displayProductAutocomplete(product: Product) {
+		if (!product) {
+			return '';
+		}
+
+		return product.name;
+	}
+
 	public onCreationInit() {
 		this.onCancel();
 
 		this._updateAvailableRealms();
+		this._updateAvailableProducts();
 
 		this.isEditorOpen = true;
 		this.editorType = 'creation';
@@ -100,11 +111,13 @@ export class RegistryProductViewComponent implements OnInit {
 		}
 
 		const realm = this.creationFormGroup.controls.realm.value as unknown as Realm;
+		const parent = this.creationFormGroup.controls.parent.value as unknown as Product;
 
 		this._apiService.V1.productRegistry
 			.save({
 				name: this.creationFormGroup.controls.name.value as string,
 				realmId: realm._id,
+				parentId: parent ? parent._id : undefined,
 			})
 			.subscribe({
 				next: () => {
@@ -212,6 +225,20 @@ export class RegistryProductViewComponent implements OnInit {
 				}
 
 				this.availableRealms = response.result;
+			},
+		});
+	}
+
+	private _updateAvailableProducts() {
+		this._apiService.V1.productRegistry.search().subscribe({
+			next: (response) => {
+				if (response.wasSuccessful === false || !response.result) {
+					this.availableRealms = [];
+
+					return;
+				}
+
+				this.availableProducts = response.result.filter((product) => !product.parent);
 			},
 		});
 	}

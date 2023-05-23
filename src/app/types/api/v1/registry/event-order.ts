@@ -38,14 +38,6 @@ export class EventOrderRegistryApiV1 extends BaseApi {
 			endpoint.searchParams.append('clientName', params.clientName.trim());
 		}
 
-		if (params?.itemId) {
-			endpoint.searchParams.append('itemId', params.itemId.trim());
-		}
-
-		if (params?.variantId) {
-			endpoint.searchParams.append('variantId', params.variantId.trim());
-		}
-
 		return this.client.get<ApiResponseWrapper<EventOrder[]>>(endpoint.href, {
 			withCredentials: true,
 		});
@@ -69,8 +61,7 @@ export class EventOrderRegistryApiV1 extends BaseApi {
 				status: params.status,
 				operatorId: params.operatorId,
 				clientName: params.clientName,
-				itemId: params.itemId,
-				variantId: params.variantId,
+				itemsId: params.itemsId,
 			},
 			{
 				withCredentials: true,

@@ -116,9 +116,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 		const status = this.creationFormGroup.controls.status.value;
 		const operator = this.creationFormGroup.controls.operator.value as unknown as Operator;
 		const clientName = this.creationFormGroup.controls.client.value;
-		const product = this.creationFormGroup.controls.product.value as unknown as Product;
-		const productVariant = this.creationFormGroup.controls.productVariant
-			.value as unknown as Product;
+		const products = this.creationFormGroup.controls.product.value as unknown as Product[];
 
 		if (
 			this.creationFormGroup.invalid ||
@@ -126,7 +124,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 			!status ||
 			!operator ||
 			!clientName ||
-			!product
+			!products
 		) {
 			return;
 		}
@@ -137,8 +135,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 				status: status,
 				operatorId: operator._id,
 				clientName: clientName,
-				itemId: product._id,
-				variantId: productVariant?._id ?? undefined,
+				itemsId: this._extractObjectIdsFromProducts(products),
 			})
 			.subscribe({
 				next: () => {
@@ -169,28 +166,6 @@ export class RegistryEventOrderViewComponent implements OnInit {
 		}
 
 		return product.name;
-	}
-
-	public displayProductVariantAutocomplete(product: Product) {
-		if (!product) {
-			return '';
-		}
-
-		return product.name;
-	}
-
-	public getProductVariants() {
-		this.creationFormGroup.controls.productVariant.enable();
-
-		const product = this.creationFormGroup.controls.product.value as unknown as Product;
-
-		if (!product || !product.variants || product.variants.length === 0) {
-			this.creationFormGroup.controls.productVariant.disable();
-
-			return [];
-		}
-
-		return product.variants;
 	}
 
 	public onEditionInit(item: EventOrder) {
@@ -262,6 +237,16 @@ export class RegistryEventOrderViewComponent implements OnInit {
 				this._onSuccessfulResponse();
 			},
 		});
+	}
+
+	private _extractObjectIdsFromProducts(products: Product[]) {
+		const result: string[] = [];
+
+		products.forEach((product) => {
+			result.push(product._id);
+		});
+
+		return result;
 	}
 
 	private _onSuccessfulResponse() {
