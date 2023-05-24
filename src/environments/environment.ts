@@ -1,4 +1,4 @@
 export const environment = {
 	production: false,
-	rootURL: 'http://localhost/karikariyaki/api',
+	rootURI: 'http://localhost/karikariyaki/api',
 };
