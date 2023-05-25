@@ -36,6 +36,10 @@ app-table {
 		}
 	}
 
+	mat-header-row {
+		background-color: $background;
+	}
+
 	mat-row {
 		height: 4vh !important;
 	}
