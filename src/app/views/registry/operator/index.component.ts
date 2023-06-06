@@ -45,6 +45,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 	public deletionTarget: Operator | undefined;
 	public editionTarget: Operator | undefined;
 	public availableRealms: Realm[] = [];
+	public selectedRealm: Realm | null = null;
 	public selectedPhotoBase64: string | undefined;
 
 	/**
@@ -112,7 +113,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 	public onCreation() {
 		const userName = this.creationFormGroup.controls.userName.value as string;
 		const displayName = this.creationFormGroup.controls.displayName.value as string;
-		const realm = this.creationFormGroup.controls.realm.value as unknown as Realm;
+		const realm = this.selectedRealm;
 
 		if (this.creationFormGroup.invalid || !userName || !displayName || !realm) {
 			return;
@@ -176,6 +177,8 @@ export class RegistryOperatorViewComponent implements OnInit {
 		this.didUploadPhoto = false;
 		this.selectedPhotoBase64 = undefined;
 
+		this.selectedRealm = null;
+
 		this.creationFormGroup.reset();
 		this.editionFormGroup.reset();
 	}
@@ -231,6 +234,16 @@ export class RegistryOperatorViewComponent implements OnInit {
 			this.didUploadPhoto = true;
 			this.selectedPhotoBase64 = base64;
 		});
+	}
+
+	public onRealmSelection(selectedRealms: Realm[]) {
+		if (selectedRealms.length === 0) {
+			this.selectedRealm = null;
+
+			return;
+		}
+
+		this.selectedRealm = selectedRealms[0];
 	}
 
 	private _onSuccessfulResponse() {

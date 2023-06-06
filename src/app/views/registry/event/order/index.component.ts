@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Event, EventOrder, Operator, Product } from 'karikarihelper';
+import { Event, EventOrder, Operator, OrderItem, Product } from 'karikarihelper';
+import { v4 } from 'uuid';
 
 // Animations
 import { BasicAnimations } from '@animations';
@@ -12,7 +13,6 @@ import { ApiService, LanguageService } from '@services';
 
 // Components
 import { DialogComponent } from '@components';
-import { find } from 'rxjs';
 
 @Component({
 	selector: 'app-registry-event-order-view',
@@ -32,6 +32,17 @@ import { find } from 'rxjs';
 	],
 })
 export class RegistryEventOrderViewComponent implements OnInit {
+	/**
+	 * Consts
+	 */
+	public readonly MIN_PRODUCT_COUNT = 1;
+	public readonly MAX_PRODUCT_COUNT = 100;
+
+	/**
+	 * Primitives
+	 */
+	public productCount = 1;
+
 	/**
 	 * Table
 	 */
@@ -58,7 +69,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 		status: new FormControl({ value: '', disabled: true }, [Validators.required]),
 		operator: new FormControl({ value: '', disabled: true }, [Validators.required]),
 		client: new FormControl('', [Validators.required]),
-		items: new FormControl({ value: '', disabled: true }, [Validators.required]),
+		items: new FormControl({ value: '', disabled: true }, []),
 	});
 	public editionFormGroup = new FormGroup({
 		status: new FormControl({ value: '', disabled: true }, [Validators.required]),
@@ -71,6 +82,12 @@ export class RegistryEventOrderViewComponent implements OnInit {
 	public availableOperators: Operator[] = [];
 	public availableOrderStatus: string[] = [];
 	public availableProducts: Product[] = [];
+
+	public selectedEvent: Event | null = null;
+	public selectedStatus: string | null = null;
+	public selectedOperator: Operator | null = null;
+	public selectedItem: Product | null = null;
+	public selectedItems: OrderItem[] = [];
 
 	constructor(
 		private _apiService: ApiService,
@@ -93,12 +110,21 @@ export class RegistryEventOrderViewComponent implements OnInit {
 			this.creationFormGroup.invalid ||
 			this.creationFormGroup.controls.status.disabled ||
 			this.creationFormGroup.controls.event.disabled ||
-			this.creationFormGroup.controls.items.disabled
+			this.creationFormGroup.controls.items.disabled ||
+			!this.selectedEvent ||
+			!this.selectedStatus ||
+			!this.selectedOperator ||
+			!this.selectedItems ||
+			this.selectedItems.length === 0
 		);
 	}
 
 	public isEditionInvalid() {
-		return this.editionFormGroup.invalid || this.editionFormGroup.controls.status.disabled;
+		return (
+			this.editionFormGroup.invalid ||
+			this.editionFormGroup.controls.status.disabled ||
+			!this.selectedStatus
+		);
 	}
 
 	public onCreationInit() {
@@ -112,11 +138,11 @@ export class RegistryEventOrderViewComponent implements OnInit {
 	}
 
 	public onCreation() {
-		const event = this.creationFormGroup.controls.event.value as unknown as Event;
-		const status = this.creationFormGroup.controls.status.value;
-		const operator = this.creationFormGroup.controls.operator.value as unknown as Operator;
+		const event = this.selectedEvent;
+		const status = this.selectedStatus;
+		const operator = this.selectedOperator;
 		const clientName = this.creationFormGroup.controls.client.value;
-		const items = this.creationFormGroup.controls.items.value as unknown as Product[];
+		const items = this.selectedItems;
 
 		if (
 			this.creationFormGroup.invalid ||
@@ -150,6 +176,14 @@ export class RegistryEventOrderViewComponent implements OnInit {
 		}
 
 		return event.name;
+	}
+
+	public displayStatusAutocomplete(status: string) {
+		if (!status) {
+			return '';
+		}
+
+		return this.languageSource[status];
 	}
 
 	public displayOperatorAutocomplete(operator: Operator) {
@@ -247,11 +281,115 @@ export class RegistryEventOrderViewComponent implements OnInit {
 		});
 	}
 
-	private _extractObjectIdsFromProducts(products: Product[]) {
+	public onManualProductCount(target: EventTarget | null) {
+		if (!target) {
+			return;
+		}
+
+		const typedTarget = target as HTMLInputElement;
+
+		const valueAsNumber = parseInt(typedTarget.value);
+
+		if (isNaN(valueAsNumber) || valueAsNumber < this.MIN_PRODUCT_COUNT) {
+			this.productCount = this.MIN_PRODUCT_COUNT;
+
+			typedTarget.value = this.productCount.toString();
+
+			return;
+		}
+
+		if (valueAsNumber > this.MAX_PRODUCT_COUNT) {
+			this.productCount = this.MAX_PRODUCT_COUNT;
+
+			typedTarget.value = this.productCount.toString();
+
+			return;
+		}
+
+		this.productCount = valueAsNumber;
+	}
+
+	public onProductCountDecrement() {
+		if (
+			this.productCount < this.MIN_PRODUCT_COUNT ||
+			this.productCount > this.MAX_PRODUCT_COUNT
+		) {
+			return;
+		}
+
+		this.productCount--;
+	}
+
+	public onProductCountIncrement() {
+		this.productCount++;
+	}
+
+	public onProductConfirmation() {
+		if (!this.selectedItem) {
+			return;
+		}
+
+		for (let i = 0; i < this.productCount; i++) {
+			this.selectedItems.push({
+				id: v4(),
+				product: this.selectedItem,
+			});
+		}
+
+		this.productCount = this.MIN_PRODUCT_COUNT;
+
+		this.creationFormGroup.controls.items.reset();
+	}
+
+	public onItemDeletion(id: string) {
+		this.selectedItems = this.selectedItems.filter((item) => item.id !== id);
+	}
+
+	public onEventSelection(nextSelectedEvents: Event[]) {
+		if (!nextSelectedEvents) {
+			this.selectedEvent = null;
+
+			return;
+		}
+
+		this.selectedEvent = nextSelectedEvents[0];
+	}
+
+	public onStatusSelection(nextSelectedStatus: string[]) {
+		if (!nextSelectedStatus) {
+			this.selectedStatus = null;
+
+			return;
+		}
+
+		this.selectedStatus = nextSelectedStatus[0];
+	}
+
+	public onOperatorSelection(nextSelectedOperator: Operator[]) {
+		if (!nextSelectedOperator) {
+			this.selectedOperator = null;
+
+			return;
+		}
+
+		this.selectedOperator = nextSelectedOperator[0];
+	}
+
+	public onProductSelection(nextSelectedProducts: Product[]) {
+		if (!nextSelectedProducts) {
+			this.selectedItem = null;
+
+			return;
+		}
+
+		this.selectedItem = nextSelectedProducts[0];
+	}
+
+	private _extractObjectIdsFromProducts(items: OrderItem[]) {
 		const result: string[] = [];
 
-		products.forEach((product) => {
-			result.push(product._id);
+		items.forEach((item) => {
+			result.push(item.product._id);
 		});
 
 		return result;

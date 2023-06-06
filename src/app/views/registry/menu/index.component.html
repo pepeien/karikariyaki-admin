@@ -25,6 +25,7 @@
 						[formGroup]="creationFormGroup"
 						[controlName]="'parent'"
 						[optionGetter]="displayMenuAutocomplete"
+						(onSelection)="onMenuSelection($event)"
 					>
 					</app-auto-complete>
 				</form>

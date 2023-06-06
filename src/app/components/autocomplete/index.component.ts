@@ -1,5 +1,13 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+	Component,
+	EventEmitter,
+	Input,
+	OnChanges,
+	OnInit,
+	Output,
+	SimpleChanges,
+} from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 
 @Component({
@@ -20,6 +28,9 @@ export class AutocompleteComponent<T> implements OnInit, OnChanges {
 	@Input()
 	public optionGetter: ((item: T) => string) | null = null;
 
+	@Output()
+	public onSelection = new EventEmitter<T[]>();
+
 	/**
 	 * Data
 	 */
@@ -30,23 +41,19 @@ export class AutocompleteComponent<T> implements OnInit, OnChanges {
 	 */
 	private _selectedItems: T[] = new Array<T>();
 
-	private _lastFilter = '';
-
 	ngOnInit(): void {
 		if (this.canChooseMultiple === false) {
 			this.filteredData = this.formGroup.controls[this.controlName].valueChanges.pipe(
-				startWith<string | T>(''),
-				map((value) => this._filter(value, this.data)),
+				startWith<string>(''),
+				map((value) => this._filter(value)),
 			);
 
 			return;
 		}
 
 		this.filteredData = this.formGroup.controls[this.controlName].valueChanges.pipe(
-			startWith<string | T[]>(''),
-			map((value) =>
-				this._filterMany(typeof value === 'string' ? value : this._lastFilter, this.data),
-			),
+			startWith<string>(''),
+			map((value) => this._filterMany(value)),
 		);
 	}
 
@@ -63,21 +70,36 @@ export class AutocompleteComponent<T> implements OnInit, OnChanges {
 	}
 
 	public onCheckboxClick(event: Event, value: T) {
+		if (!this.controlName) {
+			return;
+		}
+
 		event.stopPropagation();
 
-		if (
-			!this._selectedItems.find(
+		const wasAlreadySelected =
+			this._selectedItems.find(
 				(item) => this.execOptionGetter(item) === this.execOptionGetter(value),
-			)
-		) {
-			this._selectedItems.push(value);
+			) !== undefined;
+
+		if (this.canChooseMultiple) {
+			this._selectedItems = wasAlreadySelected
+				? (this._selectedItems = this._selectedItems.filter(
+						(item) => this.execOptionGetter(item) !== this.execOptionGetter(value),
+				  ))
+				: this._selectedItems.concat([value]);
+
+			this.formGroup.controls[this.controlName].setValue(
+				this.execMultipleOptionGetter(this._selectedItems),
+			);
 		} else {
-			this._selectedItems = this._selectedItems.filter(
-				(item) => this.execOptionGetter(item) !== this.execOptionGetter(value),
+			this._selectedItems = wasAlreadySelected ? [] : [value];
+
+			this.formGroup.controls[this.controlName].setValue(
+				this._selectedItems.length === 0 ? '' : this.execOptionGetter(value),
 			);
 		}
 
-		this.formGroup.controls[this.controlName].setValue(this._selectedItems);
+		this.onSelection.emit(this._selectedItems);
 	}
 
 	public execOptionGetter(value: string | T): string {
@@ -96,37 +118,15 @@ export class AutocompleteComponent<T> implements OnInit, OnChanges {
 		return this.optionGetter(value as T);
 	}
 
-	public execMultipleOptionGetter(value: string | T[]): string {
-		if (!this.optionGetter) {
-			if (typeof value === 'string') {
-				return value;
-			}
-
-			return '';
-		}
-
-		if (typeof value === 'string') {
-			return value;
-		}
-
-		if (Array.isArray(value) === false) {
-			return this.optionGetter(value as T);
-		}
-
+	public execMultipleOptionGetter(value: T[]): string {
 		let result = '';
 
-		value.forEach((item, index) => {
+		value.forEach((item) => {
 			if (!this.optionGetter) {
 				return;
 			}
 
-			if (index === 0) {
-				result += this.optionGetter(item);
-
-				return;
-			}
-
-			result += `, ${this.optionGetter(item)}`;
+			result += `${this.optionGetter(item)}, `;
 		});
 
 		return result;
@@ -140,27 +140,51 @@ export class AutocompleteComponent<T> implements OnInit, OnChanges {
 		);
 	}
 
-	private _filter(target: string | T, data: T[]): T[] {
+	private _filter(target: string): T[] {
 		if (!target) {
-			return data.slice();
+			this._selectedItems = [];
+
+			this.onSelection.emit(this._selectedItems);
+
+			return this.data.slice();
 		}
 
-		const formattedTarget = this.execOptionGetter(target).toLocaleLowerCase();
+		const convertedTarget = this.execOptionGetter(target).toLocaleLowerCase();
 
-		return data.filter((value) =>
-			this.execOptionGetter(value).toLowerCase().includes(formattedTarget),
+		return this.data.filter((value) =>
+			this.execOptionGetter(value).toLowerCase().includes(convertedTarget),
 		);
 	}
 
-	private _filterMany(target: string, data: T[]): T[] {
-		if (!target) {
-			return data.slice();
+	private _filterMany(target: string): T[] {
+		if (target === null || target === undefined) {
+			this._selectedItems = [];
+
+			this.onSelection.emit(this._selectedItems);
+
+			return this.data.slice();
 		}
 
-		this._lastFilter = target;
+		const splittedTarget = target.split(',');
 
-		return data.filter((value) =>
-			this.execOptionGetter(value).toLowerCase().includes(target.toLowerCase()),
-		);
+		if (splittedTarget[splittedTarget.length - 1].trim().length === 0) {
+			return this.data.slice();
+		}
+
+		let filteredData: T[] = [];
+
+		for (const entry of splittedTarget) {
+			if (entry.trim().length === 0) {
+				continue;
+			}
+
+			filteredData = filteredData.concat(
+				this.data.filter((value) =>
+					this.execOptionGetter(value).toLowerCase().includes(entry.trim().toLowerCase()),
+				),
+			);
+		}
+
+		return filteredData;
 	}
 }

@@ -17,6 +17,7 @@
 						[formGroup]="creationFormGroup"
 						[controlName]="'event'"
 						[optionGetter]="displayEventAutocomplete"
+						(onSelection)="onEventSelection($event)"
 					>
 					</app-auto-complete>
 					<app-auto-complete
@@ -24,6 +25,7 @@
 						[data]="availableOrderStatus"
 						[formGroup]="creationFormGroup"
 						[controlName]="'status'"
+						(onSelection)="onStatusSelection($event)"
 					>
 					</app-auto-complete>
 					<app-auto-complete
@@ -32,22 +34,58 @@
 						[formGroup]="creationFormGroup"
 						[controlName]="'operator'"
 						[optionGetter]="displayOperatorAutocomplete"
+						(onSelection)="onOperatorSelection($event)"
 					>
 					</app-auto-complete>
 					<mat-form-field appearance="outline">
 						<mat-label>{{ languageSource['REGISTRY_EVENT_ORDER_CLIENT_INPUT'] }}</mat-label>
 						<input matInput formControlName="client" required>
 					</mat-form-field>
-					<app-auto-complete
-						[label]="languageSource['REGISTRY_EVENT_ORDER_ITEMS_INPUT']"
-						[data]="availableProducts"
-						[canChooseMultiple]="true"
-						[formGroup]="creationFormGroup"
-						[controlName]="'items'"
-						[optionGetter]="displayProductAutocomplete"
-					>
-					</app-auto-complete>
+					<div class="--items">
+						<app-auto-complete
+							[label]="languageSource['REGISTRY_EVENT_ORDER_ITEMS_INPUT']"
+							[data]="availableProducts"
+							[formGroup]="creationFormGroup"
+							[controlName]="'items'"
+							[optionGetter]="displayProductAutocomplete"
+							(onSelection)="onProductSelection($event)"
+						>
+						</app-auto-complete>
+						<div class="--items__selector">
+							<button (click)="onProductCountDecrement()" [disabled]="productCount <= MIN_PRODUCT_COUNT">
+								<mat-icon>remove</mat-icon>
+							</button>
+							<input
+								matInput
+								[value]="productCount"
+								[min]="MIN_PRODUCT_COUNT"
+								[max]="MAX_PRODUCT_COUNT"
+								type="number"
+								(keyup)="onManualProductCount($event.target)"
+							>
+							<button (click)="onProductCountIncrement()" [disabled]="productCount >= MAX_PRODUCT_COUNT">
+								<mat-icon>add</mat-icon>
+							</button>
+						</div>
+						<button
+							class="--check"
+							(click)="onProductConfirmation()"
+							[disabled]="!selectedItem"
+						>
+							<mat-icon>check</mat-icon>
+						</button>
+					</div>
 				</form>
+				<ul class="item__listing">
+					<li *ngFor="let selectedItem of selectedItems; index as i">
+						<div>
+							<span>{{ selectedItem.product.name }}</span>
+						</div>
+						<button class="--delete" (click)="onItemDeletion(selectedItem.id)">
+							<mat-icon>delete</mat-icon>
+						</button>
+					</li>
+				</ul>
 			</div>
 			<div *ngIf="isEditorOpen && editorType === 'edition'" [@fade]>
 				<h3>{{ languageSource['REGISTRY_EDITOR_EDITION_TITLE'] }}</h3>
@@ -57,6 +95,7 @@
 						[data]="availableOrderStatus"
 						[formGroup]="editionFormGroup"
 						[controlName]="'status'"
+						(onSelection)="onStatusSelection($event)"
 					>
 					</app-auto-complete>
 				</form>

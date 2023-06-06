@@ -6,14 +6,11 @@
 			[matAutocomplete]="autoComplete"
 			[formControlName]="controlName"
 		>
-		<mat-autocomplete
-			#autoComplete="matAutocomplete"
-			[displayWith]="canChooseMultiple ? execMultipleOptionGetter.bind(this) : execOptionGetter.bind(this)"
-		>
+		<mat-autocomplete #autoComplete="matAutocomplete">
 			<div
 				*ngFor="let value of filteredData | async"
-				[class]="canChooseMultiple ? 'auto-complete__option' : undefined"
-				(click)="canChooseMultiple ? onCheckboxClick($event, value) : undefined"
+				class="auto-complete__option"
+				(click)="onCheckboxClick($event, value)"
 			>
 				<mat-checkbox
 					*ngIf="canChooseMultiple"

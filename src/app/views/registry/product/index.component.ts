@@ -44,7 +44,9 @@ export class RegistryProductViewComponent implements OnInit {
 	public deletionTarget: Product | undefined;
 	public editionTarget: Product | undefined;
 	public availableRealms: Realm[] = [];
+	public selectedRealm: Realm | null = null;
 	public availableProducts: Product[] = [];
+	public selectedProduct: Product | null = null;
 
 	/**
 	 * Language
@@ -106,12 +108,12 @@ export class RegistryProductViewComponent implements OnInit {
 	}
 
 	public onCreation() {
-		if (this.creationFormGroup.invalid) {
+		if (this.creationFormGroup.invalid || !this.selectedRealm) {
 			return;
 		}
 
-		const realm = this.creationFormGroup.controls.realm.value as unknown as Realm;
-		const parent = this.creationFormGroup.controls.parent.value as unknown as Product;
+		const realm = this.selectedRealm;
+		const parent = this.selectedProduct;
 
 		this._apiService.V1.productRegistry
 			.save({
@@ -157,6 +159,9 @@ export class RegistryProductViewComponent implements OnInit {
 		this.isEditorOpen = false;
 		this.editorType = 'creation';
 
+		this.selectedProduct = null;
+		this.selectedProduct = null;
+
 		this.creationFormGroup.reset();
 		this.editionFormGroup.reset();
 	}
@@ -195,6 +200,34 @@ export class RegistryProductViewComponent implements OnInit {
 				this._onSuccessfulResponse();
 			},
 		});
+	}
+
+	public onRealmSelection(selectedRealms: Realm[]) {
+		if (selectedRealms.length === 0) {
+			this.selectedRealm = null;
+
+			return;
+		}
+
+		this.selectedRealm = selectedRealms[0];
+	}
+
+	public onProductSelection(selectedProducts: Product[]) {
+		if (selectedProducts.length === 0) {
+			this.selectedRealm = null;
+
+			return;
+		}
+
+		this.selectedProduct = selectedProducts[0];
+	}
+
+	public isCreationInvalid() {
+		return this.creationFormGroup.invalid || !this.selectedRealm;
+	}
+
+	public isEditInvalid() {
+		return this.editionFormGroup.invalid;
 	}
 
 	private _onSuccessfulResponse() {

@@ -5,8 +5,8 @@ app-navbar {
 			flex-direction: column;
 			align-items: center;
 			height: 100%;
-			width: 85%;
-			margin: 4vh auto 0 auto;
+			width: 100%;
+			padding: 4vh 2vh;
 			gap: 4vh 0;
 			overflow: hidden;
 		}
@@ -47,9 +47,9 @@ app-navbar {
 					align-items: center;
 					justify-content: flex-start;
 					background-color: transparent;
-					height: 7vh;
 					width: 100%;
 					gap: 0 1.5vh;
+					padding: 1.5vh 1vh;
 
 					-webkit-box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1); 
     				-moz-box-shadow:    0px 10px 15px -3px rgba(0,0,0,0.1); 
@@ -70,7 +70,7 @@ app-navbar {
 					app-avatar {
 						width: clamp($avatar-min-size, 3vh + 1rem, $avatar-max-size);
 						height: clamp($avatar-min-size, 3vh + 1rem, $avatar-max-size);
-						margin-left: 1.5vh;
+						flex-shrink: 0;
 
 						svg {
 							width: clamp($avatar-min-size, 3vh + 1rem, $avatar-max-size) !important;
@@ -87,7 +87,6 @@ app-navbar {
 						align-items: flex-start;
 						justify-content: center;
 						gap: 0.25vh 0;
-						flex-wrap: 0.6;
 	
 						> span {
 							font-family: 'Nunito';
@@ -103,6 +102,10 @@ app-navbar {
 							align-items: center;
 							justify-content: flex-start;
 							gap: 0 0.5vh;
+							width: 100%;
+							white-space: nowrap;
+							overflow: hidden;
+							overflow-x: auto;
 
 							svg {
 								width: 1.5vh;
@@ -125,7 +128,7 @@ app-navbar {
 						width: 2vh;
 						height: 2vh;
 						margin-left: auto;
-						margin-right: 1.5vh;
+						flex-shrink: 0;
 
 						path {
 							stroke: $accent-dark;

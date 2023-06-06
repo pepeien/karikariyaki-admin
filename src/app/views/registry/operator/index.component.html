@@ -25,6 +25,7 @@
 						[formGroup]="creationFormGroup"
 						[controlName]="'realm'"
 						[optionGetter]="displayRealmAutocomplete"
+						(onSelection)="onRealmSelection($event)"
 					>
 					</app-auto-complete>
 				</form>

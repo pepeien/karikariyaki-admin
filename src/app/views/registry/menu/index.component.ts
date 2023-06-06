@@ -68,6 +68,8 @@ export class RegistryMenuViewComponent implements OnInit {
 	 */
 	public availableMenus: Menu[] = [];
 
+	public selectedMenu: Menu | null = null;
+
 	constructor(
 		private _apiService: ApiService,
 		private _dialog: MatDialog,
@@ -118,14 +120,14 @@ export class RegistryMenuViewComponent implements OnInit {
 
 		const title = this.creationFormGroup.controls.title.value as string;
 		const route = this.creationFormGroup.controls.route.value as string;
-		const parent = this.creationFormGroup.controls.parent.value as unknown as Menu;
+		const parent = this.selectedMenu;
 
 		this._apiService.V1.menuRegistry
 			.save({
 				title: title ?? undefined,
 				icon: this.selectedPhotoBase64 ?? undefined,
 				route: route ?? undefined,
-				parentId: parent._id ?? undefined,
+				parentId: parent?._id ?? undefined,
 			})
 			.subscribe({
 				next: () => {
@@ -231,6 +233,16 @@ export class RegistryMenuViewComponent implements OnInit {
 		});
 	}
 
+	public onMenuSelection(selectedMenus: Menu[]) {
+		if (selectedMenus.length === 0) {
+			this.selectedMenu = null;
+
+			return;
+		}
+
+		this.selectedMenu = selectedMenus[0];
+	}
+
 	private _onSuccessfulResponse() {
 		this._refreshList();
 
@@ -238,7 +250,7 @@ export class RegistryMenuViewComponent implements OnInit {
 	}
 
 	private _refreshList() {
-		this._apiService.V1.menuRegistry.search().subscribe({
+		this._apiService.V1.menuRegistry.search({ isRootOnly: false }).subscribe({
 			next: (response) => {
 				if (!response.result) {
 					return;

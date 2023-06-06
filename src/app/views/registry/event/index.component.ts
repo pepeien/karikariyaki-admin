@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,6 +12,7 @@ import { ApiService, LanguageService } from '@services';
 
 // Components
 import { DialogComponent } from '@components';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
 	selector: 'app-registry-event-view',
@@ -58,6 +59,7 @@ export class RegistryEventViewComponent implements OnInit {
 	});
 	public editionFormGroup = new FormGroup({
 		name: new FormControl('', [Validators.required]),
+		isOpen: new FormControl(false, [Validators.required]),
 	});
 
 	constructor(

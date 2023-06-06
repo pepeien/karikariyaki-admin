@@ -28,10 +28,17 @@
 			<mat-cell *matCellDef="let row">
 				<span *ngIf="isObject(row[header]) === false">'{{row[header]}}'</span>
 				<span *ngIf="isObject(row[header])">{{ generateObjectString(row[header]) }}</span>
-				<span *ngIf="!row[header]">null</span>
+				<span *ngIf="row[header] === null || row[header] === undefined">null</span>
 			</mat-cell>
 		</ng-container>
 	</ng-container>
 	<mat-header-row *matHeaderRowDef="headerList; sticky: true"></mat-header-row>
 	<mat-row *matRowDef="let row; columns: headerList" class="table__row"></mat-row>
 </mat-table>
+<mat-paginator
+	[pageSizeOptions]="[20, 35, 50]"
+	#tablePaginatorRef="matPaginator"
+	showFirstLastButtons
+	matPaginator
+>
+</mat-paginator>

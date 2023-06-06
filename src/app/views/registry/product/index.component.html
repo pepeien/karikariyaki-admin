@@ -21,6 +21,7 @@
 						[formGroup]="creationFormGroup"
 						[controlName]="'realm'"
 						[optionGetter]="displayRealmAutocomplete"
+						(onSelection)="onRealmSelection($event)"
 					>
 					</app-auto-complete>
 					<app-auto-complete
@@ -29,6 +30,7 @@
 						[formGroup]="creationFormGroup"
 						[controlName]="'parent'"
 						[optionGetter]="displayProductAutocomplete"
+						(onSelection)="onProductSelection($event)"
 					>
 					</app-auto-complete>
 				</form>
@@ -46,7 +48,7 @@
 				<li class="--confirm">
 					<button
 						(click)="editorType === 'creation' ? onCreation() : onEdition()"
-						[disabled]="editorType === 'creation' ? creationFormGroup.invalid : editionFormGroup.invalid"
+						[disabled]="editorType === 'creation' ? isCreationInvalid() : isEditInvalid()"
 					>
 						{{ editorType === 'creation' ? languageSource['REGISTRY_EDITOR_CREATION_ACTION'] : languageSource['REGISTRY_EDITOR_EDITION_ACTION'] }}
 					</button>
