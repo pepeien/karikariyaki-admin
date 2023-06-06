@@ -5,7 +5,7 @@
 		"ng": "ng",
 		"start": "ng serve --host 0.0.0.0",
 		"build": "ng build",
-		"deploy-gh": "ng build && ngh --cname=admin.karikariyaki.com --dir=build",
+		"deploy-gh": "ng build && ngh --cname=example.org --dir=build",
 		"test": "ng test"
 	},
 	"private": true,
