@@ -77,6 +77,108 @@ main {
 						border: 1px solid #0000001f;
 					}
 
+					.--items {
+						width: 100%;
+						display: flex;
+						flex-direction: column;
+						align-items: flex-start;
+						gap: 0;
+
+						app-auto-complete {
+							width: 100%;
+						}
+
+						&__selector {
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							margin: 0 auto;
+							gap: 0 1vh;
+							height: 6vh;
+
+							input {
+								height: 4vh;
+							}
+						}
+		
+						button {
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							height: 4vh;
+							width: 100%;
+							padding: 0 1vh;
+							background-color: transparent;
+							border: solid 1px $foreground-bright;
+							border-radius: 5px;
+						}
+					}
+
+					.--check {
+						margin: 1vh 0;
+					}
+
+					.item__listing {
+						display: grid;
+						grid-template-columns: repeat(auto-fill, minmax(15vh, 1fr));
+						gap: 2vh;
+						border: solid 1px $foreground-bright;
+						border-radius: $app-input-border-raidus;
+						min-height: 25vh;
+						width: 90%;
+						padding: 2vh;
+						overflow: hidden;
+						overflow-y: auto;
+						margin: 0 auto;
+		
+						li {
+							display: flex;
+							flex-direction: column;
+							justify-content: center;
+							align-items: center;
+							height: 25vh;
+							border-radius: $app-input-border-raidus;
+							overflow: hidden;
+		
+							div {
+								width: 100%;
+								height: 100%;
+								display: flex;
+								flex-direction: column;
+								justify-content: center;
+								align-items: center;
+								background-color: $foreground;
+								color: $accent-bright;
+							}
+
+							span {
+								color: $accent-bright;
+							}
+
+							button {
+								width: 100%;
+								height: 6vh;
+								display: flex;
+								flex-direction: column;
+								align-items: center;
+								justify-content: center;
+								background-color: $red-dark;
+								color: $accent-bright;
+							
+								-webkit-transition: background-color ease-in-out .1s;
+								-moz-transition: 	background-color ease-in-out .1s;
+								-ms-transition: 	background-color ease-in-out .1s;
+								-o-transition: 		background-color ease-in-out .1s;
+								transition: 		background-color ease-in-out .1s;
+							
+								&:hover {
+									cursor: pointer;
+									background-color: $red-light;
+								}
+							}
+						}
+					}
+
 					> div {
 						display: flex;
 						flex-direction: column;
@@ -215,6 +317,15 @@ main {
 						&[data-is-visible="true"] {
 							width: 50vw;
 							height: 75vh;
+						}
+
+						.--items {
+							flex-direction: row;
+							gap: 0 2vh;
+
+							button {
+								width: 5vh;
+							}
 						}
 
 						> ul {
