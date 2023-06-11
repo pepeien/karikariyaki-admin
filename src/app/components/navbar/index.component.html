@@ -54,8 +54,12 @@
 					<div class="face__data">
 						<span>{{ operator.displayName }}</span>
 						<div>
-							<app-realm-logo></app-realm-logo>
-							<div class="--realm">{{ operator.realm.name }}</div>
+							<mat-icon>shield_person</mat-icon>
+							<div>{{ languageSource[operator.role] }}</div>
+						</div>
+						<div>
+							<mat-icon>store_front</mat-icon>
+							<div>{{ operator.realm.name }}</div>
 						</div>
 					</div>
 					<svg

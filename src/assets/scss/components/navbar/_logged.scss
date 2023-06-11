@@ -44,7 +44,7 @@ app-navbar {
 				&-button {
 					display: flex;
 					flex-direction: row;
-					align-items: center;
+					align-items: flex-start;
 					justify-content: flex-start;
 					background-color: transparent;
 					width: 100%;
@@ -103,16 +103,11 @@ app-navbar {
 							justify-content: flex-start;
 							gap: 0 0.5vh;
 							width: 100%;
-							white-space: nowrap;
-							overflow: hidden;
-							overflow-x: auto;
 
-							svg {
-								width: 1.5vh;
-
-								path {
-									stroke: $foreground-disabled;
-								}
+							mat-icon {
+								color: $foreground-disabled;
+								transform: scale(0.65);
+								width: 24px;
 							}
 
 							div {
@@ -120,6 +115,10 @@ app-navbar {
 								font-weight: bolder;
 								font-size: 0.75rem;
 								color: $foreground-disabled;
+								width: 10vh;
+								white-space: nowrap;
+								overflow: hidden;
+								overflow-x: auto;
 							}
 						}
 					}
@@ -129,6 +128,7 @@ app-navbar {
 						height: 2vh;
 						margin-left: auto;
 						flex-shrink: 0;
+						align-self: center;
 
 						path {
 							stroke: $accent-dark;

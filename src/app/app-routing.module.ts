@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule, inject } from '@angular/core';
+import { CanActivateFn, Router, RouterModule, Routes } from '@angular/router';
+import { Menu, StringService } from 'karikarihelper';
 
 // Views
 import {
@@ -12,6 +13,47 @@ import {
 	RegistryRealmViewComponent,
 } from '@views';
 
+// Services
+import { MenuService } from '@services';
+
+const menuGuard: CanActivateFn = (route, state) => {
+	let ownsCredentials = false;
+
+	const isRouteAccessible = (route: string, menuList: Menu[]) => {
+		for (const menu of menuList) {
+			if (menu.route === StringService.removeLeadingAndTrailingSlashes(route.trim())) {
+				ownsCredentials = true;
+			}
+
+			if (menu.children) {
+				isRouteAccessible(route, menu.children);
+			}
+		}
+	};
+
+	return new Promise<boolean>((resolve, reject) => {
+		const menuService = inject(MenuService);
+		const router = inject(Router);
+
+		menuService.menu.subscribe({
+			next: (menus) => {
+				isRouteAccessible(state.url, menus);
+
+				if (ownsCredentials === false) {
+					router.navigate(['']);
+				}
+
+				resolve(ownsCredentials);
+			},
+			error: () => {
+				router.navigate(['']);
+
+				resolve(false);
+			},
+		});
+	});
+};
+
 const routes: Routes = [
 	{
 		path: '',
@@ -20,6 +62,7 @@ const routes: Routes = [
 	},
 	{
 		path: 'registry',
+		canActivate: [menuGuard],
 		children: [
 			{
 				path: 'event',
