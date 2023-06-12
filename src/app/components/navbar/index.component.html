@@ -50,11 +50,13 @@
 			<app-logo></app-logo>
 			<div class="navbar__logged__profile">
 				<button class="navbar__logged__profile-button" (click)="onProfileClick()">
-					<app-avatar [base64Image]="operator.photo"></app-avatar>
+					<div class="face__photo">
+						<app-avatar [base64Image]="operator.photo"></app-avatar>
+					</div>
 					<div class="face__data">
 						<span>{{ operator.displayName }}</span>
 						<div>
-							<mat-icon>shield_person</mat-icon>
+							<mat-icon>{{ getRoleIcon(operator.role) }}</mat-icon>
 							<div>{{ languageSource[operator.role] }}</div>
 						</div>
 						<div>

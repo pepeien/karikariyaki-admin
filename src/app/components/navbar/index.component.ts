@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AnimationEvent } from '@angular/animations';
-import { Langs, LangKey, Menu, Operator, StringService } from 'karikarihelper';
+import { Langs, LangKey, Menu, Operator, StringService, OperatorRole } from 'karikarihelper';
 
 // Animations
 import { BasicAnimations, LoggedNavbarAnimation, LoginNavbarAnimation } from '@animations';
@@ -335,6 +335,22 @@ export class NavbarComponent implements OnInit {
 		}
 
 		this.loginNavbarSwipeAnimationState = 'left';
+	}
+
+	public getRoleIcon(role: OperatorRole) {
+		switch (role) {
+			case OperatorRole.WORKER:
+				return 'support_agent';
+
+			case OperatorRole.MANAGER:
+				return 'badge';
+
+			case OperatorRole.ADMIN:
+				return 'shield_person';
+
+			default:
+				return 'badge';
+		}
 	}
 
 	public isLanguageActive(languageDisplayName: string) {
