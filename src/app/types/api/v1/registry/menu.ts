@@ -28,9 +28,13 @@ export class MenuRegistryApiV1 extends BaseApi {
 			endpoint.searchParams.append('parentId', params.parentId.trim());
 		}
 
-		if (params?.isRootOnly) {
-			endpoint.searchParams.append('isRootOnly', params.isRootOnly ? 'true' : 'false');
-		}
+		return this.client.get<ApiResponseWrapper<Menu[]>>(endpoint.href, {
+			withCredentials: true,
+		});
+	}
+
+	public searchSelf(): Observable<ApiResponseWrapper<Menu[]>> {
+		const endpoint = new URL(`${this._endpoint}/self`);
 
 		return this.client.get<ApiResponseWrapper<Menu[]>>(endpoint.href, {
 			withCredentials: true,

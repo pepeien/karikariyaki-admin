@@ -34,7 +34,7 @@ export class MenuService {
 		if (this._isFetching === false) {
 			this._isFetching = true;
 
-			this._apiService.V1.menuRegistry.search({ isRootOnly: true }).subscribe({
+			this._apiService.V1.menuRegistry.searchSelf().subscribe({
 				next: (response) => {
 					this._menu = response.result ?? [];
 
