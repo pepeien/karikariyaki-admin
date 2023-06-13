@@ -18,7 +18,7 @@ app-navbar {
 			align-items: center;
 			justify-content: flex-start;
 			overflow: hidden;
-
+			padding-top: 2vh;
 			
 			app-logo {
 				width: 14vh;
@@ -44,7 +44,7 @@ app-navbar {
 				&-button {
 					display: flex;
 					flex-direction: row;
-					align-items: center;
+					align-items: flex-start;
 					justify-content: flex-start;
 					background-color: transparent;
 					width: 100%;
@@ -81,45 +81,62 @@ app-navbar {
 						}
 					}
 	
-					.face__data {
-						display: flex;
-						flex-direction: column;
-						align-items: flex-start;
-						justify-content: center;
-						gap: 0.25vh 0;
-	
-						> span {
-							font-family: 'Nunito';
-							font-weight: bold;
-							font-size: 0.95rem;
-							color: $foreground-brighter;
-							overflow: hidden;
-						}
-
-						div {
+					.face {
+						&__photo {
 							display: flex;
-							flex-direction: row;
+							flex-direction: column;
 							align-items: center;
 							justify-content: flex-start;
-							gap: 0 0.5vh;
-							width: 100%;
-							white-space: nowrap;
-							overflow: hidden;
-							overflow-x: auto;
-
-							svg {
-								width: 1.5vh;
-
-								path {
-									stroke: $foreground-disabled;
-								}
-							}
-
-							div {
-								font-family: 'Nunito';
-								font-weight: bolder;
-								font-size: 0.75rem;
+							gap: 1vh 0;
+		
+							mat-icon {
 								color: $foreground-disabled;
+							}
+						}
+
+						&__data {
+							display: flex;
+							flex-direction: column;
+							align-items: flex-start;
+							justify-content: center;
+							gap: 0.25vh 0;
+							width: 100%;
+		
+							> span {
+								font-family: 'Nunito';
+								font-weight: bold;
+								font-size: 0.95rem;
+								color: $foreground-brighter;
+								overflow: hidden;
+							}
+	
+							> div {
+								display: flex;
+								flex-direction: row;
+								align-items: center;
+								justify-content: flex-start;
+								gap: 0 0.25vh;
+								width: 100%;
+								margin-left: -0.35vh;
+	
+								mat-icon {
+									color: $foreground-disabled;
+									transform: scale(0.7);
+									width: 24px;
+								}
+	
+								div {
+									display: flex;
+									justify-content: flex-start;
+									font-family: 'Nunito';
+									font-weight: bolder;
+									font-size: 0.75rem;
+									color: $foreground-disabled;
+									width: 80%;
+									white-space: nowrap;
+									overflow: hidden;
+									overflow-x: auto;
+								}
 							}
 						}
 					}
@@ -129,6 +146,7 @@ app-navbar {
 						height: 2vh;
 						margin-left: auto;
 						flex-shrink: 0;
+						align-self: center;
 
 						path {
 							stroke: $accent-dark;
