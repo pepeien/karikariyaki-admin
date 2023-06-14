@@ -241,6 +241,12 @@ export class RegistryEventOrderViewComponent implements OnInit {
 		this.isEditorOpen = false;
 		this.editorType = 'creation';
 
+		this.selectedEvent = null;
+		this.selectedItem = null;
+		this.selectedItems = [];
+		this.selectedOperator = null;
+		this.selectedStatus = null;
+
 		this.creationFormGroup.reset();
 		this.editionFormGroup.reset();
 	}
