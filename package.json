@@ -3,9 +3,9 @@
 	"version": "1.0.0",
 	"scripts": {
 		"ng": "ng",
-		"start": "ng serve --host 0.0.0.0",
+		"start": "ng serve --host 0.0.0.0 --port 4200",
 		"build": "ng build",
-		"deploy-gh": "ng build && ngh --cname=example.org --dir=build",
+		"deploy-gh": "ng build && ngh --cname=admin.karikariyaki.com --dir=build",
 		"test": "ng test"
 	},
 	"private": true,
