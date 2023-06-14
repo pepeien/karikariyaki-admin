@@ -82,7 +82,9 @@ main {
 						display: flex;
 						flex-direction: column;
 						align-items: flex-start;
-						gap: 0;
+						justify-content: center;
+						gap: 2vh 0;
+						margin-bottom: 2vh;
 
 						app-auto-complete {
 							width: 100%;
@@ -95,9 +97,26 @@ main {
 							margin: 0 auto;
 							gap: 0 1vh;
 							height: 6vh;
+							width: 100%;
 
 							input {
+								flex-grow: 2;
+								width: 100%;
 								height: 4vh;
+								border: solid 1px $foreground-bright;
+								border-radius: 5px;
+								text-align: center;
+
+								&::-webkit-outer-spin-button,
+								&::-webkit-inner-spin-button {
+								  	-webkit-appearance: none;
+								  	margin: 0;
+								}
+
+								&[type=number] {
+								  	-moz-appearance: textfield;
+									appearance: textfield;
+								}
 							}
 						}
 		
@@ -105,7 +124,8 @@ main {
 							display: flex;
 							align-items: center;
 							justify-content: center;
-							height: 4vh;
+							height: 5vh;
+							flex-grow: 1;
 							width: 100%;
 							padding: 0 1vh;
 							background-color: transparent;
@@ -125,7 +145,7 @@ main {
 						border: solid 1px $foreground-bright;
 						border-radius: $app-input-border-raidus;
 						min-height: 25vh;
-						width: 90%;
+						width: 80%;
 						padding: 2vh;
 						overflow: hidden;
 						overflow-y: auto;
@@ -139,6 +159,7 @@ main {
 							height: 25vh;
 							border-radius: $app-input-border-raidus;
 							overflow: hidden;
+							font-family: 'Nunito';
 		
 							div {
 								width: 100%;
@@ -317,15 +338,6 @@ main {
 						&[data-is-visible="true"] {
 							width: 50vw;
 							height: 75vh;
-						}
-
-						.--items {
-							flex-direction: row;
-							gap: 0 2vh;
-
-							button {
-								width: 5vh;
-							}
 						}
 
 						> ul {
