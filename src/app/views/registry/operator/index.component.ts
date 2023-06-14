@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { FileService, Operator, Realm } from 'karikarihelper';
+import { FileService, Operator, OperatorRole, Realm } from 'karikarihelper';
 
 // Animations
 import { BasicAnimations } from '@animations';
 
 // Services
-import { ApiService, LanguageService } from '@services';
+import { ApiService, LanguageService, OperatorService } from '@services';
 
 // Components
 import { DialogComponent } from '@components';
@@ -41,12 +41,15 @@ export class RegistryOperatorViewComponent implements OnInit {
 	 */
 	public isEditorOpen = false;
 	public didUploadPhoto = false;
+	public canManageRoles = false;
 	public editorType: 'creation' | 'edition' = 'edition';
 	public deletionTarget: Operator | undefined;
 	public editionTarget: Operator | undefined;
 	public availableRealms: Realm[] = [];
-	public selectedRealm: Realm | null = null;
+	public selectedRealm: Realm | undefined;
 	public selectedPhotoBase64: string | undefined;
+	public availableOperatorRoles: string[] = [];
+	public selectedRole: string | undefined;
 
 	/**
 	 * Language
@@ -60,15 +63,18 @@ export class RegistryOperatorViewComponent implements OnInit {
 		displayName: new FormControl('', [Validators.required]),
 		userName: new FormControl('', [Validators.required]),
 		realm: new FormControl({ value: '', disabled: true }, [Validators.required]),
+		role: new FormControl({ value: '', disabled: true }, [Validators.required]),
 	});
 	public editionFormGroup = new FormGroup({
 		displayName: new FormControl('', [Validators.required]),
+		role: new FormControl({ value: '', disabled: true }, [Validators.required]),
 	});
 
 	constructor(
 		private _apiService: ApiService,
 		private _dialog: MatDialog,
 		private _languageService: LanguageService,
+		private _operatorService: OperatorService,
 	) {}
 
 	ngOnInit(): void {
@@ -77,6 +83,19 @@ export class RegistryOperatorViewComponent implements OnInit {
 		this._languageService.language.subscribe({
 			next: (nextLanguage) => {
 				this.languageSource = nextLanguage;
+			},
+		});
+
+		this._operatorService.operator.subscribe({
+			next: (operator) => {
+				if (!operator) {
+					this.canManageRoles = false;
+
+					return;
+				}
+
+				this.canManageRoles =
+					operator.role === OperatorRole.ADMIN || operator.role === OperatorRole.MANAGER;
 			},
 		});
 	}
@@ -97,6 +116,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 		return (
 			this.editionFormGroup.controls.displayName.value?.trim() ===
 				this.editionTarget.displayName.trim() &&
+			this.selectedRole === this.editionTarget.role &&
 			this.editionTarget.photo === this.selectedPhotoBase64
 		);
 	}
@@ -105,6 +125,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 		this.onCancel();
 
 		this._updateAvailableRealms();
+		this._updateAvailableRoles();
 
 		this.isEditorOpen = true;
 		this.editorType = 'creation';
@@ -114,8 +135,9 @@ export class RegistryOperatorViewComponent implements OnInit {
 		const userName = this.creationFormGroup.controls.userName.value as string;
 		const displayName = this.creationFormGroup.controls.displayName.value as string;
 		const realm = this.selectedRealm;
+		const role = this.selectedRole;
 
-		if (this.creationFormGroup.invalid || !userName || !displayName || !realm) {
+		if (this.creationFormGroup.invalid || !userName || !displayName || !realm || !role) {
 			return;
 		}
 
@@ -124,6 +146,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 				userName: userName,
 				displayName: displayName,
 				realmId: realm._id,
+				role: this.canManageRoles ? role : undefined,
 				photo: this.selectedPhotoBase64 ?? undefined,
 			})
 			.subscribe({
@@ -136,11 +159,13 @@ export class RegistryOperatorViewComponent implements OnInit {
 	public onEditionInit(item: Operator) {
 		this.onCancel();
 
+		this._updateAvailableRoles();
+
 		this.isEditorOpen = true;
 		this.editorType = 'edition';
 
 		this.editionFormGroup.controls.displayName.setValue(item.displayName);
-
+		this.editionFormGroup.controls.role.setValue(item.role);
 		this.selectedPhotoBase64 = item.photo;
 
 		this.editionTarget = item;
@@ -152,12 +177,17 @@ export class RegistryOperatorViewComponent implements OnInit {
 		}
 
 		const nextDisplayName = this.editionFormGroup.controls.displayName.value as string;
+		const nextRole = this.selectedRole;
 
 		this._apiService.V1.operatorRegistry
 			.edit(this.editionTarget._id, {
 				displayName:
 					this.editionTarget.displayName !== nextDisplayName
 						? nextDisplayName
+						: undefined,
+				role:
+					this.editionTarget.role !== nextRole && this.canManageRoles
+						? nextRole
 						: undefined,
 				photo: this.didUploadPhoto ? this.selectedPhotoBase64 : undefined,
 			})
@@ -177,7 +207,8 @@ export class RegistryOperatorViewComponent implements OnInit {
 		this.didUploadPhoto = false;
 		this.selectedPhotoBase64 = undefined;
 
-		this.selectedRealm = null;
+		this.selectedRealm = undefined;
+		this.selectedRole = undefined;
 
 		this.creationFormGroup.reset();
 		this.editionFormGroup.reset();
@@ -238,12 +269,22 @@ export class RegistryOperatorViewComponent implements OnInit {
 
 	public onRealmSelection(selectedRealms: Realm[]) {
 		if (selectedRealms.length === 0) {
-			this.selectedRealm = null;
+			this.selectedRealm = undefined;
 
 			return;
 		}
 
 		this.selectedRealm = selectedRealms[0];
+	}
+
+	public onRoleSelection(selectedRoles: string[]) {
+		if (selectedRoles.length === 0) {
+			this.selectedRealm = undefined;
+
+			return;
+		}
+
+		this.selectedRole = selectedRoles[0];
 	}
 
 	private _onSuccessfulResponse() {
@@ -274,6 +315,26 @@ export class RegistryOperatorViewComponent implements OnInit {
 				}
 
 				this.availableRealms = response.result;
+			},
+		});
+	}
+
+	private _updateAvailableRoles() {
+		if (this.canManageRoles === false) {
+			this.availableOperatorRoles = [];
+
+			return;
+		}
+
+		this._apiService.V1.operatorRegistry.roles().subscribe({
+			next: (response) => {
+				if (response.wasSuccessful === false || !response.result) {
+					this.availableOperatorRoles = [];
+
+					return;
+				}
+
+				this.availableOperatorRoles = response.result;
 			},
 		});
 	}

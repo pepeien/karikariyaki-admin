@@ -28,6 +28,15 @@
 						(onSelection)="onRealmSelection($event)"
 					>
 					</app-auto-complete>
+					<app-auto-complete
+						*ngIf="canManageRoles"
+						[label]="languageSource['REGISTRY_OPERATOR_ROLE_INPUT']"
+						[data]="availableOperatorRoles"
+						[formGroup]="creationFormGroup"
+						[controlName]="'role'"
+						(onSelection)="onRoleSelection($event)"
+					>
+					</app-auto-complete>
 				</form>
 				<app-file-selector
 					[label]="languageSource['REGISTRY_OPERATOR_PHOTO_INPUT']"
@@ -44,6 +53,14 @@
 						<mat-label>{{ languageSource['REGISTRY_OPERATOR_DISPLAY_NAME_INPUT'] }}</mat-label>
 						<input matInput formControlName="displayName" required>
 					</mat-form-field>
+					<app-auto-complete
+						[label]="languageSource['REGISTRY_EVENT_ORDER_STATUS_INPUT']"
+						[data]="availableOperatorRoles"
+						[formGroup]="editionFormGroup"
+						[controlName]="'role'"
+						(onSelection)="onRoleSelection($event)"
+					>
+					</app-auto-complete>
 				</form>
 				<app-file-selector
 					[label]="languageSource['REGISTRY_OPERATOR_PHOTO_INPUT']"

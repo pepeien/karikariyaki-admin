@@ -33,6 +33,14 @@ export class OperatorRegistryApiV1 extends BaseApi {
 		});
 	}
 
+	public roles(): Observable<ApiResponseWrapper<string[]>> {
+		const endpoint = new URL(this._endpoint + '/roles');
+
+		return this.client.get<ApiResponseWrapper<string[]>>(endpoint.href, {
+			withCredentials: true,
+		});
+	}
+
 	public searchSelf(): Observable<ApiResponseWrapper<Operator>> {
 		const endpoint = new URL(`${this._endpoint}/self`);
 
@@ -50,6 +58,7 @@ export class OperatorRegistryApiV1 extends BaseApi {
 				displayName: params.displayName,
 				userName: params.userName,
 				realmId: params.realmId,
+				role: params.role,
 				photo: params.photo,
 			},
 			{
@@ -68,6 +77,7 @@ export class OperatorRegistryApiV1 extends BaseApi {
 			endpoint.href,
 			{
 				displayName: params.displayName,
+				role: params.role,
 				photo: params.photo,
 			},
 			{
