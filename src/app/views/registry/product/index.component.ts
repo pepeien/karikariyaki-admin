@@ -167,6 +167,8 @@ export class RegistryProductViewComponent implements OnInit {
 		this.isEditorOpen = false;
 		this.editorType = 'creation';
 
+		this.selectedRealm = null;
+
 		this.creationFormGroup.reset();
 		this.editionFormGroup.reset();
 	}
