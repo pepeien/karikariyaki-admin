@@ -41,7 +41,6 @@ export class ProductRegistryApiV1 extends BaseApi {
 			{
 				name: params.name,
 				realmId: params.realmId,
-				parentId: params.parentId,
 			},
 			{
 				withCredentials: true,

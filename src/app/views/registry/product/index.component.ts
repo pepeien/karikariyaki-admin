@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Product, Realm } from 'karikarihelper';
+import { OperatorRole, Product, Realm } from 'karikarihelper';
 
 // Animations
 import { BasicAnimations } from '@animations';
 
 // Services
-import { ApiService, LanguageService } from '@services';
+import { ApiService, LanguageService, OperatorService } from '@services';
 
 // Components
 import { DialogComponent } from '@components';
@@ -39,14 +39,13 @@ export class RegistryProductViewComponent implements OnInit {
 	/**
 	 * Editor
 	 */
+	public canManageStands = false;
 	public isEditorOpen = false;
 	public editorType: 'creation' | 'edition' = 'edition';
 	public deletionTarget: Product | undefined;
 	public editionTarget: Product | undefined;
 	public availableRealms: Realm[] = [];
 	public selectedRealm: Realm | null = null;
-	public availableProducts: Product[] = [];
-	public selectedProduct: Product | null = null;
 
 	/**
 	 * Language
@@ -58,8 +57,7 @@ export class RegistryProductViewComponent implements OnInit {
 	 */
 	public creationFormGroup = new FormGroup({
 		name: new FormControl('', [Validators.required]),
-		realm: new FormControl({ value: '', disabled: true }, [Validators.required]),
-		parent: new FormControl({ value: '', disabled: true }),
+		realm: new FormControl({ value: '', disabled: true }, []),
 	});
 	public editionFormGroup = new FormGroup({
 		name: new FormControl('', [Validators.required]),
@@ -69,6 +67,7 @@ export class RegistryProductViewComponent implements OnInit {
 		private _apiService: ApiService,
 		private _dialog: MatDialog,
 		private _languageService: LanguageService,
+		private _operatorService: OperatorService,
 	) {}
 
 	ngOnInit(): void {
@@ -77,6 +76,18 @@ export class RegistryProductViewComponent implements OnInit {
 		this._languageService.language.subscribe({
 			next: (nextLanguage) => {
 				this.languageSource = nextLanguage;
+			},
+		});
+
+		this._operatorService.operator.subscribe({
+			next: (operator) => {
+				if (!operator) {
+					this.canManageStands = false;
+
+					return;
+				}
+
+				this.canManageStands = operator.role === OperatorRole.ADMIN;
 			},
 		});
 	}
@@ -101,25 +112,22 @@ export class RegistryProductViewComponent implements OnInit {
 		this.onCancel();
 
 		this._updateAvailableRealms();
-		this._updateAvailableProducts();
 
 		this.isEditorOpen = true;
 		this.editorType = 'creation';
 	}
 
 	public onCreation() {
-		if (this.creationFormGroup.invalid || !this.selectedRealm) {
+		if (this.creationFormGroup.invalid) {
 			return;
 		}
 
 		const realm = this.selectedRealm;
-		const parent = this.selectedProduct;
 
 		this._apiService.V1.productRegistry
 			.save({
 				name: this.creationFormGroup.controls.name.value as string,
-				realmId: realm._id,
-				parentId: parent ? parent._id : undefined,
+				realmId: this.canManageStands ? realm?._id : undefined,
 			})
 			.subscribe({
 				next: () => {
@@ -158,9 +166,6 @@ export class RegistryProductViewComponent implements OnInit {
 	public onCancel() {
 		this.isEditorOpen = false;
 		this.editorType = 'creation';
-
-		this.selectedProduct = null;
-		this.selectedProduct = null;
 
 		this.creationFormGroup.reset();
 		this.editionFormGroup.reset();
@@ -212,18 +217,8 @@ export class RegistryProductViewComponent implements OnInit {
 		this.selectedRealm = selectedRealms[0];
 	}
 
-	public onProductSelection(selectedProducts: Product[]) {
-		if (selectedProducts.length === 0) {
-			this.selectedRealm = null;
-
-			return;
-		}
-
-		this.selectedProduct = selectedProducts[0];
-	}
-
 	public isCreationInvalid() {
-		return this.creationFormGroup.invalid || !this.selectedRealm;
+		return this.creationFormGroup.invalid;
 	}
 
 	public isEditInvalid() {
@@ -258,20 +253,6 @@ export class RegistryProductViewComponent implements OnInit {
 				}
 
 				this.availableRealms = response.result;
-			},
-		});
-	}
-
-	private _updateAvailableProducts() {
-		this._apiService.V1.productRegistry.search().subscribe({
-			next: (response) => {
-				if (response.wasSuccessful === false || !response.result) {
-					this.availableRealms = [];
-
-					return;
-				}
-
-				this.availableProducts = response.result.filter((product) => !product.parent);
 			},
 		});
 	}

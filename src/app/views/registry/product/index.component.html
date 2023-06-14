@@ -16,21 +16,13 @@
 						<input matInput formControlName="name" required>
 					</mat-form-field>
 					<app-auto-complete
+						*ngIf="canManageStands"
 						[label]="languageSource['REGISTRY_PRODUCT_REALM_INPUT']"
 						[data]="availableRealms"
 						[formGroup]="creationFormGroup"
 						[controlName]="'realm'"
 						[optionGetter]="displayRealmAutocomplete"
 						(onSelection)="onRealmSelection($event)"
-					>
-					</app-auto-complete>
-					<app-auto-complete
-						[label]="languageSource['REGISTRY_PRODUCT_PARENT_INPUT']"
-						[data]="availableProducts"
-						[formGroup]="creationFormGroup"
-						[controlName]="'parent'"
-						[optionGetter]="displayProductAutocomplete"
-						(onSelection)="onProductSelection($event)"
 					>
 					</app-auto-complete>
 				</form>
