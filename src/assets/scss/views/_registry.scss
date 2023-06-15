@@ -77,6 +77,113 @@ main {
 						border: 1px solid #0000001f;
 					}
 
+					.--ingredients {
+						width: 100%;
+						display: flex;
+						flex-direction: column;
+						gap: 1vh 0;
+	
+						> h2 {
+							font-family: 'Nunito';
+							font-size: 2vh;
+							margin-bottom: 2vh;
+						}
+
+						> div {
+							width: 100%;
+							display: flex;
+							flex-direction: row;
+							gap: 0 2vh;
+
+							.--name {
+								flex-grow: 2;
+								height: 8vh;
+							}
+
+							.--type {
+								flex-grow: 1;
+								display: flex;
+								flex-direction: column;
+
+								label {
+									font-family: 'Nunito';
+								}
+							}
+						}
+
+						> button {
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							height: 5vh;
+							flex-grow: 1;
+							width: 100%;
+							padding: 0 1vh;
+							background-color: transparent;
+							border: solid 1px $foreground-bright;
+							border-radius: 5px;
+						}
+
+						> ul {
+							display: grid;
+							grid-template-columns: repeat(auto-fill, minmax(20vh, 1fr));
+							gap: 2vh;
+							border: solid 1px $foreground-bright;
+							border-radius: $app-input-border-raidus;
+							height: 25vh;
+							width: 80%;
+							padding: 2vh;
+							overflow: hidden;
+							overflow-y: auto;
+							margin: 2vh auto;
+					
+							li {
+								display: flex;
+								flex-direction: row;
+								align-items: center;
+								gap: 1vh;
+								height: 10vh;
+								padding-left: 1vh;
+								background-color: rgba(173, 167, 167, 0.2);
+								border-radius: 14px;
+								overflow: hidden;
+
+								.--data {
+									display: flex;
+									flex-direction: column;
+									padding: 1vh;
+									gap: 1vh 0;
+
+									span {
+										font-family: 'Nunito';
+										font-size: 0.8rem;
+									}
+								}
+
+								.--actions {
+									display: flex;
+									flex-direction: column;
+									margin-left: auto;
+									height: 100%;
+
+									button {
+										display: flex;
+										align-items: center;
+										justify-self: center;
+										height: 100%;
+										background-color: $foreground-bright;
+										padding: 1vh 1.5vh;
+										color: $accent-bright;
+									}
+
+									.--delete {
+										background-color: $red-dark;
+									}
+								}
+							}
+						}
+					}
+
 					.--items {
 						width: 100%;
 						display: flex;
