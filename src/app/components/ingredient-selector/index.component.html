@@ -1,0 +1,34 @@
+<div class="ingredient__selector" [attr.data-is-empty]="optionalIngredientItems.length === 0">
+	<span class="ingredient__selector-title">{{ languageSource['REGISTRY_EVENT_ORDER_ITEMS_OPTIONAL_TITLE'] }}</span>
+	<ul class="ingredient__selector-listing">
+		<li
+			*ngFor="let ingredient of optionalIngredientItems"
+			class="ingredient__selector__item"
+			[attr.data-is-selected]="isOptionalIngredientSelected(ingredient)"
+			(click)="onOptionalIngredientClick(ingredient)"
+			[@pop]
+		>
+			<div class="ingredient__selector__item-data">
+				<span>{{ languageSource['REGISTRY_PRODUCT_INGREDIENT_NAME_INPUT'] }}: {{ ingredient.data.name }}</span>
+				<span>{{ languageSource['REGISTRY_PRODUCT_INGREDIENT_TYPE_INPUT'] }}: {{ languageSource[ingredient.data.type] }}</span>
+			</div>
+		</li>
+	</ul>
+</div>
+<div class="ingredient__selector" [attr.data-is-empty]="additionalIngredientItems.length === 0">
+	<span class="ingredient__selector-title">{{ languageSource['REGISTRY_EVENT_ORDER_ITEMS_ADDITIONAL_TITLE'] }}</span>
+	<ul class="ingredient__selector-listing">
+		<li
+			*ngFor="let ingredient of additionalIngredientItems"
+			class="ingredient__selector__item"
+			[attr.data-is-selected]="isAdditionalIngredientSelected(ingredient)"
+			(click)="onAdditionalIngredientClick(ingredient)"
+			[@pop]
+		>
+			<div class="ingredient__selector__item-data">
+				<span>{{ languageSource['REGISTRY_PRODUCT_INGREDIENT_NAME_INPUT'] }}: {{ ingredient.data.name }}</span>
+				<span>{{ languageSource['REGISTRY_PRODUCT_INGREDIENT_TYPE_INPUT'] }}: {{ languageSource[ingredient.data.type] }}</span>
+			</div>
+		</li>
+	</ul>
+</div>
