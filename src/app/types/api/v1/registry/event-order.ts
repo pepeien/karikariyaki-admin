@@ -61,7 +61,7 @@ export class EventOrderRegistryApiV1 extends BaseApi {
 				status: params.status,
 				operatorId: params.operatorId,
 				clientName: params.clientName,
-				itemsId: params.itemsId,
+				items: params.items,
 			},
 			{
 				withCredentials: true,

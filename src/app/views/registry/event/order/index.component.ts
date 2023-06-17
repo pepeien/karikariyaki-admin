@@ -2,7 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Event, EventOrder, Operator, OrderItem, Product } from 'karikarihelper';
+import {
+	Event,
+	EventOrder,
+	Ingredient,
+	Operator,
+	OrderItem,
+	OrderItemParam,
+	Product,
+} from 'karikarihelper';
 import { v4 } from 'uuid';
 
 // Animations
@@ -13,6 +21,11 @@ import { ApiService, LanguageService } from '@services';
 
 // Components
 import { DialogComponent } from '@components';
+
+interface IdedOrderItem {
+	id: string;
+	data: OrderItem;
+}
 
 @Component({
 	selector: 'app-registry-event-order-view',
@@ -86,8 +99,10 @@ export class RegistryEventOrderViewComponent implements OnInit {
 	public selectedEvent: Event | null = null;
 	public selectedStatus: string | null = null;
 	public selectedOperator: Operator | null = null;
-	public selectedItem: Product | null = null;
-	public selectedItems: OrderItem[] = [];
+	public selectedProduct: Product | null = null;
+	public selectedOptionalIngredients: Ingredient[] = [];
+	public selectedAdditionalIngredients: Ingredient[] = [];
+	public selectedItems: IdedOrderItem[] = [];
 
 	constructor(
 		private _apiService: ApiService,
@@ -127,6 +142,14 @@ export class RegistryEventOrderViewComponent implements OnInit {
 		);
 	}
 
+	public onOptionalSelection(ingredients: Ingredient[]) {
+		this.selectedOptionalIngredients = ingredients;
+	}
+
+	public onAdditionalSelection(ingredients: Ingredient[]) {
+		this.selectedAdditionalIngredients = ingredients;
+	}
+
 	public onCreationInit() {
 		this._updateAvailableEvents();
 		this._updateAvailableOperators();
@@ -161,7 +184,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 				status: status,
 				operatorId: operator._id,
 				clientName: clientName,
-				itemsId: this._extractObjectIdsFromProducts(items),
+				items: this._extractItems(items),
 			})
 			.subscribe({
 				next: () => {
@@ -242,7 +265,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 		this.editorType = 'creation';
 
 		this.selectedEvent = null;
-		this.selectedItem = null;
+		this.selectedProduct = null;
 		this.selectedItems = [];
 		this.selectedOperator = null;
 		this.selectedStatus = null;
@@ -331,14 +354,20 @@ export class RegistryEventOrderViewComponent implements OnInit {
 	}
 
 	public onProductConfirmation() {
-		if (!this.selectedItem) {
+		if (!this.selectedProduct) {
 			return;
 		}
 
 		for (let i = 0; i < this.productCount; i++) {
 			this.selectedItems.push({
 				id: v4(),
-				product: this.selectedItem,
+				data: {
+					product: this.selectedProduct,
+					modifications: [
+						...this.selectedOptionalIngredients,
+						...this.selectedAdditionalIngredients,
+					],
+				},
 			});
 		}
 
@@ -383,19 +412,22 @@ export class RegistryEventOrderViewComponent implements OnInit {
 
 	public onProductSelection(nextSelectedProducts: Product[]) {
 		if (!nextSelectedProducts) {
-			this.selectedItem = null;
+			this.selectedProduct = null;
 
 			return;
 		}
 
-		this.selectedItem = nextSelectedProducts[0];
+		this.selectedProduct = nextSelectedProducts[0];
 	}
 
-	private _extractObjectIdsFromProducts(items: OrderItem[]) {
-		const result: string[] = [];
+	private _extractItems(items: IdedOrderItem[]): OrderItemParam[] {
+		const result: OrderItemParam[] = [];
 
 		items.forEach((item) => {
-			result.push(item.product._id);
+			result.push({
+				productId: item.data.product._id,
+				modifications: item.data.modifications,
+			});
 		});
 
 		return result;

@@ -51,6 +51,14 @@
 							(onSelection)="onProductSelection($event)"
 						>
 						</app-auto-complete>
+						<div class="--ingredients">
+							<app-ingredient-selector
+								[ingredients]="selectedProduct?.ingredients ?? []"
+								(onOptionalSelection)="onOptionalSelection($event)"
+								(onAdditionalSelection)="onAdditionalSelection($event)"
+							>
+							</app-ingredient-selector>
+						</div>
 						<div class="--items__selector">
 							<button (click)="onProductCountDecrement()" [disabled]="productCount <= MIN_PRODUCT_COUNT">
 								<mat-icon>remove</mat-icon>
@@ -70,7 +78,7 @@
 						<button
 							class="--check"
 							(click)="onProductConfirmation()"
-							[disabled]="!selectedItem"
+							[disabled]="!selectedProduct"
 						>
 							<mat-icon>check</mat-icon>
 						</button>
@@ -79,7 +87,7 @@
 				<ul class="item__listing">
 					<li *ngFor="let selectedItem of selectedItems; index as i">
 						<div>
-							<span>{{ selectedItem.product.name }}</span>
+							<span>{{ selectedItem.data.product.name }}</span>
 						</div>
 						<button class="--delete" (click)="onItemDeletion(selectedItem.id)">
 							<mat-icon>delete</mat-icon>

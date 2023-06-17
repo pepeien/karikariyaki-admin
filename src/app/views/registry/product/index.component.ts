@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Ingredient, IngredientType, OperatorRole, Product, Realm } from 'karikarihelper';
-import { v4 } from 'uuid';
+import { Ingredient, OperatorRole, Product, Realm } from 'karikarihelper';
 
 // Animations
 import { AutomaticAnimation, BasicAnimations } from '@animations';
@@ -13,12 +12,6 @@ import { ApiService, LanguageService, OperatorService } from '@services';
 
 // Components
 import { DialogComponent } from '@components';
-import { MatRadioChange } from '@angular/material/radio';
-
-interface IngredientItem {
-	id: string;
-	data: Ingredient;
-}
 
 @Component({
 	selector: 'app-registry-product-view',
@@ -54,9 +47,7 @@ export class RegistryProductViewComponent implements OnInit {
 	public editionTarget: Product | undefined;
 	public availableRealms: Realm[] = [];
 	public selectedRealm: Realm | null = null;
-	public availableIngredientTypes = Object.values(IngredientType);
-	public selectedIngredientType = this.availableIngredientTypes[0];
-	public ingredients: IngredientItem[] = [];
+	public ingredients: Ingredient[] = [];
 
 	/**
 	 * Language
@@ -68,12 +59,10 @@ export class RegistryProductViewComponent implements OnInit {
 	 */
 	public creationFormGroup = new FormGroup({
 		name: new FormControl('', [Validators.required]),
-		realm: new FormControl({ value: '', disabled: true }, []),
-		ingredientName: new FormControl('', []),
+		realm: new FormControl({ value: '', disabled: true }, [Validators.required]),
 	});
 	public editionFormGroup = new FormGroup({
 		name: new FormControl('', [Validators.required]),
-		ingredientName: new FormControl('', []),
 	});
 
 	constructor(
@@ -141,7 +130,7 @@ export class RegistryProductViewComponent implements OnInit {
 			.save({
 				name: this.creationFormGroup.controls.name.value as string,
 				realmId: this.canManageStands ? realm?._id : undefined,
-				ingredients: this._extractIngredients(),
+				ingredients: this.ingredients,
 			})
 			.subscribe({
 				next: () => {
@@ -159,13 +148,6 @@ export class RegistryProductViewComponent implements OnInit {
 		this.editionFormGroup.controls.name.setValue(item.name);
 
 		this.editionTarget = item;
-
-		this.editionTarget.ingredients.forEach((ingredient) => {
-			this.ingredients.unshift({
-				id: v4(),
-				data: ingredient,
-			});
-		});
 	}
 
 	public onEdition() {
@@ -176,7 +158,7 @@ export class RegistryProductViewComponent implements OnInit {
 		this._apiService.V1.productRegistry
 			.edit(this.editionTarget._id, {
 				name: this.editionFormGroup.controls.name.value as string,
-				ingredients: this._extractIngredients(),
+				ingredients: this.ingredients,
 			})
 			.subscribe({
 				next: () => {
@@ -191,7 +173,6 @@ export class RegistryProductViewComponent implements OnInit {
 
 		this.editionTarget = undefined;
 		this.selectedRealm = null;
-		this.selectedIngredientType = this.availableIngredientTypes[0];
 		this.ingredients = [];
 
 		this.creationFormGroup.reset();
@@ -244,30 +225,8 @@ export class RegistryProductViewComponent implements OnInit {
 		this.selectedRealm = selectedRealms[0];
 	}
 
-	public onIngredientTypeSelection(event: MatRadioChange) {
-		this.selectedIngredientType = event.value as IngredientType;
-	}
-
-	public onIngredientRemove(id: string) {
-		this.ingredients = this.ingredients.filter((ingredient) => ingredient.id !== id);
-	}
-
-	public onIngredientCreation() {
-		if (this.isIgredientInvalid()) {
-			return;
-		}
-
-		const ingredientName = this.editionTarget
-			? this.editionFormGroup.controls.ingredientName.value
-			: this.creationFormGroup.controls.ingredientName.value;
-
-		this.ingredients.unshift({
-			id: v4(),
-			data: {
-				name: ingredientName ?? '',
-				type: this.selectedIngredientType,
-			},
-		});
+	public onIngredientCreation(ingredients: Ingredient[]) {
+		this.ingredients = ingredients;
 	}
 
 	public isCreationInvalid() {
@@ -276,24 +235,6 @@ export class RegistryProductViewComponent implements OnInit {
 
 	public isEditInvalid() {
 		return this.editionFormGroup.invalid;
-	}
-
-	public isIgredientInvalid() {
-		const ingredientName = this.editionTarget
-			? this.editionFormGroup.controls.ingredientName.value
-			: this.creationFormGroup.controls.ingredientName.value;
-
-		return !ingredientName || !this.selectedIngredientType;
-	}
-
-	private _extractIngredients(): Ingredient[] {
-		const result: Ingredient[] = [];
-
-		this.ingredients.forEach((ingredient) => {
-			result.unshift(ingredient.data);
-		});
-
-		return result;
 	}
 
 	private _onSuccessfulResponse() {

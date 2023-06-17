@@ -28,43 +28,9 @@
 					<div class="--ingredients">
 						<h2> {{ languageSource['REGISTRY_PRODUCT_INGREDIENT_TITLE'] }}</h2>
 						<div>
-							<mat-form-field appearance="outline" class="--name">
-								<mat-label>{{ languageSource['REGISTRY_PRODUCT_INGREDIENT_NAME_INPUT'] }}</mat-label>
-								<input matInput formControlName="ingredientName">
-							</mat-form-field>
-							<div class="--type">
-								<label id="igredient-type">{{ languageSource['REGISTRY_PRODUCT_INGREDIENT_TYPE_INPUT'] }}</label>
-								<mat-radio-group
-									aria-labelledby="igredient-type"
-									[value]="selectedIngredientType"
-									(change)="onIngredientTypeSelection($event)"
-								>
-									<mat-radio-button
-										*ngFor="let ingredientType of availableIngredientTypes"
-										color="warn"
-										[value]="ingredientType"
-									>
-										{{ languageSource[ingredientType] }}
-									</mat-radio-button>
-								</mat-radio-group>
-							</div>
+							<app-ingredient-creator (onCreation)="onIngredientCreation($event)">
+							</app-ingredient-creator>
 						</div>
-						<button (click)="onIngredientCreation()" [disabled]="isIgredientInvalid()">
-							<mat-icon>add</mat-icon>
-						</button>
-						<ul class="ingredient__listing">
-							<li *ngFor="let ingredient of ingredients" [@pop]>
-								<div class="--data">
-									<span>{{ languageSource['REGISTRY_PRODUCT_INGREDIENT_NAME_INPUT'] }}: {{ ingredient.data.name }}</span>
-									<span>{{ languageSource['REGISTRY_PRODUCT_INGREDIENT_TYPE_INPUT'] }}: {{ languageSource[ingredient.data.type] }}</span>
-								</div>
-								<div class="--actions">
-									<button class="--delete" (click)="onIngredientRemove(ingredient.id)">
-										<mat-icon>delete</mat-icon>
-									</button>
-								</div>
-							</li>
-						</ul>
 					</div>
 				</form>
 			</div>
@@ -78,43 +44,12 @@
 					<div class="--ingredients">
 						<h2> {{ languageSource['REGISTRY_PRODUCT_INGREDIENT_TITLE'] }}</h2>
 						<div>
-							<mat-form-field appearance="outline" class="--name">
-								<mat-label>{{ languageSource['REGISTRY_PRODUCT_INGREDIENT_NAME_INPUT'] }}</mat-label>
-								<input matInput formControlName="ingredientName">
-							</mat-form-field>
-							<div class="--type">
-								<label id="igredient-type">{{ languageSource['REGISTRY_PRODUCT_INGREDIENT_TYPE_INPUT'] }}</label>
-								<mat-radio-group
-									aria-labelledby="igredient-type"
-									[value]="selectedIngredientType"
-									(change)="onIngredientTypeSelection($event)"
-								>
-									<mat-radio-button
-										*ngFor="let ingredientType of availableIngredientTypes"
-										color="warn"
-										[value]="ingredientType"
-									>
-										{{ languageSource[ingredientType] }}
-									</mat-radio-button>
-								</mat-radio-group>
-							</div>
+							<app-ingredient-creator
+								[ingredients]="editionTarget?.ingredients ?? []"
+								(onCreation)="onIngredientCreation($event)"
+							>
+							</app-ingredient-creator>
 						</div>
-						<button (click)="onIngredientCreation()" [disabled]="isIgredientInvalid()">
-							<mat-icon>add</mat-icon>
-						</button>
-						<ul class="ingredient__listing">
-							<li *ngFor="let ingredient of ingredients" [@pop]>
-								<div class="--data">
-									<span>{{ languageSource['REGISTRY_PRODUCT_INGREDIENT_NAME_INPUT'] }}: {{ ingredient.data.name }}</span>
-									<span>{{ languageSource['REGISTRY_PRODUCT_INGREDIENT_TYPE_INPUT'] }}: {{ languageSource[ingredient.data.type] }}</span>
-								</div>
-								<div class="--actions">
-									<button class="--delete" (click)="onIngredientRemove(ingredient.id)">
-										<mat-icon>delete</mat-icon>
-									</button>
-								</div>
-							</li>
-						</ul>
 					</div>
 				</form>
 			</div>
