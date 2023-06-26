@@ -126,7 +126,7 @@ export class RegistryProductViewComponent implements OnInit {
 
 		const realm = this.selectedRealm;
 
-		this._apiService.V1.productRegistry
+		this._apiService.V1.registry.product
 			.save({
 				name: this.creationFormGroup.controls.name.value as string,
 				realmId: this.canManageStands ? realm?._id : undefined,
@@ -155,7 +155,7 @@ export class RegistryProductViewComponent implements OnInit {
 			return;
 		}
 
-		this._apiService.V1.productRegistry
+		this._apiService.V1.registry.product
 			.edit(this.editionTarget._id, {
 				name: this.editionFormGroup.controls.name.value as string,
 				ingredients: this.ingredients,
@@ -208,7 +208,7 @@ export class RegistryProductViewComponent implements OnInit {
 			return;
 		}
 
-		this._apiService.V1.productRegistry.delete(this.deletionTarget._id).subscribe({
+		this._apiService.V1.registry.product.delete(this.deletionTarget._id).subscribe({
 			next: () => {
 				this._onSuccessfulResponse();
 			},
@@ -244,7 +244,7 @@ export class RegistryProductViewComponent implements OnInit {
 	}
 
 	private _refreshList() {
-		this._apiService.V1.productRegistry.search().subscribe({
+		this._apiService.V1.registry.product.search().subscribe({
 			next: (response) => {
 				if (!response.result) {
 					return;
@@ -256,7 +256,7 @@ export class RegistryProductViewComponent implements OnInit {
 	}
 
 	private _updateAvailableRealms() {
-		this._apiService.V1.realmRegistry.search().subscribe({
+		this._apiService.V1.registry.realm.search().subscribe({
 			next: (response) => {
 				if (response.wasSuccessful === false || !response.result) {
 					this.availableRealms = [];

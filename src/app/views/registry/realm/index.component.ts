@@ -97,7 +97,7 @@ export class RegistryRealmViewComponent implements OnInit {
 			return;
 		}
 
-		this._apiService.V1.realmRegistry
+		this._apiService.V1.registry.realm
 			.save({
 				name: name,
 			})
@@ -126,7 +126,7 @@ export class RegistryRealmViewComponent implements OnInit {
 
 		const nextName = this.editionFormGroup.controls.name.value as string;
 
-		this._apiService.V1.realmRegistry
+		this._apiService.V1.registry.realm
 			.edit(this.editionTarget._id, {
 				name: this.editionTarget.name !== nextName ? nextName : undefined,
 			})
@@ -176,7 +176,7 @@ export class RegistryRealmViewComponent implements OnInit {
 			return;
 		}
 
-		this._apiService.V1.realmRegistry.delete(this.deletionTarget._id).subscribe({
+		this._apiService.V1.registry.realm.delete(this.deletionTarget._id).subscribe({
 			next: () => {
 				this._onSuccessfulResponse();
 			},
@@ -190,7 +190,7 @@ export class RegistryRealmViewComponent implements OnInit {
 	}
 
 	private _refreshList() {
-		this._apiService.V1.realmRegistry.search().subscribe({
+		this._apiService.V1.registry.realm.search().subscribe({
 			next: (response) => {
 				if (!response.result) {
 					return;

@@ -1,15 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 
 // Types
-import {
-	EventOrderRegistryApiV1,
-	EventRegistryApiV1,
-	MenuRegistryApiV1,
-	OperatorAdminApiV1,
-	OperatorRegistryApiV1,
-	ProductRegistryApiV1,
-	RealmRegistryApiV1,
-} from '@types';
+import { ApiV1OperatorAuth } from '@types';
+import { Registry } from './registry';
 
 export class ApiV1 {
 	private _client: HttpClient;
@@ -18,31 +11,11 @@ export class ApiV1 {
 		this._client = client;
 	}
 
-	public get eventRegistry() {
-		return new EventRegistryApiV1(this._client);
+	public get operator() {
+		return new ApiV1OperatorAuth(this._client);
 	}
 
-	public get eventOrderRegistry() {
-		return new EventOrderRegistryApiV1(this._client);
-	}
-
-	public get menuRegistry() {
-		return new MenuRegistryApiV1(this._client);
-	}
-
-	public get operatorAdmin() {
-		return new OperatorAdminApiV1(this._client);
-	}
-
-	public get operatorRegistry() {
-		return new OperatorRegistryApiV1(this._client);
-	}
-
-	public get productRegistry() {
-		return new ProductRegistryApiV1(this._client);
-	}
-
-	public get realmRegistry() {
-		return new RealmRegistryApiV1(this._client);
+	public get registry() {
+		return new Registry(this._client);
 	}
 }

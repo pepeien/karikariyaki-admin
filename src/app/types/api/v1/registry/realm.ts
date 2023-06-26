@@ -10,7 +10,7 @@ import {
 // Types
 import { BaseApi } from '@types';
 
-export class RealmRegistryApiV1 extends BaseApi {
+export class ApiV1RealmRegistry extends BaseApi {
 	private _endpoint = `${this.root}/v1/admin/registry/realm`;
 
 	public search(params?: RealmQueryableParams): Observable<ApiResponseWrapper<Realm[]>> {

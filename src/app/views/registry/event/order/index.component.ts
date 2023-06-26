@@ -178,7 +178,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 			return;
 		}
 
-		this._apiService.V1.eventOrderRegistry
+		this._apiService.V1.registry.eventOrder
 			.save({
 				eventId: event._id,
 				status: status,
@@ -249,7 +249,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 			return;
 		}
 
-		this._apiService.V1.eventOrderRegistry
+		this._apiService.V1.registry.eventOrder
 			.edit(this.editionTarget._id, {
 				status: this.editionFormGroup.controls.status.value as string,
 			})
@@ -303,7 +303,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 			return;
 		}
 
-		this._apiService.V1.eventOrderRegistry.delete(this.deletionTarget._id).subscribe({
+		this._apiService.V1.registry.eventOrder.delete(this.deletionTarget._id).subscribe({
 			next: () => {
 				this._onSuccessfulResponse();
 			},
@@ -440,7 +440,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 	}
 
 	private _refreshList() {
-		this._apiService.V1.eventOrderRegistry.search().subscribe({
+		this._apiService.V1.registry.eventOrder.search().subscribe({
 			next: (response) => {
 				if (!response.result) {
 					return;
@@ -452,7 +452,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 	}
 
 	private _updateAvailableEvents() {
-		this._apiService.V1.eventRegistry.search().subscribe({
+		this._apiService.V1.registry.event.search().subscribe({
 			next: (response) => {
 				if (response.wasSuccessful === false || !response.result) {
 					return;
@@ -464,7 +464,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 	}
 
 	private _updateAvailableOperators() {
-		this._apiService.V1.operatorRegistry.search().subscribe({
+		this._apiService.V1.registry.operator.search().subscribe({
 			next: (response) => {
 				if (response.wasSuccessful === false || !response.result) {
 					return;
@@ -476,7 +476,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 	}
 
 	private _updateAvailableProducts() {
-		this._apiService.V1.productRegistry.search().subscribe({
+		this._apiService.V1.registry.product.search().subscribe({
 			next: (response) => {
 				if (response.wasSuccessful === false || !response.result) {
 					return;
@@ -488,7 +488,7 @@ export class RegistryEventOrderViewComponent implements OnInit {
 	}
 
 	private _updateAvailableStatus() {
-		this._apiService.V1.eventOrderRegistry.status().subscribe({
+		this._apiService.V1.registry.eventOrder.status().subscribe({
 			next: (response) => {
 				if (response.wasSuccessful === false || !response.result) {
 					return;

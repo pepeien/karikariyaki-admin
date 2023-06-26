@@ -10,7 +10,7 @@ import {
 // Types
 import { BaseApi } from '@types';
 
-export class MenuRegistryApiV1 extends BaseApi {
+export class ApiV1MenuRegistry extends BaseApi {
 	private _endpoint = `${this.root}/v1/admin/registry/menu`;
 
 	public search(params?: MenuQueryableParams): Observable<ApiResponseWrapper<Menu[]>> {
