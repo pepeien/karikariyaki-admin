@@ -42,8 +42,19 @@
 			width: 100%;
 			height: 2px;
 			border-radius: 14px;
-			background-color: $yellow-dark;
-	
+
+			&.--notification {
+				background-color: $foreground-brighter;
+			}
+
+			&.--caution {
+				background-color: $yellow-dark;
+			}
+
+			&.--warning {
+				background-color: $red-dark;
+			}
+
 			transform-origin: center;
 
 			-webkit-animation: shrinkX ease-in-out;
@@ -56,7 +67,7 @@
 			-moz-animation-fill-mode: 	 forwards;
 			-ms-animation-fill-mode: 	 forwards;	  
 			-o-animation-fill-mode: 	 forwards; 	  
-			animation-fill-mode: 	     forwards; 		  
+			animation-fill-mode: 	     forwards; 
 		}
 	}
 
