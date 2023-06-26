@@ -1,3 +1,4 @@
+export { AlertComponent, AlertComponentModule } from './alert';
 export { AutocompleteComponent, AutocompleteModule } from './autocomplete';
 export { AvatarComponent, AvatarModule } from './avatar';
 export { DialogComponent, DialogModule, DialogProps } from './dialog';

@@ -100,7 +100,7 @@ export class RegistryEventViewComponent implements OnInit {
 			return;
 		}
 
-		this._apiService.V1.eventRegistry
+		this._apiService.V1.registry.event
 			.save({
 				name: this.creationFormGroup.controls.name.value as string,
 				date: this.creationFormGroup.controls.date.value ?? undefined,
@@ -126,7 +126,7 @@ export class RegistryEventViewComponent implements OnInit {
 			return;
 		}
 
-		this._apiService.V1.eventRegistry
+		this._apiService.V1.registry.event
 			.edit(this.editionTarget._id, {
 				name: this.editionFormGroup.controls.name.value as string,
 			})
@@ -174,7 +174,7 @@ export class RegistryEventViewComponent implements OnInit {
 			return;
 		}
 
-		this._apiService.V1.eventRegistry.delete(this.deletionTarget._id).subscribe({
+		this._apiService.V1.registry.event.delete(this.deletionTarget._id).subscribe({
 			next: () => {
 				this._onSuccessfulResponse();
 			},
@@ -188,7 +188,7 @@ export class RegistryEventViewComponent implements OnInit {
 	}
 
 	private _refreshList() {
-		this._apiService.V1.eventRegistry.search().subscribe({
+		this._apiService.V1.registry.event.search().subscribe({
 			next: (response) => {
 				if (!response.result) {
 					return;

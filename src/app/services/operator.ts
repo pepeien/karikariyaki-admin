@@ -30,7 +30,7 @@ export class OperatorService {
 		if (!this._operator && this._isFetching === false) {
 			this._isFetching = true;
 
-			this._apiService.V1.operatorRegistry.searchSelf().subscribe({
+			this._apiService.V1.registry.operator.searchSelf().subscribe({
 				next: (response) => {
 					if (response.wasSuccessful === false || !response.result) {
 						return;
@@ -78,7 +78,7 @@ export class OperatorService {
 	}
 
 	public signOut() {
-		this._apiService.V1.operatorAdmin.signOut().subscribe({
+		this._apiService.V1.operator.signOut().subscribe({
 			next: () => {
 				this._onCleanUp();
 			},

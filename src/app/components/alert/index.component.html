@@ -1,0 +1,19 @@
+<div class="app-alert__message">
+	<div class="app-alert__message-text">
+		<div>{{ data.message }}</div>
+	</div>
+	<div
+		[class]="'app-alert__message-timer' + ' --' + data.type.toLocaleLowerCase()"
+		[style]="{ animationDuration: data.duration + 'ms' }"
+	>
+	</div>
+</div>
+<div class="app-alert__actions" matSnackBarActions>
+	<button
+		mat-button
+		matSnackBarAction
+		(click)="ref.dismiss()"
+	>
+		<mat-icon>close</mat-icon>
+	</button>
+</div>

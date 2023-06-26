@@ -1,8 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+// Types
+import { Interceptor } from '@types';
 
 // Components
 import { AppComponent } from './app.component';
@@ -23,9 +27,18 @@ import { ApiService } from '@services';
 		BrowserModule,
 		HttpClientModule,
 		NavbarModule,
+		MatSnackBarModule,
 		SharedModule,
 	],
-	providers: [ApiService, RouterModule],
+	providers: [
+		ApiService,
+		RouterModule,
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: Interceptor,
+			multi: true,
+		},
+	],
 	bootstrap: [AppComponent],
 })
 export class AppModule {}

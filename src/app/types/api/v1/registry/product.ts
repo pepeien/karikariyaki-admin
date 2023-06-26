@@ -10,7 +10,7 @@ import {
 // Types
 import { BaseApi } from '@types';
 
-export class ProductRegistryApiV1 extends BaseApi {
+export class ApiV1ProductRegistry extends BaseApi {
 	private _endpoint = `${this.root}/v1/admin/registry/product`;
 
 	public search(params?: ProductQueryableParams): Observable<ApiResponseWrapper<Product[]>> {

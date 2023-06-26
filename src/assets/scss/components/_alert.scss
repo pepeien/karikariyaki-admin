@@ -1,0 +1,111 @@
+.app-alert {
+	&__wrapper {
+		& .mat-mdc-snack-bar-label, & .mdc-snackbar__surface {
+			padding: 0 !important;
+		}
+	
+		& .mdc-snackbar__surface {
+			background-color: $foreground !important;
+			border-radius: 14px !important;
+			overflow: hidden;
+			max-width: 35vh !important;
+		}
+	}
+
+	&__message {
+		display: flex;
+		flex-direction: column;
+		gap: 1vh;
+		height: 100%;
+		padding: 0 2vh;
+		font-family: 'Nunito';
+		flex-grow: 2;
+		height: 10vh !important;
+
+		-webkit-box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1); 
+		-moz-box-shadow:    0px 10px 15px -3px rgba(0,0,0,0.1); 
+		-o-box-shadow: 		0px 10px 15px -3px rgba(0,0,0,0.1);
+		box-shadow: 		0px 10px 15px -3px rgba(0,0,0,0.1);
+
+		&-text {
+			height: 80%;
+			overflow: hidden;
+			overflow-y: auto;
+			text-align: center;
+	
+			div {
+				padding-top: 2vh;
+			}
+		}
+
+		&-timer {
+			width: 100%;
+			height: 2px;
+			border-radius: 14px;
+
+			&.--notification {
+				background-color: $foreground-brighter;
+			}
+
+			&.--caution {
+				background-color: $yellow-dark;
+			}
+
+			&.--warning {
+				background-color: $red-dark;
+			}
+
+			transform-origin: center;
+
+			-webkit-animation: shrinkX ease-in-out;
+			-moz-animation:    shrinkX ease-in-out;
+			-ms-animation: 	   shrinkX ease-in-out;
+			-o-animation: 	   shrinkX ease-in-out;
+			animation: 		   shrinkX ease-in-out;
+
+			-webkit-animation-fill-mode: forwards;
+			-moz-animation-fill-mode: 	 forwards;
+			-ms-animation-fill-mode: 	 forwards;	  
+			-o-animation-fill-mode: 	 forwards; 	  
+			animation-fill-mode: 	     forwards; 
+		}
+	}
+
+	&__actions {
+		height: 10vh !important;
+
+		button {
+			height: 100% !important;
+		}
+	}
+}
+
+app-alert-logo {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	gap: 0 1vh;
+
+	.mat-mdc-snack-bar-action {
+		margin-left: auto;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: $foreground-bright;
+		height: 100%;
+
+		mat-icon {
+			margin: 0 !important;
+		}
+	}
+}
+
+@keyframes shrinkX {
+	from {
+		transform: scaleX(1);
+	}
+	to {
+		transform: scaleX(0);
+	}
+}

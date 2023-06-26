@@ -141,7 +141,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 			return;
 		}
 
-		this._apiService.V1.operatorRegistry
+		this._apiService.V1.registry.operator
 			.save({
 				userName: userName,
 				displayName: displayName,
@@ -179,7 +179,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 		const nextDisplayName = this.editionFormGroup.controls.displayName.value as string;
 		const nextRole = this.selectedRole;
 
-		this._apiService.V1.operatorRegistry
+		this._apiService.V1.registry.operator
 			.edit(this.editionTarget._id, {
 				displayName:
 					this.editionTarget.displayName !== nextDisplayName
@@ -243,7 +243,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 			return;
 		}
 
-		this._apiService.V1.operatorRegistry.delete(this.deletionTarget._id).subscribe({
+		this._apiService.V1.registry.operator.delete(this.deletionTarget._id).subscribe({
 			next: () => {
 				this._onSuccessfulResponse();
 			},
@@ -294,7 +294,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 	}
 
 	private _refreshList() {
-		this._apiService.V1.operatorRegistry.search().subscribe({
+		this._apiService.V1.registry.operator.search().subscribe({
 			next: (response) => {
 				if (!response.result) {
 					return;
@@ -306,7 +306,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 	}
 
 	private _updateAvailableRealms() {
-		this._apiService.V1.realmRegistry.search().subscribe({
+		this._apiService.V1.registry.realm.search().subscribe({
 			next: (response) => {
 				if (response.wasSuccessful === false || !response.result) {
 					this.availableRealms = [];
@@ -326,7 +326,7 @@ export class RegistryOperatorViewComponent implements OnInit {
 			return;
 		}
 
-		this._apiService.V1.operatorRegistry.roles().subscribe({
+		this._apiService.V1.registry.operator.roles().subscribe({
 			next: (response) => {
 				if (response.wasSuccessful === false || !response.result) {
 					this.availableOperatorRoles = [];

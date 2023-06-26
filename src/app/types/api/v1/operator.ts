@@ -4,8 +4,8 @@ import { ApiResponseWrapper, Operator } from 'karikarihelper';
 // Types
 import { BaseApi } from '@types';
 
-export class OperatorAdminApiV1 extends BaseApi {
-	private _endpoint = `${this.root}/v1/admin/operator`;
+export class ApiV1OperatorAuth extends BaseApi {
+	private _endpoint = `${this.root}/v1/operator`;
 
 	public signIn(userName: string): Observable<ApiResponseWrapper<Operator>> {
 		const endpoint = new URL(`${this._endpoint}/sign-in`);

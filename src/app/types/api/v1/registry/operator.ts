@@ -10,7 +10,7 @@ import {
 // Types
 import { BaseApi } from '@types';
 
-export class OperatorRegistryApiV1 extends BaseApi {
+export class ApiV1OperatorRegistry extends BaseApi {
 	private _endpoint = `${this.root}/v1/admin/registry/operator`;
 
 	public search(params?: OperatorQueryableParams): Observable<ApiResponseWrapper<Operator[]>> {

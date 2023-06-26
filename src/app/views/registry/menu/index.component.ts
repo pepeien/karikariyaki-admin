@@ -122,7 +122,7 @@ export class RegistryMenuViewComponent implements OnInit {
 		const route = this.creationFormGroup.controls.route.value as string;
 		const parent = this.selectedMenu;
 
-		this._apiService.V1.menuRegistry
+		this._apiService.V1.registry.menu
 			.save({
 				title: title ?? undefined,
 				icon: this.selectedPhotoBase64 ?? undefined,
@@ -157,7 +157,7 @@ export class RegistryMenuViewComponent implements OnInit {
 		const title = this.editionFormGroup.controls.title.value ?? undefined;
 		const route = this.editionFormGroup.controls.route.value ?? undefined;
 
-		this._apiService.V1.menuRegistry
+		this._apiService.V1.registry.menu
 			.edit(this.editionTarget._id, {
 				title: this.editionTarget.title !== title ? title : undefined,
 				icon: this.selectedPhotoBase64,
@@ -210,7 +210,7 @@ export class RegistryMenuViewComponent implements OnInit {
 			return;
 		}
 
-		this._apiService.V1.menuRegistry.delete(this.deletionTarget._id).subscribe({
+		this._apiService.V1.registry.menu.delete(this.deletionTarget._id).subscribe({
 			next: () => {
 				this._onSuccessfulResponse();
 			},
@@ -250,7 +250,7 @@ export class RegistryMenuViewComponent implements OnInit {
 	}
 
 	private _refreshList() {
-		this._apiService.V1.menuRegistry.search({ isRootOnly: false }).subscribe({
+		this._apiService.V1.registry.menu.search({ isRootOnly: false }).subscribe({
 			next: (response) => {
 				if (!response.result) {
 					return;
@@ -262,7 +262,7 @@ export class RegistryMenuViewComponent implements OnInit {
 	}
 
 	private _updateAvailableMenus() {
-		this._apiService.V1.menuRegistry.search().subscribe({
+		this._apiService.V1.registry.menu.search().subscribe({
 			next: (response) => {
 				if (response.wasSuccessful === false || !response.result) {
 					return;
