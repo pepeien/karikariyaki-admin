@@ -1,10 +1,14 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 // Types
 import { InHouseAlert } from '@interfaces';
+
+// Services
 import { LanguageService } from '@services';
-import { AlertComponent } from '../components/alert';
+
+// Components
+import { AlertComponent } from '@components';
 
 let processorTimeout: number;
 
