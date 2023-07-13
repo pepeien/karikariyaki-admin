@@ -18,8 +18,8 @@ npm install && npm start
 
 | Variable       | Description  | Type           | Default | Required |
 |:--------------:|:---------------|:------:|:--------:|:--------:|
-| production | If the environment is production        | Boolean | | ✅ |
-| apiURI     | Karikariyaki API address                | String  | | ✅ |
+| production | If the environment is production | Boolean | | ✅ |
+| apiURI     | API address                      | String  | | ✅ |
 
 ### Running
 
