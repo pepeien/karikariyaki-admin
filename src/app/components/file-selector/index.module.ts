@@ -8,8 +8,8 @@ import { FileSelectorComponent } from './index.component';
 import { MaterialBundle } from '@imports';
 
 @NgModule({
-	declarations: [FileSelectorComponent],
-	imports: [CommonModule, MaterialBundle],
-	exports: [FileSelectorComponent],
+    declarations: [FileSelectorComponent],
+    imports: [CommonModule, MaterialBundle],
+    exports: [FileSelectorComponent],
 })
 export class FileSelectorModule {}

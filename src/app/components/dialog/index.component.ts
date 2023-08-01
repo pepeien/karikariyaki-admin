@@ -5,40 +5,40 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LanguageService } from '@services';
 
 export interface DialogProps {
-	message: string;
+    message: string;
 }
 
 @Component({
-	selector: 'app-dialog',
-	templateUrl: 'index.component.html',
+    selector: 'app-dialog',
+    templateUrl: 'index.component.html',
 })
 export class DialogComponent implements OnInit {
-	/**
-	 * Props
-	 */
-	public message: string | undefined;
+    /**
+     * Props
+     */
+    public message: string | undefined;
 
-	/**
-	 * Language
-	 */
-	public languageSource = LanguageService.DEFAULT_LANGUAGE;
+    /**
+     * Language
+     */
+    public languageSource = LanguageService.DEFAULT_LANGUAGE;
 
-	constructor(
-		public dialogRef: MatDialogRef<DialogComponent>,
-		@Inject(MAT_DIALOG_DATA)
-		public data: DialogProps,
-		private _languageService: LanguageService,
-	) {
-		if (data.message) {
-			this.message = data.message;
-		}
-	}
+    constructor(
+        public dialogRef: MatDialogRef<DialogComponent>,
+        @Inject(MAT_DIALOG_DATA)
+        public data: DialogProps,
+        private _languageService: LanguageService,
+    ) {
+        if (data.message) {
+            this.message = data.message;
+        }
+    }
 
-	ngOnInit(): void {
-		this._languageService.language.subscribe({
-			next: (nextLanguage) => {
-				this.languageSource = nextLanguage;
-			},
-		});
-	}
+    ngOnInit(): void {
+        this._languageService.language.subscribe({
+            next: (nextLanguage) => {
+                this.languageSource = nextLanguage;
+            },
+        });
+    }
 }

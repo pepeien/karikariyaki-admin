@@ -8,8 +8,8 @@ import { FormsBundle, MaterialBundle } from '@imports';
 import { AutocompleteModule } from '../autocomplete';
 
 @NgModule({
-	declarations: [IngredientSelectorComponent],
-	imports: [AutocompleteModule, CommonModule, FormsBundle, MaterialBundle],
-	exports: [IngredientSelectorComponent],
+    declarations: [IngredientSelectorComponent],
+    imports: [AutocompleteModule, CommonModule, FormsBundle, MaterialBundle],
+    exports: [IngredientSelectorComponent],
 })
 export class IngredientSelectorModule {}

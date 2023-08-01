@@ -1,69 +1,69 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 app-table {
-	display: flex;
-	flex-direction: column;
-	margin: 0 auto;
-	width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 100%;
 }
 
 .table {
-	background: transparent !important;
+    background: transparent !important;
 
-	.cdk-column-inhouse-settings {
-		word-wrap: break-word !important;
-		white-space: unset !important;
-		flex: 0 0 5% !important;
-		width: 5% !important;
-		padding: 0 !important;
+    .cdk-column-inhouse-settings {
+        word-wrap: break-word !important;
+        white-space: unset !important;
+        flex: 0 0 5% !important;
+        width: 5% !important;
+        padding: 0 !important;
 
-		button {
-			background-color: transparent;
-		
-			-webkit-transition: background-color ease-in-out .3s;
-			-moz-transition: 	background-color ease-in-out .3s;
-			-ms-transition: 	background-color ease-in-out .3s;
-			-o-transition: 		background-color ease-in-out .3s;
-			transition: 		background-color ease-in-out .3s;
+        button {
+            background-color: transparent;
 
-			&:hover {
-				cursor: pointer;
-				background-color: #0000001f;
-			}
+            -webkit-transition: background-color ease-in-out 0.3s;
+            -moz-transition: background-color ease-in-out 0.3s;
+            -ms-transition: background-color ease-in-out 0.3s;
+            -o-transition: background-color ease-in-out 0.3s;
+            transition: background-color ease-in-out 0.3s;
 
-			mat-icon {
-				color: $foreground;
-			}
-		}
-	}
+            &:hover {
+                cursor: pointer;
+                background-color: #0000001f;
+            }
 
-	mat-header-row {
-		background-color: $background;
-	}
+            mat-icon {
+                color: $foreground;
+            }
+        }
+    }
 
-	mat-row {
-		height: 4vh !important;
-	}
+    mat-header-row {
+        background-color: $background;
+    }
 
-	mat-cell, mat-header-cell {
-		font-family: 'Nunito';
-	}
+    mat-row {
+        height: 4vh !important;
+    }
 
-	mat-cell {
-		overflow: auto;
-	}
+    mat-cell,
+    mat-header-cell {
+        font-family: 'Nunito';
+    }
 
-	&__row {
-		&__settings {
-			width: 100%;
-			height: 100%;
-		}
-	}
+    mat-cell {
+        overflow: auto;
+    }
+
+    &__row {
+        &__settings {
+            width: 100%;
+            height: 100%;
+        }
+    }
 }
 
 mat-paginator {
-	bottom: 0px;
-  	position: sticky;
-	border-top: 1px solid rgba(0, 0, 0, 0.12);
+    bottom: 0px;
+    position: sticky;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
 }
-

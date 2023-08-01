@@ -5,9 +5,9 @@ import { CommonModule } from '@angular/common';
 import { MenuComponent } from './index.component';
 
 @NgModule({
-	declarations: [MenuComponent],
-	imports: [CommonModule],
-	providers: [],
-	exports: [MenuComponent],
+    declarations: [MenuComponent],
+    imports: [CommonModule],
+    providers: [],
+    exports: [MenuComponent],
 })
 export class MenuModule {}

@@ -14,190 +14,190 @@ import { ApiService, LanguageService } from '@services';
 import { DialogComponent } from '@components';
 
 @Component({
-	selector: 'app-registry-operator-view',
-	templateUrl: './index.component.html',
-	animations: [
-		BasicAnimations.horizontalShrinkAnimation,
-		trigger('fade', [
-			transition(':enter', [
-				style({ opacity: 0, flex: 0 }),
-				animate('0.5s ease-out', style({ opacity: 1, flex: 1 })),
-			]),
-			transition(':leave', [
-				style({ opacity: 1, flex: 1 }),
-				animate('0.3s ease-in', style({ opacity: 0, flex: 0 })),
-			]),
-		]),
-	],
+    selector: 'app-registry-operator-view',
+    templateUrl: './index.component.html',
+    animations: [
+        BasicAnimations.horizontalShrinkAnimation,
+        trigger('fade', [
+            transition(':enter', [
+                style({ opacity: 0, flex: 0 }),
+                animate('0.5s ease-out', style({ opacity: 1, flex: 1 })),
+            ]),
+            transition(':leave', [
+                style({ opacity: 1, flex: 1 }),
+                animate('0.3s ease-in', style({ opacity: 0, flex: 0 })),
+            ]),
+        ]),
+    ],
 })
 export class RegistryRealmViewComponent implements OnInit {
-	/**
-	 * Table
-	 */
-	public dataList: Realm[] = [];
+    /**
+     * Table
+     */
+    public dataList: Realm[] = [];
 
-	/**
-	 * Editor
-	 */
-	public isEditorOpen = false;
-	public editorType: 'creation' | 'edition' = 'edition';
-	public deletionTarget: Realm | undefined;
-	public editionTarget: Realm | undefined;
+    /**
+     * Editor
+     */
+    public isEditorOpen = false;
+    public editorType: 'creation' | 'edition' = 'edition';
+    public deletionTarget: Realm | undefined;
+    public editionTarget: Realm | undefined;
 
-	/**
-	 * Language
-	 */
-	public languageSource = LanguageService.DEFAULT_LANGUAGE;
+    /**
+     * Language
+     */
+    public languageSource = LanguageService.DEFAULT_LANGUAGE;
 
-	/**
-	 * Forms
-	 */
-	public creationFormGroup = new FormGroup({
-		name: new FormControl('', [Validators.required]),
-	});
-	public editionFormGroup = new FormGroup({
-		name: new FormControl('', [Validators.required]),
-	});
+    /**
+     * Forms
+     */
+    public creationFormGroup = new FormGroup({
+        name: new FormControl('', [Validators.required]),
+    });
+    public editionFormGroup = new FormGroup({
+        name: new FormControl('', [Validators.required]),
+    });
 
-	constructor(
-		private _apiService: ApiService,
-		private _dialog: MatDialog,
-		private _languageService: LanguageService,
-	) {}
+    constructor(
+        private _apiService: ApiService,
+        private _dialog: MatDialog,
+        private _languageService: LanguageService,
+    ) {}
 
-	ngOnInit(): void {
-		this._refreshList();
+    ngOnInit(): void {
+        this._refreshList();
 
-		this._languageService.language.subscribe({
-			next: (nextLanguage) => {
-				this.languageSource = nextLanguage;
-			},
-		});
-	}
+        this._languageService.language.subscribe({
+            next: (nextLanguage) => {
+                this.languageSource = nextLanguage;
+            },
+        });
+    }
 
-	public isEditionTargetTheSame() {
-		if (!this.editionTarget || !this.editionTarget._id) {
-			return false;
-		}
+    public isEditionTargetTheSame() {
+        if (!this.editionTarget || !this.editionTarget._id) {
+            return false;
+        }
 
-		return this.editionFormGroup.controls.name.value?.trim() === this.editionTarget.name.trim();
-	}
+        return this.editionFormGroup.controls.name.value?.trim() === this.editionTarget.name.trim();
+    }
 
-	public onCreationInit() {
-		this.onCancel();
+    public onCreationInit() {
+        this.onCancel();
 
-		this.isEditorOpen = true;
-		this.editorType = 'creation';
-	}
+        this.isEditorOpen = true;
+        this.editorType = 'creation';
+    }
 
-	public onCreation() {
-		const name = this.creationFormGroup.controls.name.value as string;
+    public onCreation() {
+        const name = this.creationFormGroup.controls.name.value as string;
 
-		if (this.creationFormGroup.invalid || !name) {
-			return;
-		}
+        if (this.creationFormGroup.invalid || !name) {
+            return;
+        }
 
-		this._apiService.V1.registry.realm
-			.save({
-				name: name,
-			})
-			.subscribe({
-				next: () => {
-					this._onSuccessfulResponse();
-				},
-			});
-	}
+        this._apiService.V1.registry.realm
+            .save({
+                name: name,
+            })
+            .subscribe({
+                next: () => {
+                    this._onSuccessfulResponse();
+                },
+            });
+    }
 
-	public onEditionInit(item: Realm) {
-		this.onCancel();
+    public onEditionInit(item: Realm) {
+        this.onCancel();
 
-		this.isEditorOpen = true;
-		this.editorType = 'edition';
+        this.isEditorOpen = true;
+        this.editorType = 'edition';
 
-		this.editionFormGroup.controls.name.setValue(item.name);
+        this.editionFormGroup.controls.name.setValue(item.name);
 
-		this.editionTarget = item;
-	}
+        this.editionTarget = item;
+    }
 
-	public onEdition() {
-		if (this.editionFormGroup.invalid || !this.editionTarget || !this.editionTarget._id) {
-			return;
-		}
+    public onEdition() {
+        if (this.editionFormGroup.invalid || !this.editionTarget || !this.editionTarget._id) {
+            return;
+        }
 
-		const nextName = this.editionFormGroup.controls.name.value as string;
+        const nextName = this.editionFormGroup.controls.name.value as string;
 
-		this._apiService.V1.registry.realm
-			.edit(this.editionTarget._id, {
-				name: this.editionTarget.name !== nextName ? nextName : undefined,
-			})
-			.subscribe({
-				next: () => {
-					this._onSuccessfulResponse();
-				},
-			});
-	}
+        this._apiService.V1.registry.realm
+            .edit(this.editionTarget._id, {
+                name: this.editionTarget.name !== nextName ? nextName : undefined,
+            })
+            .subscribe({
+                next: () => {
+                    this._onSuccessfulResponse();
+                },
+            });
+    }
 
-	public onCancel() {
-		this.isEditorOpen = false;
-		this.editorType = 'creation';
+    public onCancel() {
+        this.isEditorOpen = false;
+        this.editorType = 'creation';
 
-		this.editionTarget = undefined;
+        this.editionTarget = undefined;
 
-		this.creationFormGroup.reset();
-		this.editionFormGroup.reset();
-	}
+        this.creationFormGroup.reset();
+        this.editionFormGroup.reset();
+    }
 
-	public onDeleteInit(item: Realm) {
-		if (!item || !item._id) {
-			return;
-		}
+    public onDeleteInit(item: Realm) {
+        if (!item || !item._id) {
+            return;
+        }
 
-		const dialogRef = this._dialog.open(DialogComponent, {
-			data: {
-				message: this.languageSource['REALM_REGISTRY_DELETE_MESSAGE'],
-			},
-		});
+        const dialogRef = this._dialog.open(DialogComponent, {
+            data: {
+                message: this.languageSource['REALM_REGISTRY_DELETE_MESSAGE'],
+            },
+        });
 
-		dialogRef.afterClosed().subscribe({
-			next: (willDelete) => {
-				if (willDelete === false) {
-					return;
-				}
+        dialogRef.afterClosed().subscribe({
+            next: (willDelete) => {
+                if (willDelete === false) {
+                    return;
+                }
 
-				this.deletionTarget = item;
+                this.deletionTarget = item;
 
-				this.onDelete();
-			},
-		});
-	}
+                this.onDelete();
+            },
+        });
+    }
 
-	public onDelete() {
-		if (!this.deletionTarget || !this.deletionTarget._id) {
-			return;
-		}
+    public onDelete() {
+        if (!this.deletionTarget || !this.deletionTarget._id) {
+            return;
+        }
 
-		this._apiService.V1.registry.realm.delete(this.deletionTarget._id).subscribe({
-			next: () => {
-				this._onSuccessfulResponse();
-			},
-		});
-	}
+        this._apiService.V1.registry.realm.delete(this.deletionTarget._id).subscribe({
+            next: () => {
+                this._onSuccessfulResponse();
+            },
+        });
+    }
 
-	private _onSuccessfulResponse() {
-		this._refreshList();
+    private _onSuccessfulResponse() {
+        this._refreshList();
 
-		this.onCancel();
-	}
+        this.onCancel();
+    }
 
-	private _refreshList() {
-		this._apiService.V1.registry.realm.search().subscribe({
-			next: (response) => {
-				if (!response.result) {
-					return;
-				}
+    private _refreshList() {
+        this._apiService.V1.registry.realm.search().subscribe({
+            next: (response) => {
+                if (!response.result) {
+                    return;
+                }
 
-				this.dataList = response.result;
-			},
-		});
-	}
+                this.dataList = response.result;
+            },
+        });
+    }
 }

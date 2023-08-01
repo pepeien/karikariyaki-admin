@@ -1,16 +1,16 @@
 .auto-complete__option {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	padding: 0 1vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 1vh;
 
-	&:hover {
-		cursor: pointer;
-		background: rgba(0, 0, 0, 0.04);
-	}
+    &:hover {
+        cursor: pointer;
+        background: rgba(0, 0, 0, 0.04);
+    }
 
-	mat-option {
-		width: 100%;
-		pointer-events: none;
-	}
+    mat-option {
+        width: 100%;
+        pointer-events: none;
+    }
 }

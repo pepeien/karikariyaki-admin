@@ -11,15 +11,15 @@ import { AutocompleteModule, FileSelectorModule, TableModule } from '@components
 import { FormsBundle, MaterialBundle } from '@imports';
 
 @NgModule({
-	declarations: [RegistryMenuViewComponent],
-	imports: [
-		AutocompleteModule,
-		CommonModule,
-		FileSelectorModule,
-		FormsBundle,
-		MaterialBundle,
-		TableModule,
-	],
-	exports: [RegistryMenuViewComponent],
+    declarations: [RegistryMenuViewComponent],
+    imports: [
+        AutocompleteModule,
+        CommonModule,
+        FileSelectorModule,
+        FormsBundle,
+        MaterialBundle,
+        TableModule,
+    ],
+    exports: [RegistryMenuViewComponent],
 })
 export class RegistryMenuViewModule {}

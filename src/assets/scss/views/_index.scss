@@ -1,15 +1,15 @@
 @import './registry';
 
 .placeholder {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 
-	h1 {
-		font-family: 'Nunito';
-		font-size: 10vh;
-		font-weight: lighter;
-		color: $foreground-disabled;
-	}
+    h1 {
+        font-family: 'Nunito';
+        font-size: 10vh;
+        font-weight: lighter;
+        color: $foreground-disabled;
+    }
 }

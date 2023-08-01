@@ -7,8 +7,8 @@ import { AlertComponent } from './index.component';
 import { MaterialBundle } from '@imports';
 
 @NgModule({
-	declarations: [AlertComponent],
-	imports: [MaterialBundle],
-	exports: [AlertComponent],
+    declarations: [AlertComponent],
+    imports: [MaterialBundle],
+    exports: [AlertComponent],
 })
 export class AlertComponentModule {}

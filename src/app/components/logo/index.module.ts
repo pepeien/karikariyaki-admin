@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 import { LogoComponent } from './index.component';
 
 @NgModule({
-	declarations: [LogoComponent],
-	imports: [],
-	exports: [LogoComponent],
+    declarations: [LogoComponent],
+    imports: [],
+    exports: [LogoComponent],
 })
 export class LogoModule {}

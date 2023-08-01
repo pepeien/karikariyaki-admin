@@ -6,9 +6,9 @@ import { ApiV1 } from '@types';
 
 @Injectable()
 export class ApiService {
-	constructor(private _client: HttpClient) {}
+    constructor(private _client: HttpClient) {}
 
-	public get V1() {
-		return new ApiV1(this._client);
-	}
+    public get V1() {
+        return new ApiV1(this._client);
+    }
 }

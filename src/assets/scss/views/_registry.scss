@@ -1,401 +1,401 @@
 main {
-	padding: 8vh 4vh;
+    padding: 8vh 4vh;
 
-	.view {
-		&__registry {
-			&__header {
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				gap: 0 3vh;
-				margin-bottom: 2vh;
-		
-				h1 {
-					font-family: 'Nunito';
-					font-weight: bold;
-					font-size: clamp(2vh, 3vh + 1rem, 4vh);
-					color: $foreground;
-				}
-			
-				button {
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					justify-content: center;
-					gap: 0 2vh;
-					padding: 1vh 2vh;
-					background-color: $foreground;
-					color: $accent-dark;
-					font-family: 'Nunito';
-					font-weight: bold;
-					font-size: 1.5vh;
-					margin-left: auto;
-					border-radius: 5px;
-		
-					-webkit-transition: color ease-in-out .3s;
-					-moz-transition: 	color ease-in-out .3s;
-					-ms-transition: 	color ease-in-out .3s;
-					-o-transition: 		color ease-in-out .3s;
-					transition: 		color ease-in-out .3s;
+    .view {
+        &__registry {
+            &__header {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 0 3vh;
+                margin-bottom: 2vh;
 
-					mat-icon {
-						flex: 0.5;
-						width: 100%;
-						height: 100%;
-					}
+                h1 {
+                    font-family: 'Nunito';
+                    font-weight: bold;
+                    font-size: clamp(2vh, 3vh + 1rem, 4vh);
+                    color: $foreground;
+                }
 
-					span {
-						flex: 1.5;
-					}
-				}
-			}
+                button {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0 2vh;
+                    padding: 1vh 2vh;
+                    background-color: $foreground;
+                    color: $accent-dark;
+                    font-family: 'Nunito';
+                    font-weight: bold;
+                    font-size: 1.5vh;
+                    margin-left: auto;
+                    border-radius: 5px;
 
-			&__content {
-				display: flex;
-				flex-direction: column;
-				align-items: flex-start;
-				justify-content: flex-start;
-				width: 100%;
+                    -webkit-transition: color ease-in-out 0.3s;
+                    -moz-transition: color ease-in-out 0.3s;
+                    -ms-transition: color ease-in-out 0.3s;
+                    -o-transition: color ease-in-out 0.3s;
+                    transition: color ease-in-out 0.3s;
 
-				&__editor {
-					display: flex;
-					flex-direction: column;
-					width: 100%;
-					height: 0px;
-					overflow: hidden;
-					border-radius: 15px;
-			
-					-webkit-transition: height ease-in-out .3s;
-					-moz-transition: 	height ease-in-out .3s;
-					-ms-transition: 	height ease-in-out .3s;
-					-o-transition: 		height ease-in-out .3s;
-					transition: 		height ease-in-out .3s;
-				
-					&[data-is-visible="true"] {
-						width: 100%;
-						height: 70vh;
-						border: 1px solid #0000001f;
-					}
+                    mat-icon {
+                        flex: 0.5;
+                        width: 100%;
+                        height: 100%;
+                    }
 
-					.--ingredients {
-						width: 100%;
+                    span {
+                        flex: 1.5;
+                    }
+                }
+            }
 
-						> h2 {
-							font-family: 'Nunito';
-							font-size: 2vh;
-							margin-bottom: 1vh;
-						}
-					}
+            &__content {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                width: 100%;
 
-					.--items {
-						width: 100%;
-						display: flex;
-						flex-direction: column;
-						align-items: flex-start;
-						justify-content: center;
-						gap: 2vh 0;
-						margin-bottom: 2vh;
+                &__editor {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    height: 0px;
+                    overflow: hidden;
+                    border-radius: 15px;
 
-						app-auto-complete {
-							width: 100%;
-						}
+                    -webkit-transition: height ease-in-out 0.3s;
+                    -moz-transition: height ease-in-out 0.3s;
+                    -ms-transition: height ease-in-out 0.3s;
+                    -o-transition: height ease-in-out 0.3s;
+                    transition: height ease-in-out 0.3s;
 
-						&__selector {
-							display: flex;
-							flex-direction: row;
-							align-items: center;
-							margin: 0 auto;
-							gap: 0 1vh;
-							height: 6vh;
-							width: 100%;
+                    &[data-is-visible='true'] {
+                        width: 100%;
+                        height: 70vh;
+                        border: 1px solid #0000001f;
+                    }
 
-							input {
-								flex-grow: 2;
-								width: 100%;
-								height: 4vh;
-								border: solid 1px $foreground-bright;
-								border-radius: 5px;
-								text-align: center;
+                    .--ingredients {
+                        width: 100%;
 
-								&::-webkit-outer-spin-button,
-								&::-webkit-inner-spin-button {
-								  	-webkit-appearance: none;
-								  	margin: 0;
-								}
+                        > h2 {
+                            font-family: 'Nunito';
+                            font-size: 2vh;
+                            margin-bottom: 1vh;
+                        }
+                    }
 
-								&[type=number] {
-								  	-moz-appearance: textfield;
-									appearance: textfield;
-								}
-							}
-						}
-		
-						button {
-							display: flex;
-							align-items: center;
-							justify-content: center;
-							height: 5vh;
-							flex-grow: 1;
-							width: 100%;
-							padding: 0 1vh;
-							background-color: transparent;
-							border: solid 1px $foreground-bright;
-							border-radius: 5px;
-						}
-					}
+                    .--items {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        justify-content: center;
+                        gap: 2vh 0;
+                        margin-bottom: 2vh;
 
-					.--check {
-						margin: 1vh 0;
-					}
+                        app-auto-complete {
+                            width: 100%;
+                        }
 
-					.item__listing {
-						display: grid;
-						grid-template-columns: repeat(auto-fill, minmax(15vh, 1fr));
-						gap: 2vh;
-						border: solid 1px $foreground-bright;
-						border-radius: $app-input-border-raidus;
-						min-height: 25vh;
-						width: 80%;
-						padding: 2vh;
-						overflow: hidden;
-						overflow-y: auto;
-						margin: 0 auto;
-		
-						li {
-							display: flex;
-							flex-direction: column;
-							justify-content: center;
-							align-items: center;
-							height: 25vh;
-							border-radius: $app-input-border-raidus;
-							overflow: hidden;
-							font-family: 'Nunito';
-		
-							div {
-								width: 100%;
-								height: 100%;
-								display: flex;
-								flex-direction: column;
-								justify-content: center;
-								align-items: center;
-								background-color: $foreground;
-								color: $accent-bright;
-							}
+                        &__selector {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            margin: 0 auto;
+                            gap: 0 1vh;
+                            height: 6vh;
+                            width: 100%;
 
-							span {
-								color: $accent-bright;
-							}
+                            input {
+                                flex-grow: 2;
+                                width: 100%;
+                                height: 4vh;
+                                border: solid 1px $foreground-bright;
+                                border-radius: 5px;
+                                text-align: center;
 
-							button {
-								width: 100%;
-								height: 6vh;
-								display: flex;
-								flex-direction: column;
-								align-items: center;
-								justify-content: center;
-								background-color: $red-dark;
-								color: $accent-bright;
-							
-								-webkit-transition: background-color ease-in-out .1s;
-								-moz-transition: 	background-color ease-in-out .1s;
-								-ms-transition: 	background-color ease-in-out .1s;
-								-o-transition: 		background-color ease-in-out .1s;
-								transition: 		background-color ease-in-out .1s;
-							
-								&:hover {
-									cursor: pointer;
-									background-color: $red-light;
-								}
-							}
-						}
-					}
+                                &::-webkit-outer-spin-button,
+                                &::-webkit-inner-spin-button {
+                                    -webkit-appearance: none;
+                                    margin: 0;
+                                }
 
-					> div {
-						display: flex;
-						flex-direction: column;
-						flex: 1;
-						padding: 2vh;
-						overflow: hidden;
-						overflow-y: auto;
+                                &[type='number'] {
+                                    -moz-appearance: textfield;
+                                    appearance: textfield;
+                                }
+                            }
+                        }
 
-						h3 {
-							font-family: 'Nunito';
-							font-size: clamp(1vh, 2vh + 1rem, 3vh);
-							margin-bottom: 2vh;
-						}
+                        button {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            height: 5vh;
+                            flex-grow: 1;
+                            width: 100%;
+                            padding: 0 1vh;
+                            background-color: transparent;
+                            border: solid 1px $foreground-bright;
+                            border-radius: 5px;
+                        }
+                    }
 
-						form {
-							display: flex;
-							flex-direction: column;
-							width: 100%;
-						}
-					}
+                    .--check {
+                        margin: 1vh 0;
+                    }
 
-					> ul {
-						display: flex;
-						flex-direction: row;
-						width: 100%;
-						margin-top: auto;
+                    .item__listing {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(15vh, 1fr));
+                        gap: 2vh;
+                        border: solid 1px $foreground-bright;
+                        border-radius: $app-input-border-raidus;
+                        min-height: 25vh;
+                        width: 80%;
+                        padding: 2vh;
+                        overflow: hidden;
+                        overflow-y: auto;
+                        margin: 0 auto;
 
-						li {
-							flex: 1;
+                        li {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            height: 25vh;
+                            border-radius: $app-input-border-raidus;
+                            overflow: hidden;
+                            font-family: 'Nunito';
 
-							button {
-								font-family: 'Nunito';
-								width: 100%;
-								height: 6vh;
-								min-height: 64px;
-							}
-						}
+                            div {
+                                width: 100%;
+                                height: 100%;
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: center;
+                                align-items: center;
+                                background-color: $foreground;
+                                color: $accent-bright;
+                            }
 
-						.--confirm {
-							button {
-								background-color: #233142;
-								color: $accent-bright;
+                            span {
+                                color: $accent-bright;
+                            }
 
-								-webkit-transition: background-color ease-in-out .3s;
-								-moz-transition: 	background-color ease-in-out .3s;
-								-ms-transition: 	background-color ease-in-out .3s;
-								-o-transition: 		background-color ease-in-out .3s;
-								transition: 		background-color ease-in-out .3s;
+                            button {
+                                width: 100%;
+                                height: 6vh;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                background-color: $red-dark;
+                                color: $accent-bright;
 
-								&:disabled {
-									cursor: default;
-									pointer-events: none;
-									background-color: $foreground-disabled;
-								}
-							}
-						}
+                                -webkit-transition: background-color ease-in-out 0.1s;
+                                -moz-transition: background-color ease-in-out 0.1s;
+                                -ms-transition: background-color ease-in-out 0.1s;
+                                -o-transition: background-color ease-in-out 0.1s;
+                                transition: background-color ease-in-out 0.1s;
 
-						.--cancel {
-							button {
-								background-color: transparent;
-								border-top: 1px solid #0000001f;
-								color: $foreground;
+                                &:hover {
+                                    cursor: pointer;
+                                    background-color: $red-light;
+                                }
+                            }
+                        }
+                    }
 
-								-webkit-transition: color ease-in-out .3s;
-								-moz-transition: 	color ease-in-out .3s;
-								-ms-transition: 	color ease-in-out .3s;
-								-o-transition: 		color ease-in-out .3s;
-								transition: 		color ease-in-out .3s;
-							}
-						}
-					}
+                    > div {
+                        display: flex;
+                        flex-direction: column;
+                        flex: 1;
+                        padding: 2vh;
+                        overflow: hidden;
+                        overflow-y: auto;
 
-					app-file-selector {
-						display: flex;
-						flex-direction: column;
-						gap: 1.5vh 0;
+                        h3 {
+                            font-family: 'Nunito';
+                            font-size: clamp(1vh, 2vh + 1rem, 3vh);
+                            margin-bottom: 2vh;
+                        }
 
-						span {
-							font-family: 'Nunito';
-							font-size: clamp(1vh, 1vh + 1rem, 2vh);
-						}
+                        form {
+                            display: flex;
+                            flex-direction: column;
+                            width: 100%;
+                        }
+                    }
 
-						.dropzone {
-							display: flex;
-							flex-direction: column;
-							align-items: center;
-							justify-content: center;
-							padding: 1vh;
-							border: 1px solid #00000061;
-							border-radius: 4px;	
-							gap: 1vh 0;
-							color: $foreground;
-							font-family: 'Nunito';
-							font-size: clamp(1vh, 1vh + 1rem, 2vh);
-						}
-						
-						img {
-							height: 20vh;
-							width: 20vh;
-							border-radius: 5px;
-							margin: 1.5vh auto 0 auto;
-						}
-					}
+                    > ul {
+                        display: flex;
+                        flex-direction: row;
+                        width: 100%;
+                        margin-top: auto;
 
-					app-ingredient-selector {
-						display: flex;
-						flex-direction: column;
-						width: 100%;
-						gap: 2vh 0;
-						margin: 0 auto;
-					}
-				}
-			}
-		}
-	}
+                        li {
+                            flex: 1;
+
+                            button {
+                                font-family: 'Nunito';
+                                width: 100%;
+                                height: 6vh;
+                                min-height: 64px;
+                            }
+                        }
+
+                        .--confirm {
+                            button {
+                                background-color: #233142;
+                                color: $accent-bright;
+
+                                -webkit-transition: background-color ease-in-out 0.3s;
+                                -moz-transition: background-color ease-in-out 0.3s;
+                                -ms-transition: background-color ease-in-out 0.3s;
+                                -o-transition: background-color ease-in-out 0.3s;
+                                transition: background-color ease-in-out 0.3s;
+
+                                &:disabled {
+                                    cursor: default;
+                                    pointer-events: none;
+                                    background-color: $foreground-disabled;
+                                }
+                            }
+                        }
+
+                        .--cancel {
+                            button {
+                                background-color: transparent;
+                                border-top: 1px solid #0000001f;
+                                color: $foreground;
+
+                                -webkit-transition: color ease-in-out 0.3s;
+                                -moz-transition: color ease-in-out 0.3s;
+                                -ms-transition: color ease-in-out 0.3s;
+                                -o-transition: color ease-in-out 0.3s;
+                                transition: color ease-in-out 0.3s;
+                            }
+                        }
+                    }
+
+                    app-file-selector {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 1.5vh 0;
+
+                        span {
+                            font-family: 'Nunito';
+                            font-size: clamp(1vh, 1vh + 1rem, 2vh);
+                        }
+
+                        .dropzone {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            padding: 1vh;
+                            border: 1px solid #00000061;
+                            border-radius: 4px;
+                            gap: 1vh 0;
+                            color: $foreground;
+                            font-family: 'Nunito';
+                            font-size: clamp(1vh, 1vh + 1rem, 2vh);
+                        }
+
+                        img {
+                            height: 20vh;
+                            width: 20vh;
+                            border-radius: 5px;
+                            margin: 1.5vh auto 0 auto;
+                        }
+                    }
+
+                    app-ingredient-selector {
+                        display: flex;
+                        flex-direction: column;
+                        width: 100%;
+                        gap: 2vh 0;
+                        margin: 0 auto;
+                    }
+                }
+            }
+        }
+    }
 }
 
 @media (min-width: 801px) {
-	main {
-		.view {
-			&__registry {
-				&__header {
-					button {			
-						&:hover {
-							cursor: pointer;
-							color: $accent-bright;
-						}
-					}
-				}
+    main {
+        .view {
+            &__registry {
+                &__header {
+                    button {
+                        &:hover {
+                            cursor: pointer;
+                            color: $accent-bright;
+                        }
+                    }
+                }
 
-				&__content {
-					flex-direction: row;
+                &__content {
+                    flex-direction: row;
 
-					&__editor {
-						width: 0px;
-						height: 75vh;
-				
-						-webkit-transition: width ease-in-out .3s;
-						-moz-transition: 	width ease-in-out .3s;
-						-ms-transition: 	width ease-in-out .3s;
-						-o-transition: 		width ease-in-out .3s;
-						transition: 		width ease-in-out .3s;
-					
-						&[data-is-visible="true"] {
-							width: 50vw;
-							height: 75vh;
-						}
+                    &__editor {
+                        width: 0px;
+                        height: 75vh;
 
-						> ul {
-							li {
-								button {
-									&:hover {
-										cursor: pointer;
-									}
-								}
-							}
+                        -webkit-transition: width ease-in-out 0.3s;
+                        -moz-transition: width ease-in-out 0.3s;
+                        -ms-transition: width ease-in-out 0.3s;
+                        -o-transition: width ease-in-out 0.3s;
+                        transition: width ease-in-out 0.3s;
 
-							.--confirm {
-								button {
-									&:hover {
-										background-color: $foreground-bright;
-									}
-								}
-							}
-	
-							.--cancel {
-								button {
-									&:hover {
-										color: red;
-									}
-								}
-							}
-						}
+                        &[data-is-visible='true'] {
+                            width: 50vw;
+                            height: 75vh;
+                        }
 
-						app-ingredient-selector {
-							flex-direction: row;
-							gap: 0 2vh;
-						}
-					}
+                        > ul {
+                            li {
+                                button {
+                                    &:hover {
+                                        cursor: pointer;
+                                    }
+                                }
+                            }
 
-					app-table {
-						height: 75vh;
-						overflow-y: auto;
-					}
-				}
-			}
-		}
-	}
+                            .--confirm {
+                                button {
+                                    &:hover {
+                                        background-color: $foreground-bright;
+                                    }
+                                }
+                            }
+
+                            .--cancel {
+                                button {
+                                    &:hover {
+                                        color: red;
+                                    }
+                                }
+                            }
+                        }
+
+                        app-ingredient-selector {
+                            flex-direction: row;
+                            gap: 0 2vh;
+                        }
+                    }
+
+                    app-table {
+                        height: 75vh;
+                        overflow-y: auto;
+                    }
+                }
+            }
+        }
+    }
 }
