@@ -8,8 +8,8 @@ import { DialogComponent } from './index.component';
 import { MaterialBundle } from '@imports';
 
 @NgModule({
-	declarations: [DialogComponent],
-	imports: [CommonModule, MaterialBundle],
-	exports: [DialogComponent],
+    declarations: [DialogComponent],
+    imports: [CommonModule, MaterialBundle],
+    exports: [DialogComponent],
 })
 export class DialogModule {}

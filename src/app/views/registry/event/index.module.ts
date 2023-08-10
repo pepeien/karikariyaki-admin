@@ -11,8 +11,8 @@ import { TableModule } from '@components';
 import { FormsBundle, MaterialBundle } from '@imports';
 
 @NgModule({
-	declarations: [RegistryEventViewComponent],
-	imports: [CommonModule, FormsBundle, MaterialBundle, TableModule],
-	exports: [RegistryEventViewComponent],
+    declarations: [RegistryEventViewComponent],
+    imports: [CommonModule, FormsBundle, MaterialBundle, TableModule],
+    exports: [RegistryEventViewComponent],
 })
 export class RegistryEventViewModule {}

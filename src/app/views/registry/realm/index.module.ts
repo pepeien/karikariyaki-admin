@@ -11,8 +11,8 @@ import { TableModule } from '@components';
 import { FormsBundle, MaterialBundle } from '@imports';
 
 @NgModule({
-	declarations: [RegistryRealmViewComponent],
-	imports: [CommonModule, FormsBundle, MaterialBundle, TableModule],
-	exports: [RegistryRealmViewComponent],
+    declarations: [RegistryRealmViewComponent],
+    imports: [CommonModule, FormsBundle, MaterialBundle, TableModule],
+    exports: [RegistryRealmViewComponent],
 })
 export class RegistryRealmViewModule {}

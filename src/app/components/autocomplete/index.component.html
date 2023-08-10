@@ -1,29 +1,25 @@
 <form [formGroup]="formGroup">
-	<mat-form-field appearance="outline">
-		<mat-label>{{ label }}</mat-label>
-		<input
-			matInput
-			[matAutocomplete]="autoComplete"
-			[formControlName]="controlName"
-		>
-		<mat-autocomplete #autoComplete="matAutocomplete">
-			<div
-				*ngFor="let value of filteredData | async"
-				class="auto-complete__option"
-				(click)="onCheckboxClick($event, value)"
-			>
-				<mat-checkbox
-					*ngIf="canChooseMultiple"
-					[color]="'primary'"
-					[disableRipple]="true"
-					[checked]="isCheckboxSelected(value)"
-					(click)="onCheckboxClick($event, value)"
-				>
-				</mat-checkbox>
-				<mat-option [value]="value">
-					<span>{{ execOptionGetter(value) }}</span>
-				</mat-option>
-			</div>
-		</mat-autocomplete>
-	</mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>{{ label }}</mat-label>
+        <input matInput [matAutocomplete]="autoComplete" [formControlName]="controlName" />
+        <mat-autocomplete #autoComplete="matAutocomplete">
+            <div
+                *ngFor="let value of filteredData | async"
+                class="auto-complete__option"
+                (click)="onCheckboxClick($event, value)"
+            >
+                <mat-checkbox
+                    *ngIf="canChooseMultiple"
+                    [color]="'primary'"
+                    [disableRipple]="true"
+                    [checked]="isCheckboxSelected(value)"
+                    (click)="onCheckboxClick($event, value)"
+                >
+                </mat-checkbox>
+                <mat-option [value]="value">
+                    <span>{{ execOptionGetter(value) }}</span>
+                </mat-option>
+            </div>
+        </mat-autocomplete>
+    </mat-form-field>
 </form>

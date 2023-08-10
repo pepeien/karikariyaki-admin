@@ -12,16 +12,16 @@ import { RealmLogoModule } from '../realm-logo';
 import { FormsBundle, MaterialBundle } from '@imports';
 
 @NgModule({
-	declarations: [NavbarComponent],
-	imports: [
-		AvatarModule,
-		CommonModule,
-		FormsBundle,
-		LogoModule,
-		MaterialBundle,
-		MenuModule,
-		RealmLogoModule,
-	],
-	exports: [NavbarComponent],
+    declarations: [NavbarComponent],
+    imports: [
+        AvatarModule,
+        CommonModule,
+        FormsBundle,
+        LogoModule,
+        MaterialBundle,
+        MenuModule,
+        RealmLogoModule,
+    ],
+    exports: [NavbarComponent],
 })
 export class NavbarModule {}

@@ -11,15 +11,15 @@ import { AutocompleteModule, IngredientSelectorModule, TableModule } from '@comp
 import { FormsBundle, MaterialBundle } from '@imports';
 
 @NgModule({
-	declarations: [RegistryEventOrderViewComponent],
-	imports: [
-		AutocompleteModule,
-		CommonModule,
-		FormsBundle,
-		MaterialBundle,
-		IngredientSelectorModule,
-		TableModule,
-	],
-	exports: [RegistryEventOrderViewComponent],
+    declarations: [RegistryEventOrderViewComponent],
+    imports: [
+        AutocompleteModule,
+        CommonModule,
+        FormsBundle,
+        MaterialBundle,
+        IngredientSelectorModule,
+        TableModule,
+    ],
+    exports: [RegistryEventOrderViewComponent],
 })
 export class RegistryEventOrderViewModule {}

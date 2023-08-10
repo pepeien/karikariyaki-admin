@@ -15,187 +15,187 @@ import { DialogComponent } from '@components';
 import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
-	selector: 'app-registry-event-view',
-	templateUrl: './index.component.html',
-	animations: [
-		BasicAnimations.horizontalShrinkAnimation,
-		trigger('fade', [
-			transition(':enter', [
-				style({ opacity: 0, flex: 0 }),
-				animate('0.5s ease-out', style({ opacity: 1, flex: 1 })),
-			]),
-			transition(':leave', [
-				style({ opacity: 1, flex: 1 }),
-				animate('0.3s ease-in', style({ opacity: 0, flex: 0 })),
-			]),
-		]),
-	],
+    selector: 'app-registry-event-view',
+    templateUrl: './index.component.html',
+    animations: [
+        BasicAnimations.horizontalShrinkAnimation,
+        trigger('fade', [
+            transition(':enter', [
+                style({ opacity: 0, flex: 0 }),
+                animate('0.5s ease-out', style({ opacity: 1, flex: 1 })),
+            ]),
+            transition(':leave', [
+                style({ opacity: 1, flex: 1 }),
+                animate('0.3s ease-in', style({ opacity: 0, flex: 0 })),
+            ]),
+        ]),
+    ],
 })
 export class RegistryEventViewComponent implements OnInit {
-	/**
-	 * Table
-	 */
-	public dataList: Event[] = [];
+    /**
+     * Table
+     */
+    public dataList: Event[] = [];
 
-	/**
-	 * Editor
-	 */
-	public isEditorOpen = false;
-	public editorType: 'creation' | 'edition' = 'edition';
-	public deletionTarget: Event | undefined;
-	public editionTarget: Event | undefined;
+    /**
+     * Editor
+     */
+    public isEditorOpen = false;
+    public editorType: 'creation' | 'edition' = 'edition';
+    public deletionTarget: Event | undefined;
+    public editionTarget: Event | undefined;
 
-	/**
-	 * Language
-	 */
-	public languageSource = LanguageService.DEFAULT_LANGUAGE;
+    /**
+     * Language
+     */
+    public languageSource = LanguageService.DEFAULT_LANGUAGE;
 
-	/**
-	 * Forms
-	 */
-	public creationFormGroup = new FormGroup({
-		name: new FormControl('', [Validators.required]),
-		date: new FormControl(new Date(), [Validators.required]),
-	});
-	public editionFormGroup = new FormGroup({
-		name: new FormControl('', [Validators.required]),
-		isOpen: new FormControl(false, [Validators.required]),
-	});
+    /**
+     * Forms
+     */
+    public creationFormGroup = new FormGroup({
+        name: new FormControl('', [Validators.required]),
+        date: new FormControl(new Date(), [Validators.required]),
+    });
+    public editionFormGroup = new FormGroup({
+        name: new FormControl('', [Validators.required]),
+        isOpen: new FormControl(false, [Validators.required]),
+    });
 
-	constructor(
-		private _apiService: ApiService,
-		private _dialog: MatDialog,
-		private _languageService: LanguageService,
-	) {}
+    constructor(
+        private _apiService: ApiService,
+        private _dialog: MatDialog,
+        private _languageService: LanguageService,
+    ) {}
 
-	ngOnInit(): void {
-		this._refreshList();
+    ngOnInit(): void {
+        this._refreshList();
 
-		this._languageService.language.subscribe({
-			next: (nextLanguage) => {
-				this.languageSource = nextLanguage;
-			},
-		});
-	}
+        this._languageService.language.subscribe({
+            next: (nextLanguage) => {
+                this.languageSource = nextLanguage;
+            },
+        });
+    }
 
-	public isCreationInvalid() {
-		return this.creationFormGroup.invalid;
-	}
+    public isCreationInvalid() {
+        return this.creationFormGroup.invalid;
+    }
 
-	public isEditionInvalid() {
-		return (
-			this.editionFormGroup.invalid ||
-			!this.editionTarget ||
-			this.editionTarget.name === this.editionFormGroup.controls.name.value
-		);
-	}
+    public isEditionInvalid() {
+        return (
+            this.editionFormGroup.invalid ||
+            !this.editionTarget ||
+            this.editionTarget.name === this.editionFormGroup.controls.name.value
+        );
+    }
 
-	public onCreationInit() {
-		this.isEditorOpen = true;
-		this.editorType = 'creation';
-	}
+    public onCreationInit() {
+        this.isEditorOpen = true;
+        this.editorType = 'creation';
+    }
 
-	public onCreation() {
-		if (this.creationFormGroup.invalid) {
-			return;
-		}
+    public onCreation() {
+        if (this.creationFormGroup.invalid) {
+            return;
+        }
 
-		this._apiService.V1.registry.event
-			.save({
-				name: this.creationFormGroup.controls.name.value as string,
-				date: this.creationFormGroup.controls.date.value ?? undefined,
-			})
-			.subscribe({
-				next: () => {
-					this._onSuccessfulResponse();
-				},
-			});
-	}
+        this._apiService.V1.registry.event
+            .save({
+                name: this.creationFormGroup.controls.name.value as string,
+                date: this.creationFormGroup.controls.date.value ?? undefined,
+            })
+            .subscribe({
+                next: () => {
+                    this._onSuccessfulResponse();
+                },
+            });
+    }
 
-	public onEditionInit(item: Event) {
-		this.isEditorOpen = true;
-		this.editorType = 'edition';
+    public onEditionInit(item: Event) {
+        this.isEditorOpen = true;
+        this.editorType = 'edition';
 
-		this.editionFormGroup.controls.name.setValue(item.name);
+        this.editionFormGroup.controls.name.setValue(item.name);
 
-		this.editionTarget = item;
-	}
+        this.editionTarget = item;
+    }
 
-	public onEdition() {
-		if (this.editionFormGroup.invalid || !this.editionTarget || !this.editionTarget._id) {
-			return;
-		}
+    public onEdition() {
+        if (this.editionFormGroup.invalid || !this.editionTarget || !this.editionTarget._id) {
+            return;
+        }
 
-		this._apiService.V1.registry.event
-			.edit(this.editionTarget._id, {
-				name: this.editionFormGroup.controls.name.value as string,
-			})
-			.subscribe({
-				next: () => {
-					this._onSuccessfulResponse();
-				},
-			});
-	}
+        this._apiService.V1.registry.event
+            .edit(this.editionTarget._id, {
+                name: this.editionFormGroup.controls.name.value as string,
+            })
+            .subscribe({
+                next: () => {
+                    this._onSuccessfulResponse();
+                },
+            });
+    }
 
-	public onCancel() {
-		this.isEditorOpen = false;
-		this.editorType = 'creation';
+    public onCancel() {
+        this.isEditorOpen = false;
+        this.editorType = 'creation';
 
-		this.creationFormGroup.reset();
-		this.editionFormGroup.reset();
-	}
+        this.creationFormGroup.reset();
+        this.editionFormGroup.reset();
+    }
 
-	public onDeleteInit(item: Event) {
-		if (!item || !item._id) {
-			return;
-		}
+    public onDeleteInit(item: Event) {
+        if (!item || !item._id) {
+            return;
+        }
 
-		const dialogRef = this._dialog.open(DialogComponent, {
-			data: {
-				message: this.languageSource['EVENT_REGISTRY_DELETE_MESSAGE'],
-			},
-		});
+        const dialogRef = this._dialog.open(DialogComponent, {
+            data: {
+                message: this.languageSource['EVENT_REGISTRY_DELETE_MESSAGE'],
+            },
+        });
 
-		dialogRef.afterClosed().subscribe({
-			next: (willDelete) => {
-				if (willDelete === false) {
-					return;
-				}
+        dialogRef.afterClosed().subscribe({
+            next: (willDelete) => {
+                if (willDelete === false) {
+                    return;
+                }
 
-				this.deletionTarget = item;
+                this.deletionTarget = item;
 
-				this.onDelete();
-			},
-		});
-	}
+                this.onDelete();
+            },
+        });
+    }
 
-	public onDelete() {
-		if (!this.deletionTarget || !this.deletionTarget._id) {
-			return;
-		}
+    public onDelete() {
+        if (!this.deletionTarget || !this.deletionTarget._id) {
+            return;
+        }
 
-		this._apiService.V1.registry.event.delete(this.deletionTarget._id).subscribe({
-			next: () => {
-				this._onSuccessfulResponse();
-			},
-		});
-	}
+        this._apiService.V1.registry.event.delete(this.deletionTarget._id).subscribe({
+            next: () => {
+                this._onSuccessfulResponse();
+            },
+        });
+    }
 
-	private _onSuccessfulResponse() {
-		this._refreshList();
+    private _onSuccessfulResponse() {
+        this._refreshList();
 
-		this.onCancel();
-	}
+        this.onCancel();
+    }
 
-	private _refreshList() {
-		this._apiService.V1.registry.event.search().subscribe({
-			next: (response) => {
-				if (!response.result) {
-					return;
-				}
+    private _refreshList() {
+        this._apiService.V1.registry.event.search().subscribe({
+            next: (response) => {
+                if (!response.result) {
+                    return;
+                }
 
-				this.dataList = response.result;
-			},
-		});
-	}
+                this.dataList = response.result;
+            },
+        });
+    }
 }

@@ -8,8 +8,8 @@ import { TableComponent } from './index.component';
 import { MaterialBundle } from '@imports';
 
 @NgModule({
-	declarations: [TableComponent],
-	imports: [CommonModule, MaterialBundle],
-	exports: [TableComponent],
+    declarations: [TableComponent],
+    imports: [CommonModule, MaterialBundle],
+    exports: [TableComponent],
 })
 export class TableModule {}

@@ -4,28 +4,28 @@ import { Component, OnInit } from '@angular/core';
 import { OperatorService } from '@services';
 
 @Component({
-	selector: 'app-root',
-	templateUrl: './app.component.html',
+    selector: 'app-root',
+    templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
-	public isLoggedIn = false;
+    public isLoggedIn = false;
 
-	constructor(private _operatorService: OperatorService) {}
+    constructor(private _operatorService: OperatorService) {}
 
-	ngOnInit(): void {
-		this._operatorService.operator.subscribe({
-			next: (currentOperator) => {
-				if (!currentOperator) {
-					this.isLoggedIn = false;
+    ngOnInit(): void {
+        this._operatorService.operator.subscribe({
+            next: (currentOperator) => {
+                if (!currentOperator) {
+                    this.isLoggedIn = false;
 
-					return;
-				}
+                    return;
+                }
 
-				this.isLoggedIn = true;
-			},
-			error: () => {
-				this.isLoggedIn = false;
-			},
-		});
-	}
+                this.isLoggedIn = true;
+            },
+            error: () => {
+                this.isLoggedIn = false;
+            },
+        });
+    }
 }

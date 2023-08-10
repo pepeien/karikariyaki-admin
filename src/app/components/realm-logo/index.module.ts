@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 import { RealmLogoComponent } from './index.component';
 
 @NgModule({
-	declarations: [RealmLogoComponent],
-	imports: [],
-	exports: [RealmLogoComponent],
+    declarations: [RealmLogoComponent],
+    imports: [],
+    exports: [RealmLogoComponent],
 })
 export class RealmLogoModule {}

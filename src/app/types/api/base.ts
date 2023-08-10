@@ -4,13 +4,13 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
 export class BaseApi {
-	protected root = environment.apiURI;
+    protected root = environment.apiURI;
 
-	protected client: HttpClient;
+    protected client: HttpClient;
 
-	constructor(client: HttpClient) {
-		this.root = this.root.replace(/\/+$/, '');
+    constructor(client: HttpClient) {
+        this.root = this.root.replace(/\/+$/, '');
 
-		this.client = client;
-	}
+        this.client = client;
+    }
 }

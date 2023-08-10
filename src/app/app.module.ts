@@ -20,25 +20,25 @@ import { NavbarModule } from '@components';
 import { ApiService } from '@services';
 
 @NgModule({
-	declarations: [AppComponent],
-	imports: [
-		AppRoutingModule,
-		BrowserAnimationsModule,
-		BrowserModule,
-		HttpClientModule,
-		NavbarModule,
-		MatSnackBarModule,
-		SharedModule,
-	],
-	providers: [
-		ApiService,
-		RouterModule,
-		{
-			provide: HTTP_INTERCEPTORS,
-			useClass: Interceptor,
-			multi: true,
-		},
-	],
-	bootstrap: [AppComponent],
+    declarations: [AppComponent],
+    imports: [
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        BrowserModule,
+        HttpClientModule,
+        NavbarModule,
+        MatSnackBarModule,
+        SharedModule,
+    ],
+    providers: [
+        ApiService,
+        RouterModule,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: Interceptor,
+            multi: true,
+        },
+    ],
+    bootstrap: [AppComponent],
 })
 export class AppModule {}

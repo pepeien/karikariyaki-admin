@@ -2,7 +2,7 @@
 
 ### tl;dr
 
- ```
+```
 git clone https://github.com/pepeien/karikariyaki-admin.git
 cd karikariyaki-admin/
 npm install && npm start
@@ -16,10 +16,10 @@ npm install && npm start
 
 3. These are the variables and their descriptions:
 
-| Variable       | Description  | Type           | Default | Required |
-|:--------------:|:---------------|:------:|:--------:|:--------:|
-| production | If the environment is production | Boolean | | ✅ |
-| apiURI     | API address                      | String  | | ✅ |
+|  Variable  | Description                      |  Type   | Default | Required |
+| :--------: | :------------------------------- | :-----: | :-----: | :------: |
+| production | If the environment is production | Boolean |         |    ✅    |
+|   apiURI   | API address                      | String  |         |    ✅    |
 
 ### Running
 
@@ -31,8 +31,8 @@ npm install && npm start
 
 ##### Requirements
 
-- [npm](https://nodejs.org/en/download/package-manager) (Windows, Linux, Mac)
-  
+-   [npm](https://nodejs.org/en/download/package-manager) (Windows, Linux, Mac)
+
 ### Building
 
 1. At the root of the project;
@@ -43,5 +43,4 @@ npm install && npm start
 
 ##### Requirements
 
-- [npm](https://nodejs.org/en/download/package-manager) (Windows, Linux, Mac)
-
+-   [npm](https://nodejs.org/en/download/package-manager) (Windows, Linux, Mac)
