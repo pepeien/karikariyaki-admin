@@ -129,6 +129,51 @@ export class AutomaticAnimation {
         ]);
     }
 
+    public static get slideFromBottom() {
+        return trigger('slideFromBottom', [
+            transition(
+                ':enter',
+                [
+                    style({
+                        transform: 'translateY(100vh)',
+                    }),
+                    animate(
+                        '{{duration}}ms {{delay}}ms ease-in-out',
+                        style({
+                            transform: 'translateY(0)',
+                        }),
+                    ),
+                ],
+                {
+                    params: {
+                        duration: AutomaticAnimation.SLIDE_FROM_LEFT_ANIMATION_DURATION_IS_MS,
+                        delay: 0,
+                    },
+                },
+            ),
+            transition(
+                ':leave',
+                [
+                    style({
+                        transform: 'translateY(0)',
+                    }),
+                    animate(
+                        '{{duration}}ms {{delay}}ms ease-in-out',
+                        style({
+                            transform: 'translateY(100vh)',
+                        }),
+                    ),
+                ],
+                {
+                    params: {
+                        duration: AutomaticAnimation.SLIDE_FROM_LEFT_ANIMATION_DURATION_IS_MS,
+                        delay: 0,
+                    },
+                },
+            ),
+        ]);
+    }
+
     public static get slideInOut() {
         return trigger('slideInOut', [
             transition(':enter', [

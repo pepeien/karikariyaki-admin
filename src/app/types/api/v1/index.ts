@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 // Types
 import { ApiV1OperatorAuth } from '@types';
 import { Registry } from './registry';
+import { Telemetry } from './telemetry';
 
 export class ApiV1 {
     private _client: HttpClient;
@@ -17,5 +18,9 @@ export class ApiV1 {
 
     public get registry() {
         return new Registry(this._client);
+    }
+
+    public get telemetry() {
+        return new Telemetry(this._client);
     }
 }

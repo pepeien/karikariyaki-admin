@@ -1,0 +1,43 @@
+<div class="chart-card">
+    <div class="chart-card__header">
+        <span class="chart-card__header__title">{{ title }}</span>
+        <button
+            [class]="isFiltering ? 'chart-card__header__button --active' : 'chart-card__header__button'"
+            (click)="onFilterButtonClick()"
+        >
+            <mat-icon> {{ isFiltering ? 'close' : 'more_vert' }}</mat-icon>
+        </button>
+    </div>
+    <canvas [id]="id">{{ chart }}</canvas>
+    <div [class]="isFiltering ? 'chart-card__filter --active' : 'chart-card__filter'">
+        <div
+            *ngIf="isFiltering"
+            class="chart-card__filter-background"
+            [@fade]
+        >
+        </div>
+        <div
+            *ngIf="isFiltering"
+            class="chart-card__filter-content"
+            [@slideFromBottom]
+        >
+            <div *ngFor="let filter of filters">
+                <div class="chart-card__filter__title">
+                    <mat-icon>tune</mat-icon>
+                    <span>{{ filter.title }}</span>
+                </div>
+                <ul>
+                    <li [class]="'--active'">
+                        <span>All</span>
+                    </li>
+                    <li
+                        *ngFor="let label of filter.labels"
+                        [class]="'--active'"
+                    >
+                        <span>{{ label }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

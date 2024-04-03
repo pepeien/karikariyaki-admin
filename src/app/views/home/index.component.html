@@ -1,3 +1,43 @@
-<div class="placeholder">
-    <h1>TBD</h1>
-</div>
+<main class="home">
+    <div class="view__registry__header">
+        <h1>Dashboard</h1>
+    </div>
+    <div class="home__core-infos">
+        <div class="chart-card --info">
+            <mat-icon class="material-icons-outlined">thumb_up</mat-icon>
+            <span>{{ getMostOrderedProductDescription()}}</span>
+        </div>
+        <div class="chart-card --info">
+            <mat-icon class="material-icons-outlined">speed</mat-icon>
+            <span>
+                {{ getFasterStandDescription() }}
+            </span>
+        </div>
+        <div class="chart-card --info">
+            <mat-icon class="material-icons-outlined">timer</mat-icon>
+            <span>{{ getPendingOrdersDescription() }}</span>
+        </div>
+    </div>
+    <div class="home__core-charts">
+        <div class="chart-card --calendar">
+            <div class="chart-card__header">
+                <span class="chart-card__header__title">{{ languageSource['UPCOMING_TITLE'] }}</span>
+            </div>
+            <span *ngIf="upcomingEvents.length === 0">{{ languageSource['UPCOMING_EMPTY'] }}</span>
+            <ul>
+                <li *ngFor="let upcomingEvent of upcomingEvents">
+                    <span>{{ getEventReadableDate(upcomingEvent) }}</span>
+                    <span>{{ upcomingEvent.name }}</span>
+                </li>
+            </ul>
+        </div>
+        <app-chart
+            class="home__event-chart"
+            type="line"
+            [title]="languageSource['MENU_REGISTRY_EVENT_INDEX_TITLE']"
+            [data]="eventChartData"
+            [filters]="eventChartFilters"
+        >
+        </app-chart>
+    </div>
+ </main>

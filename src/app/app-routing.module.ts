@@ -5,6 +5,7 @@ import { Menu, StringService } from 'karikarihelper';
 // Views
 import {
     HomeViewComponent,
+    RegistryClientViewComponent,
     RegistryMenuViewComponent,
     RegistryOperatorViewComponent,
     RegistryProductViewComponent,
@@ -64,6 +65,10 @@ const routes: Routes = [
         path: 'registry',
         canActivate: [menuGuard],
         children: [
+            {
+                path: 'client',
+                component: RegistryClientViewComponent,
+            },
             {
                 path: 'event',
                 children: [

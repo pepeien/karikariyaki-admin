@@ -1,6 +1,7 @@
 export { AlertComponent, AlertComponentModule } from './alert';
 export { AutocompleteComponent, AutocompleteModule } from './autocomplete';
 export { AvatarComponent, AvatarModule } from './avatar';
+export { ChartFilter, ChartComponent, ChartModule } from './chart';
 export { DialogComponent, DialogModule, DialogProps } from './dialog';
 export { FileSelectorComponent, FileSelectorModule } from './file-selector';
 export { IngredientCreatorComponent, IngredientCreatorModule } from './ingredient-creator';

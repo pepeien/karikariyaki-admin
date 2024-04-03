@@ -1,5 +1,6 @@
 main {
     padding: 8vh 4vh;
+    width: calc(100% - 8vh);
 
     .view {
         &__registry {

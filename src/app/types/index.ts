@@ -14,3 +14,6 @@ export { ApiV1MenuRegistry } from './api/v1/registry/menu';
 export { ApiV1OperatorRegistry } from './api/v1/registry/operator';
 export { ApiV1ProductRegistry } from './api/v1/registry/product';
 export { ApiV1RealmRegistry } from './api/v1/registry/realm';
+
+// Telemetry
+export { ApiV1EventTelemetry } from './api/v1/telemetry/event';

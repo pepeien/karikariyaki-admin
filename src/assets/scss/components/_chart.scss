@@ -1,0 +1,179 @@
+.chart {
+    &-card {
+        display: flex;
+        flex-direction: column;
+        gap: 2vh;
+        width: calc(100% - 4vh);
+        height: 100%;
+        background-color: $accent-dark;
+        border-radius: 1.5vh;
+        padding: 2vh;
+        padding-bottom: 0;
+        position: relative;
+
+        -webkit-box-shadow: 0px 10px 15px 2px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow:    0px 10px 15px 2px rgba(0, 0, 0, 0.2);
+        -o-box-shadow:      0px 10px 15px 2px rgba(0, 0, 0, 0.2);
+        box-shadow:         0px 10px 15px 2px rgba(0, 0, 0, 0.2);
+
+        &__header {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            height: 5vh;
+
+            &__title {
+                font-family: 'Nunito';
+                font-size: 3vh;
+            }
+
+            &__button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                right: 0;
+                width: 5vh;
+                height: 5vh;
+                border-radius: 10px;
+                background-color: transparent;
+                position: absolute;
+                z-index: 2;
+
+                -webkit-transition: background-color ease-in-out 0.1s;
+                -moz-transition:    background-color ease-in-out 0.1s;
+                -ms-transition:     background-color ease-in-out 0.1s;
+                -o-transition:      background-color ease-in-out 0.1s;
+                transition:         background-color ease-in-out 0.1s;
+
+                mat-icon {
+                    font-size: 3vh;
+                    height: auto;
+                    width: 100%;
+                }
+
+                &.--active {
+                    -webkit-transition: color ease-in-out 0.1s;
+                    -moz-transition:    color ease-in-out 0.1s;
+                    -ms-transition:     color ease-in-out 0.1s;
+                    -o-transition:      color ease-in-out 0.1s;
+                    transition:         color ease-in-out 0.1s;
+                }
+
+                &.--active:hover {
+                    color: red;
+                }
+
+                &.--active, &:hover {
+                    cursor: pointer;
+                    background-color: rgb(237, 237, 237);
+                }
+            }
+        }
+
+        canvas {
+            margin: 0 0 8vh 0;
+        }
+
+        &__filter {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            right: 0;
+            overflow: hidden;
+            border-radius: 1.5vh;
+            pointer-events: none;
+
+            &.--active {
+                pointer-events: initial;
+            }
+            
+            &-background {
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.328);
+            }
+
+            &__title {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 0.68vh;
+                width: 100%;
+                height: 3vh;
+                padding-bottom: 0.7vh;
+                border-bottom: 1px solid rgba(192, 192, 192, 0.6);
+                margin-bottom: 1vh;
+
+                span {
+                    font-family: 'Nunito';
+                    font-weight: bold;
+                    font-size: 2vh;
+                }
+
+                mat-icon {
+                    font-size: 3vh;
+                    height: auto;
+                }
+            }
+
+            &-content {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                gap: 2vh;
+                width: calc(100% - 4vh);
+                max-height: 20vh;
+                padding: 2vh;
+                background-color: rgb(240, 240, 240);
+                bottom: 0;
+                left: 0;
+                overflow-y: auto;
+
+                ul {
+                    display: flex;
+                    flex-direction: row;
+	                flex-wrap: wrap;
+                    width: 100%;
+	                gap: 1.5vh 1vh;
+
+                    li {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 0 1vh;
+                        min-height: 3vh;
+                        padding: 0.25rem 1rem;
+                        border-radius: 3vh;
+                        border: 1px solid $foreground;
+                        color: $foreground;
+
+                        -webkit-transition: background-color ease-in-out 0.1s, color ease-in-out 0.1s, border-color ease-in-out 0.1s;
+                        -moz-transition:    background-color ease-in-out 0.1s, color ease-in-out 0.1s, border-color ease-in-out 0.1s;
+                        -ms-transition:     background-color ease-in-out 0.1s, color ease-in-out 0.1s, border-color ease-in-out 0.1s;
+                        -o-transition:      background-color ease-in-out 0.1s, color ease-in-out 0.1s, border-color ease-in-out 0.1s;
+                        transition:         background-color ease-in-out 0.1s, color ease-in-out 0.1s, border-color ease-in-out 0.1s;
+
+                        &.--active, &:hover {
+                            background-color: $foreground;
+                            color: $background;
+                            border-color: transparent;
+                        }
+
+                        &:hover {
+                            cursor: pointer;
+                        }
+
+                        span {
+                            font-family: 'Nunito';
+                            font-weight: 700;
+                            font-size: 0.65rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,4 +1,5 @@
 export { HomeViewComponent, HomeViewModule } from './home';
+export { RegistryClientViewComponent, RegistryClientViewModule } from './registry/client';
 export {
     RegistryEventViewComponent,
     RegistryEventViewModule,
