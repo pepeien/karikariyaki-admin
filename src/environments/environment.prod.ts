@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiURI: 'https://api.ericodesu.com/karikariyaki/api',
+    apiURI: 'https://api.erickfrederick.com/karikariyaki/api',
 };
