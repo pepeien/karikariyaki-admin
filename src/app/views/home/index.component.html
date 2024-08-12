@@ -26,8 +26,8 @@
             <span *ngIf="upcomingEvents.length === 0">{{ languageSource['UPCOMING_EMPTY'] }}</span>
             <ul>
                 <li *ngFor="let upcomingEvent of upcomingEvents">
-                    <span>{{ getEventReadableDate(upcomingEvent) }}</span>
                     <span>{{ upcomingEvent.name }}</span>
+                    <span>{{ getEventReadableDate(upcomingEvent) }}</span>
                 </li>
             </ul>
         </div>
@@ -39,5 +39,13 @@
             [filters]="eventChartFilters"
         >
         </app-chart>
+    </div>
+    <div class="home__core-tables">
+        <div class="chart-card --table">
+            <div class="chart-card__header">
+                <span class="chart-card__header__title">{{ languageSource['TELEMETRY_PENDING_ORDERS_TABLE_TITLE'] }}</span>
+            </div>
+            <app-table [data]="orders"></app-table>
+        </div>
     </div>
  </main>

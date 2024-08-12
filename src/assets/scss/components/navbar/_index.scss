@@ -62,7 +62,7 @@ app-navbar {
     }
 }
 
-@media (min-width: 811px) {
+@media only screen and (min-width: $--min-table-width) {
     app-navbar {
         .navbar {
             &__hamburguer {

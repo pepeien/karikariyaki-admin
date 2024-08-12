@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ChartData, ChartDataset } from 'chart.js/auto';
-import { Event, OperatorRole, Realm, Telemetry } from 'karikarihelper';
+import { Event, EventOrder, OperatorRole, OrderStatus, Realm, Telemetry } from 'karikarihelper';
 
 // Services
 import { ApiService, LanguageService } from '@services';
@@ -44,6 +44,11 @@ export class HomeViewComponent {
     };
 
     public upcomingEvents: Event[] = [];
+
+    /**
+     * Table
+     */
+    public orders: any[] = [];
 
     constructor(private _apiService: ApiService, private _languageService: LanguageService) {
         this._languageService.language.subscribe({
@@ -92,6 +97,40 @@ export class HomeViewComponent {
                 this.orderQueueTelemetry = telemetryResponse.result;
             },
         });
+
+        this._apiService.V1.registry.eventOrder.search().subscribe({
+            next: (response) => {
+                if (!response.result) {
+                    return;
+                }
+
+                const orderStatusDisplay = (status: OrderStatus): string => {
+                    switch (status) {
+                        case OrderStatus.COOKING:
+                            return this.languageSource['EVENT_ORDER_VIEW_COOKING_TITLE'];
+
+                        case OrderStatus.READY:
+                            return this.languageSource['EVENT_ORDER_VIEW_READY_TITLE'];
+
+                        default:
+                            return status as string;
+                    }
+                };
+
+                this.orders = response.result
+                    .filter((order) => order.status !== OrderStatus.PICKED_UP)
+                    .map((order) => {
+                        return {
+                            'Event Name': order.event.name,
+                            'Operator Name': order.operator.displayName,
+                            'Realm Name': order.realm.name,
+                            Client: order.client,
+                            'Item Count': order.items.length,
+                            Status: orderStatusDisplay(order.status),
+                        };
+                    });
+            },
+        });
     }
 
     public getMostOrderedProductDescription(): string {
@@ -125,7 +164,10 @@ export class HomeViewComponent {
     public getEventReadableDate(event: Event): string {
         const date = new Date(event.date);
 
-        return `${date.getDate()} ${date.toLocaleString('en-us', { month: 'short' })}`;
+        return `${date.getDate()} ${date.toLocaleString(this.languageSource['LANGUAGE_META_NAME'], {
+            month: 'long',
+            year: 'numeric',
+        })}`;
     }
 
     private _setupStandsChart(realms: Realm[]) {

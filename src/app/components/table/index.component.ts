@@ -129,7 +129,11 @@ export class TableComponent<T> implements OnChanges {
         }
 
         if (nextData && nextData.length > 0) {
-            this.headerList = Object.keys(nextData[0]).concat(this.SETTINGS_HEADER);
+            this.headerList = Object.keys(nextData[0]);
+
+            if (this.onDelete || this.onEdit) {
+                this.headerList = this.headerList.concat(this.SETTINGS_HEADER);
+            }
 
             this.dataList.data = nextData;
         }

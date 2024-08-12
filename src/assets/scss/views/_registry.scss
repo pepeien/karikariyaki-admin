@@ -328,7 +328,7 @@ main {
     }
 }
 
-@media (min-width: 801px) {
+@media only screen and (min-width: $--min-desktop-width) {
     main {
         .view {
             &__registry {
